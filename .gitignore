@@ -114,3 +114,7 @@ modules.xml
 
 # idea subdirectories
 **/.idea/*
+
+
+## Project 'tutorial'
+**/dynamodb/docker/dynamodb/*
