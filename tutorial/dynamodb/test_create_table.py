@@ -12,7 +12,7 @@ class TestCreateTable(unittest.TestCase):
         print("database port %s " % port)
         self.dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + host + ':' + port)
 
-    def test_default_ec2_user(self):
+    def test_create_table(self):
         # Create the DynamoDB table.
         table = self.dynamodb.create_table(
             TableName='users',
