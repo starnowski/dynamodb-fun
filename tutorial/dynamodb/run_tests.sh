@@ -23,13 +23,20 @@ function shutdownDockerContainer {
 
 trap shutdownDockerContainer EXIT SIGINT
 
+
+## Remove database files
+rm -rf ./docker/dynamodb/*
 docker-compose up --detach
 
 export AWS_ACCESS_KEY_ID='DUMMYIDEXAMPLE'
 export AWS_SECRET_ACCESS_KEY='DUMMYEXAMPLEKEY'
-export LOCAL_DYNAMODB_PORT=900
+export DYNAMODB_PORT=9000
+export DYNAMODB_HOST=localhost
+
 waitUntilDockerContainerIsReady
 python3 -m pip install -r requirements.txt
+
+
 ## Run specific tests
 python3 -m unittest test_create_table.py
 

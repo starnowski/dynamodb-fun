@@ -1,11 +1,16 @@
 import unittest
 import boto3
+import os
 
 
 class TestCreateTable(unittest.TestCase):
 
     def setUp(self):
-        self.dynamodb = boto3.resource('dynamodb')
+        host = os.environ['DYNAMODB_HOST']
+        port = os.environ['DYNAMODB_PORT']
+        print("database host %s " % host)
+        print("database port %s " % port)
+        self.dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + host + ':' + port)
 
     def test_default_ec2_user(self):
         # Create the DynamoDB table.
@@ -42,6 +47,7 @@ class TestCreateTable(unittest.TestCase):
 
         # Print out some data about the table.
         print(table.item_count)
+        self.assertEqual(table.item_count, 0, "Table should be empty")
 
 
 if __name__ == '__main__':
