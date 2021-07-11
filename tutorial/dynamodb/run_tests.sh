@@ -29,6 +29,8 @@ export AWS_ACCESS_KEY_ID='DUMMYIDEXAMPLE'
 export AWS_SECRET_ACCESS_KEY='DUMMYEXAMPLEKEY'
 export LOCAL_DYNAMODB_PORT=900
 waitUntilDockerContainerIsReady
-## Add on exit handler
+python3 -m pip install -r requirements.txt
+## Run specific tests
+python3 -m unittest test_create_table.py
 
 
