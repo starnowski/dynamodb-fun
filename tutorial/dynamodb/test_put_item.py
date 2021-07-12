@@ -71,12 +71,45 @@ class TestPutRecord(unittest.TestCase):
                 'last_name': 'Doe'
             }
         )
+        print('Response for updated object %s ' % response)
+        self.assertTrue('Item' in response, "Item should be part of response")
         item = response['Item']
         print(item)
         self.assertEqual(item['username'], 'johndoe', "User name should be correct")
         self.assertEqual(item['last_name'], 'Doe', "User surname should be correct")
         self.assertEqual(item['age'], 27, "User age should be correct")
         self.assertEqual(item['account_type'], 'standard_user', "User account_type should be correct")
+
+    def test_delete_item(self):
+        # given
+        table = self.dynamodb.Table('users')
+        table.put_item(
+            Item={
+                'username': 'billdoe',
+                'first_name': 'bill',
+                'last_name': 'Doe',
+                'age': 56,
+                'account_type': 'fake_user',
+            }
+        )
+
+        # when
+        table.delete_item(
+            Key={
+                'username': 'billdoe',
+                'last_name': 'Doe'
+            }
+        )
+
+        # then
+        response = table.get_item(
+            Key={
+                'username': 'billdoe',
+                'last_name': 'Doe'
+            }
+        )
+        print('Response for delete object %s ' % response)
+        self.assertFalse('Item' in response, "Item should not be part of response")
 
 
 if __name__ == '__main__':
