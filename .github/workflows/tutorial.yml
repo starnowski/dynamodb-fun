@@ -20,17 +20,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-#      - name: Install dependencies
-#        run: |
-#          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.2.13.zip" -o "awscliv2.zip"
-#          unzip awscliv2.zip
-#          sudo ./aws/install --update
-#      - name: Lint with flake8
-#        run: |
-#          # stop the build if there are Python syntax errors or undefined names
-#          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-#          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-#          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Setup DynamoDB Local
+        uses: rrainn/dynamodb-action@v2.0.0
+        with:
+          dbPath: # undefined by default, if this is undefined inMemory will be used
+          sharedDb: # undefined by default
+          delayTransientStatuses: # undefined by default
+          optimizeDbBeforeStartup: # undefined by default
+          port: 9000
+          cors: '*'
       - name: Run tests
         run: |
           cd tutorial/dynamodb && ./run_tests.sh
