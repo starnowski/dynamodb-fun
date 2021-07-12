@@ -54,6 +54,22 @@ class TestQueryItems(unittest.TestCase):
         # then
         self.assertEqual(len(items), 2, "Number of records should be correct")
 
+    def test_query_items_by_nested_attributes(self):
+        # given
+        table = self.dynamodb.Table('users')
+
+
+        # when
+        response = table.scan(
+            FilterExpression=Attr('address.state').eq('CA')
+                )
+        items = response['Items']
+        print(items)
+
+
+        # then
+        self.assertEqual(len(items), 2, "Number of records should be correct")
+
     def init_database_data(table):
         with table.batch_writer() as batch:
             batch.put_item(
