@@ -37,6 +37,22 @@ class TestQueryItems(unittest.TestCase):
         print(items)
 
         # then
+        self.assertEqual(len(items), 1, "Number of records should be correct")
+
+    def test_query_items_by_attributes(self):
+        # given
+        table = self.dynamodb.Table('users')
+
+
+        # when
+        response = table.scan(
+            FilterExpression=Attr('age').lt(27) & Attr('address').exists()
+        )
+        items = response['Items']
+        print(items)
+
+        # then
+        self.assertEqual(len(items), 2, "Number of records should be correct")
 
     def init_database_data(table):
         with table.batch_writer() as batch:
