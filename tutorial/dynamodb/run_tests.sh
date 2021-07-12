@@ -28,6 +28,7 @@ trap shutdownDockerContainer EXIT SIGINT
 rm -rf ./docker/dynamodb/*
 docker-compose up --detach
 
+export AWS_DEFAULT_REGION=us-east-1
 export AWS_ACCESS_KEY_ID='DUMMYIDEXAMPLE'
 export AWS_SECRET_ACCESS_KEY='DUMMYEXAMPLEKEY'
 export DYNAMODB_PORT=9000
