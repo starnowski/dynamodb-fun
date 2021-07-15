@@ -6,9 +6,9 @@
 <body>
 <h1>EC2 Instance info</h1>
 <br/>
-<p>EC2 Instance ID: {{ ec2.id }}</p>
-<p>EC2 Instance Type: {{ ec2.type }}</p>
-<p>EC2 Instance Availability Zone: {{ ec2.availability_zone }}</p>
-<p>EC2 Instance Public IPV4: {{ ec2.ipv4 }}</p>
+<p>EC2 Instance ID: {% if ec2 and ec2.id %}{{ ec2.id }}{% else %}N/A{% endif %}</p>
+<p>EC2 Instance Type: {% if ec2 and ec2.type %}{{ ec2.type }}{% else %}N/A{% endif %}</p>
+<p>EC2 Instance Availability Zone: {% if ec2 and ec2.availability_zone %}{{ ec2.availability_zone }}{% else %}N/A{% endif %}</p>
+<p>EC2 Instance Public IPV4: {% if ec2 and ec2.ipv4 %}{{ ec2.ipv4 }}{% else %}N/A{% endif %}</p>
 </body>
 </html>
