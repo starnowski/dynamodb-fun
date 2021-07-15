@@ -10,3 +10,5 @@ https://boto3.amazonaws.com/v1/documentation/api/1.16.63/guide/dynamodb.html
 
 ### Python Rest API server
 https://programminghistorian.org/en/lessons/creating-apis-with-python-and-flask
+
+https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
