@@ -15,3 +15,7 @@ https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
 
 #### jinja2 templates
 https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ii-templates
+
+
+### Cool Dynamodb guide
+https://www.dynamodbguide.com/what-is-dynamo-db
