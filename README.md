@@ -19,3 +19,7 @@ https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ii-templates
 
 ### Cool Dynamodb guide
 https://www.dynamodbguide.com/what-is-dynamo-db
+
+
+### Request - Python module
+https://docs.python-requests.org/en/master/user/quickstart/
