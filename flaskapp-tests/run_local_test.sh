@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 #TODO Get script path
+DIRNAME="$(dirname $0)"
 
 function waitUntilDockerContainerIsReady {
     checkCount=1
@@ -18,8 +19,13 @@ function waitUntilDockerContainerIsReady {
 
 function shutdownDockerContainer {
     lastCommandStatus="$?"
+    set +e
+    echo "Shutting down flask app with pid $FLASK_APP_PID"
+    kill $FLASK_APP_PID
     echo "Shutting down docker container"
+    pushd $DIRNAME
     docker-compose down
+    popd
     exit $lastCommandStatus
 }
 
@@ -27,8 +33,8 @@ trap shutdownDockerContainer EXIT SIGINT
 
 
 ## Remove database files
-rm -rf ./docker/dynamodb/*
-mkdir -p /docker/dynamodb
+rm -rf "${DIRNAME}/docker/dynamodb/*"
+mkdir -p "${DIRNAME}/docker/dynamodb"
 docker-compose up --detach
 
 export AWS_DEFAULT_REGION=us-east-1
@@ -38,10 +44,18 @@ export DYNAMODB_PORT=9000
 export DYNAMODB_HOST=localhost
 
 waitUntilDockerContainerIsReady
-python3 -m pip install -r requirements.txt
+#
+echo "Installing tests dependencies"
+python3.8 -m pip install -r test-requirements.txt
 
 
 pushd ./../flaskapp/
+./run_app.sh &
+FLASK_APP_PID=$!
+popd
+
+echo "Flask app pid is $FLASK_APP_PID"
+
 
 ## Run specific tests
 ./run_python_tests.sh
