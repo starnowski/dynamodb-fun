@@ -18,6 +18,7 @@ class TestCreateTable(unittest.TestCase):
 
         # then
         print('Response for lead object %s ' % response)
+        self.assertEqual(response.status_code, 200, "Response should have status 200")
         self.assertTrue('lead_id' in response, "Item should be part of response")
 
 
