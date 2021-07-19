@@ -35,6 +35,7 @@ export DYNAMODB_PORT=9000
 export DYNAMODB_HOST=localhost
 
 waitUntilDockerContainerIsReady
+python3 -m venv ./docker/dynamodb/newvirtualenv
 python3 -m pip install -r requirements.txt
 
 
