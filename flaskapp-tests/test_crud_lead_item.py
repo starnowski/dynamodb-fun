@@ -14,7 +14,7 @@ class TestCreateTable(unittest.TestCase):
         payload = {'name': 'warehouse', 'url': 'http://warehouse.com/nosuch_address'}
 
         # when
-        response = requests.post(self.host + '/lead', json=payload)
+        response = requests.post(self.host + '/leads', json=payload)
 
         # then
         print('Response for lead object %s ' % response)
