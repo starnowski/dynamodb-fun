@@ -17,6 +17,20 @@ function waitUntilDockerContainerIsReady {
     set -e
 }
 
+function waitUntilHttpServerIsReady {
+    checkCount=1
+    timeoutInSeconds=30
+    while : ; do
+        set +e
+        curl "${FLASK_APP_HOST}"
+        [[ "$?" -ne 0 && $checkCount -ne $timeoutInSeconds ]] || break
+        checkCount=$(( checkCount+1 ))
+        echo "Waiting $checkCount seconds for flask app to start"
+        sleep 1
+    done
+    set -e
+}
+
 function shutdownDockerContainer {
     lastCommandStatus="$?"
     set +e
@@ -56,7 +70,9 @@ popd
 
 echo "Flask app pid is $FLASK_APP_PID"
 
-
+export FLASK_APP_PORT=5000
 ## Run specific tests
+export FLASK_APP_HOST="http://localhost:5000"
+waitUntilHttpServerIsReady
 ./run_python_tests.sh
 
