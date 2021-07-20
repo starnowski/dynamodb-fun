@@ -37,9 +37,9 @@ def create_user():
     table = app.dynamodb.Table('leads')
     resp = table.put_item(
         Item={
-            'name': {'S': name },
-            'type': {'S': type },
-            'url': {'S': url }
+            'name': name,
+            'type': type,
+            'url': url
         }
     )
     print(resp)
