@@ -18,8 +18,11 @@ class TestCreateTable(unittest.TestCase):
 
         # then
         print('Response for lead object %s ' % response)
+        print('Response json %s ' % response.json())
         self.assertEqual(response.status_code, 200, "Response should have status 200")
-        self.assertTrue('lead_id' in response, "Item should be part of response")
+        self.assertTrue('name' in response.json(), "The name should be part of response")
+        self.assertTrue('type' in response.json(), "The type should be part of response")
+        self.assertTrue('url' in response.json(), "The type should be part of response")
 
 
 if __name__ == '__main__':
