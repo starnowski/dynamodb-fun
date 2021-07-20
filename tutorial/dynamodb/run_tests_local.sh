@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+DIRNAME="$(dirname $0)"
+
 function waitUntilDockerContainerIsReady {
     checkCount=1
     timeoutInSeconds=30
@@ -25,7 +27,7 @@ trap shutdownDockerContainer EXIT SIGINT
 
 
 ## Remove database files
-rm -rf ./docker/dynamodb/*
+rm -rf "${DIRNAME}/docker/dynamodb/*"
 docker-compose up --detach
 
 export AWS_DEFAULT_REGION=us-east-1

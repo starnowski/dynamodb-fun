@@ -27,10 +27,6 @@ table = dynamodb.create_table(
         {
             'AttributeName': 'type',
             'AttributeType': 'S'
-        },
-        {
-            'AttributeName': 'url',
-            'AttributeType': 'S'
         }
     ],
     ProvisionedThroughput={
@@ -41,3 +37,4 @@ table = dynamodb.create_table(
 
 # Wait until the table exists.
 table.meta.client.get_waiter('table_exists').wait(TableName='leads')
+print("Created table 'leads'")

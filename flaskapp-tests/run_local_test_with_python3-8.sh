@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-DIRNAME="$(dirname $0)"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 python3() { python3.8 "$@"; }
 export -f python3
-"${DIRNAME}/run_local_test.sh"
+"${SCRIPT_DIR}/run_local_test.sh"

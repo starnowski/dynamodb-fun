@@ -34,7 +34,7 @@ def create_user():
     if not name or not type:
         return jsonify({'error': 'Please provide name and type'}), 400
 
-    table = dynamodb.Table('users')
+    table = dynamodb.Table('leads')
     resp = table.put_item(
         Item={
             'name': {'S': name },
