@@ -11,7 +11,7 @@ class TestCreateTable(unittest.TestCase):
 
     def test_create_lead(self):
         # given
-        payload = {'name': 'warehouse', 'url': 'http://warehouse.com/nosuch_address'}
+        payload = {'name': 'warehouse', 'type': 'CLOTHES RENTAL', 'url': 'http://warehouse.com/nosuch_address'}
 
         # when
         response = requests.post(self.host + '/leads', json=payload)

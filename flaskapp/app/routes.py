@@ -29,19 +29,22 @@ def create_user():
     data = request.get_json() or {}
     print(data)
     name = data.get('name')
+    type = data.get('type')
     url = data.get('url')
-    if not name or not url:
-        return jsonify({'error': 'Please provide name and url'}), 400
+    if not name or not type:
+        return jsonify({'error': 'Please provide name and type'}), 400
 
     table = dynamodb.Table('users')
     resp = table.put_item(
         Item={
             'name': {'S': name },
+            'type': {'S': type },
             'url': {'S': url }
         }
     )
     print(resp)
     return jsonify({
         'name': name,
+        'type': type,
         'url': url
     })
