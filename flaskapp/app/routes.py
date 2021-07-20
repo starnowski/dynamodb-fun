@@ -1,14 +1,14 @@
 from flask import render_template, Flask, jsonify, request
 from app import app
 import os
-import boto3
+# import boto3
 
 
-host = os.environ.get('DYNAMODB_HOST')
-port = os.environ.get('DYNAMODB_PORT')
-print("database host %s " % host)
-print("database port %s " % port)
-dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + host + ':' + port)
+# host = os.environ.get('DYNAMODB_HOST')
+# port = os.environ.get('DYNAMODB_PORT')
+# print("database host %s " % host)
+# print("database port %s " % port)
+# dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + host + ':' + port)
 
 
 
@@ -34,7 +34,7 @@ def create_user():
     if not name or not type:
         return jsonify({'error': 'Please provide name and type'}), 400
 
-    table = dynamodb.Table('leads')
+    table = app.dynamodb.Table('leads')
     resp = table.put_item(
         Item={
             'name': {'S': name },
@@ -48,3 +48,7 @@ def create_user():
         'type': type,
         'url': url
     })
+
+
+# if __name__== '__main__':
+#     app.run()

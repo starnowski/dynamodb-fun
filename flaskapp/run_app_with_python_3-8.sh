@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-DIRNAME="$(dirname $0)"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 python3() { python3.8 "$@"; }
 export -f python3
-"${DIRNAME}/run_app.sh"
+export DYNAMODB_HOST=localhost
+export DYNAMODB_PORT=9000
+"${SCRIPT_DIR}/run_app.sh"
