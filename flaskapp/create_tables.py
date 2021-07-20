@@ -35,6 +35,8 @@ table = dynamodb.create_table(
     }
 )
 
+print("Created table 'leads' %s " % table)
 # Wait until the table exists.
 table.meta.client.get_waiter('table_exists').wait(TableName='leads')
-print("Created table 'leads'")
+
+table = dynamodb.Table('leads')
