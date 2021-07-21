@@ -67,24 +67,5 @@ export DYNAMODB_PORT=9000
 export DYNAMODB_HOST=localhost
 
 waitUntilDockerContainerIsReady
-#
-echo "Installing tests dependencies"
-python3 -m pip install -r test-requirements.txt
 
-pushd "${SCRIPT_DIR}/../flaskapp/"
-python3 create_tables.py
-popd
-
-pushd "${SCRIPT_DIR}/../flaskapp/"
-./run_app.sh &
-FLASK_APP_PID=$!
-popd
-
-echo "Flask app pid is $FLASK_APP_PID"
-
-export FLASK_APP_PORT=5000
-## Run specific tests
-export FLASK_APP_HOST="http://localhost:5000"
-waitUntilHttpServerIsReady
-
-"${SCRIPT_DIR}/run_python_tests.sh"
+"${SCRIPT_DIR}/run_tests.sh"
