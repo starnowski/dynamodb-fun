@@ -28,3 +28,7 @@ https://docs.python-requests.org/en/master/user/quickstart/
 
 ### AWS Serverless application - Python Flask + DynamoDB
 https://www.serverless.com/blog/flask-python-rest-api-serverless-lambda-dynamodb
+
+
+### AWS DynamoDB - core concept
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html#HowItWorks.CoreComponents.TablesItemsAttributes
