@@ -1,4 +1,4 @@
-name: Run tests for tutorial project
+name: Run tests for tests flask app
 
 on:
   push:
