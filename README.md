@@ -34,3 +34,14 @@ https://www.serverless.com/blog/flask-python-rest-api-serverless-lambda-dynamodb
 
 ### AWS DynamoDB - core concept
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html#HowItWorks.CoreComponents.TablesItemsAttributes
+
+
+https://blog.finxter.com/how-to-filter-a-list-in-python/
+
+
+
+
+
+# Table design based on query requirements
+https://www.dynamodbguide.com/working-with-multiple-items
+
