@@ -10,7 +10,7 @@ class TestCreateTable(unittest.TestCase):
         self.host = os.environ['FLASK_APP_HOST']
         print("FLASK_APP_HOST host %s " % self.host)
 
-    def steps_create_user_stat(self):
+    def steps_1_create_user_stat(self):
         # given
         payload = {'user_id': '1', 'timestamp': datetime.utcnow().isoformat(), 'weight': 83, 'blood_pressure': 123}
 
@@ -30,7 +30,7 @@ class TestCreateTable(unittest.TestCase):
         self.assertEqual(json['weight'], 83, "The item weight should be correct")
         self.assertEqual(json['blood_pressure'], 123, "The item blood_pressure should be correct")
 
-    def steps_get_user_stat(self):
+    def steps_2_get_user_stat(self):
         # given
         payload = {'user_id': '1'}
 
