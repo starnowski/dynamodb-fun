@@ -10,7 +10,7 @@ class TestCreateTable(unittest.TestCase):
         self.host = os.environ['FLASK_APP_HOST']
         print("FLASK_APP_HOST host %s " % self.host)
 
-    def test_create_lead(self):
+    def steps_create_lead(self):
         # given
         payload = {'user_id': '1', 'timestamp': datetime.utcnow().isoformat(), 'weight': 83, 'blood_pressure': 123}
 
@@ -29,6 +29,18 @@ class TestCreateTable(unittest.TestCase):
         self.assertEqual(json['user_id'], '1', "The item user_id should be correct")
         self.assertEqual(json['weight'], 83, "The item weight should be correct")
         self.assertEqual(json['blood_pressure'], 123, "The item blood_pressure should be correct")
+
+    def _steps(self):
+        for name in dir(self): # dir() result is implicitly sorted
+            if name.startswith("step"):
+                yield name, getattr(self, name)
+
+    def test_steps(self):
+        for name, step in self._steps():
+            try:
+                step()
+            except Exception as e:
+                self.fail("{} failed ({}: {})".format(step, type(e), e))
 
 
 if __name__ == '__main__':
