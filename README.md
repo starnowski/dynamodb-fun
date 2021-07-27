@@ -45,3 +45,6 @@ https://blog.finxter.com/how-to-filter-a-list-in-python/
 # Table design based on query requirements
 https://www.dynamodbguide.com/working-with-multiple-items
 
+### Date types for DynamoDB
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes.String
+
