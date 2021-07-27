@@ -27,8 +27,8 @@ class TestCreateTable(unittest.TestCase):
         self.assertTrue('weight' in json, "The weight should be part of response")
         self.assertTrue('blood_pressure' in json, "The blood_pressure should be part of response")
         self.assertEqual(json['user_id'], '1', "The item user_id should be correct")
-        self.assertEqual(json['weight'], '83', "The item weight should be correct")
-        self.assertEqual(json['blood_pressure'], '123', "The item blood_pressure should be correct")
+        self.assertEqual(json['weight'], 83, "The item weight should be correct")
+        self.assertEqual(json['blood_pressure'], 123, "The item blood_pressure should be correct")
 
 
 if __name__ == '__main__':
