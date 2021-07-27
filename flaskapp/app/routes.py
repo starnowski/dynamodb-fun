@@ -1,6 +1,7 @@
 from flask import render_template, Flask, jsonify, request
 from app import app
 import os
+from boto3.dynamodb.conditions import Key
 # import boto3
 
 
@@ -77,6 +78,24 @@ def create_user_stats():
         'timestamp': timestamp,
         'weight': weight,
         'blood_pressure': blood_pressure
+    })
+
+
+@app.route("/user_stats/search", methods=["POST"])
+def create_user_stats():
+    data = request.get_json() or {}
+    print(data)
+    user_id = data.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'Please provide user_id'}), 400
+
+    table = app.dynamodb.Table('user_stats')
+    resp = devices_table.query(
+        KeyConditionExpression=Key('user_id').eq(user_id)
+    )
+    print(resp)
+    return jsonify({
+        'results': response['Items']
     })
 
 # if __name__== '__main__':
