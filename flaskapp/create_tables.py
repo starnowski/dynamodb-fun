@@ -51,7 +51,7 @@ def create_user_stats_table(dynamodb):
                 'KeyType': 'HASH'
             },
             {
-                'AttributeName': 'type',
+                'AttributeName': 'timestamp',
                 'KeyType': 'RANGE'
             }
         ],
