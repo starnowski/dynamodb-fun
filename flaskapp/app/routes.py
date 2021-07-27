@@ -82,7 +82,7 @@ def create_user_stats():
 
 
 @app.route("/user_stats/search", methods=["POST"])
-def create_user_stats():
+def search_user_stats():
     data = request.get_json() or {}
     print(data)
     user_id = data.get('user_id')
