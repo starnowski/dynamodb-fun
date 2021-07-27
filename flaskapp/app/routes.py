@@ -62,7 +62,7 @@ def create_user_stats():
     weight = data.get('weight')
     blood_pressure = data.get('blood_pressure')
 
-    table = app.dynamodb.Table('leads')
+    table = app.dynamodb.Table('user_stats')
     resp = table.put_item(
         Item={
             'user_id': user_id,
