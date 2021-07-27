@@ -15,7 +15,7 @@ class TestCreateTable(unittest.TestCase):
         payload = {'user_id': '1', 'timestamp': datetime.utcnow().isoformat(), 'weight': 83, 'blood_pressure': 123}
 
         # when
-        response = requests.post(self.host + '/leads', json=payload)
+        response = requests.post(self.host + '/user_stats', json=payload)
 
         # then
         print('Response for lead object %s ' % response)

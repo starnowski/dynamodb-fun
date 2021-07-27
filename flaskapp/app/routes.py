@@ -50,5 +50,34 @@ def create_user():
     })
 
 
+@app.route("/user_stats", methods=["POST"])
+def create_user_stats():
+    data = request.get_json() or {}
+    print(data)
+    user_id = data.get('user_id')
+    timestamp = data.get('timestamp')
+    if not user_id or not timestamp:
+        return jsonify({'error': 'Please provide user_id and timestamp'}), 400
+
+    weight = data.get('weight')
+    blood_pressure = data.get('blood_pressure')
+
+    table = app.dynamodb.Table('leads')
+    resp = table.put_item(
+        Item={
+            'user_id': user_id,
+            'timestamp': timestamp,
+            'weight': weight,
+            'blood_pressure': blood_pressure
+        }
+    )
+    print(resp)
+    return jsonify({
+        'user_id': user_id,
+        'timestamp': timestamp,
+        'weight': weight,
+        'blood_pressure': blood_pressure
+    })
+
 # if __name__== '__main__':
 #     app.run()
