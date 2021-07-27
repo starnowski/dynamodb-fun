@@ -93,7 +93,7 @@ def search_user_stats():
     resp = table.query(
         KeyConditionExpression=Key('user_id').eq(user_id)
     )
-    print('Search response %s ' % resp)
+    print('Search response %s ' % resp.json())
     return jsonify({
         'results': resp['Items']
     })
