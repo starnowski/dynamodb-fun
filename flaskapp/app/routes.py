@@ -90,12 +90,12 @@ def search_user_stats():
         return jsonify({'error': 'Please provide user_id'}), 400
 
     table = app.dynamodb.Table('user_stats')
-    resp = devices_table.query(
+    resp = table.query(
         KeyConditionExpression=Key('user_id').eq(user_id)
     )
     print(resp)
     return jsonify({
-        'results': response['Items']
+        'results': resp['Items']
     })
 
 # if __name__== '__main__':
