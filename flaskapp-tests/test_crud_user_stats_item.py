@@ -30,7 +30,7 @@ class TestCreateTable(unittest.TestCase):
         self.assertEqual(json['weight'], 83, "The item weight should be correct")
         self.assertEqual(json['blood_pressure'], 123, "The item blood_pressure should be correct")
 
-    def steps_2_get_user_stat(self):
+    def steps_2_search_user_stat(self):
         # given
         payload = {'user_id': '1'}
 
@@ -38,7 +38,7 @@ class TestCreateTable(unittest.TestCase):
         response = requests.post(self.host + '/user_stats/search', json=payload)
 
         # then
-        print('Response for user_stats object %s ' % response)
+        print('Response for user_stats search object %s ' % response)
         json = response.json()
         print('Response json %s ' % json)
         self.assertEqual(response.status_code, 200, "Response should have status 200")
