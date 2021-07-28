@@ -15,11 +15,11 @@ class CustomJSONEncoder(JSONEncoder):
                     obj.microsecond / 1000
                 )
                 return millis
-            if isinstance(o, decimal.Decimal):
-                # wanted a simple yield str(o) in the next line,
+            if isinstance(obj, decimal.Decimal):
+                # wanted a simple yield str(obj) in the next line,
                 # but that would mean a yield on the line with super(...),
                 # which wouldn't work (see my comment below), so...
-                return (str(o) for o in [o])
+                return (str(obj) for o in [obj])
             iterable = iter(obj)
         except TypeError:
             pass
