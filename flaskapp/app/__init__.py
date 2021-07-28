@@ -15,6 +15,7 @@ def setup_app(app):
     print("flask database host %s " % host)
     print("flask database port %s " % port)
     app.dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + host + ':' + port)
+    app.json_encoder = jsonencoder.CustomJSONEncoder
 
 
 setup_app(app)
