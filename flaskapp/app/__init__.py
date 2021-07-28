@@ -4,10 +4,10 @@ from flask import Flask, jsonify
 from flask.json import JSONEncoder
 import calendar
 from datetime import datetime
+from app import routes
 
 app = Flask(__name__)
 
-from app import routes
 
 def setup_app(app):
     # All your initialization code
