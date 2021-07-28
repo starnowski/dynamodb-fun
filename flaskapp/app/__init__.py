@@ -15,4 +15,5 @@ def setup_app(app):
     app.dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + host + ':' + port)
     app.json_encoder = jsonencoder.CustomJSONEncoder
 
+
 setup_app(app)
