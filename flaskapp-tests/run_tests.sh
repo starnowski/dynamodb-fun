@@ -22,7 +22,8 @@ function shutdownApp {
     set +e
 
     echo "Shutting down flask app with pid $FLASK_APP_PID"
-    kill $FLASK_APP_PID
+    kill -9 $FLASK_APP_PID
+    kill -9 $(lsof -t -i:${DYNAMODB_PORT})
 
     exit $lastCommandStatus
 }
