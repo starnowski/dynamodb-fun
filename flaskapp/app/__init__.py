@@ -1,7 +1,9 @@
 import os
 import boto3
 from flask import Flask
-from jsonencoder import CustomJSONEncoder
+#Required
+from app import routes
+from app import jsonencoder
 
 app = Flask(__name__)
 
@@ -13,6 +15,6 @@ def setup_app(app):
     print("flask database host %s " % host)
     print("flask database port %s " % port)
     app.dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + host + ':' + port)
-    app.json_encoder = CustomJSONEncoder
+    app.json_encoder = jsonencoder.CustomJSONEncoder
 
 setup_app(app)
