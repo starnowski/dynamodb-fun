@@ -1,6 +1,7 @@
 from flask.json import JSONEncoder
 import calendar
 from datetime import datetime
+import decimal
 
 
 class CustomJSONEncoder(JSONEncoder):
