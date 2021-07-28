@@ -20,7 +20,7 @@ class CustomJSONEncoder(JSONEncoder):
                 # wanted a simple yield str(obj) in the next line,
                 # but that would mean a yield on the line with super(...),
                 # which wouldn't work (see my comment below), so...
-                return (str(obj) for o in [obj])
+                return (float(obj) for o in [obj])
             iterable = iter(obj)
         except TypeError:
             pass
