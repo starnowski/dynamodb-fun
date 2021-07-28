@@ -2,15 +2,6 @@ from flask import render_template, Flask, jsonify, request
 from app import app
 import os
 from boto3.dynamodb.conditions import Key
-# import boto3
-
-
-# host = os.environ.get('DYNAMODB_HOST')
-# port = os.environ.get('DYNAMODB_PORT')
-# print("database host %s " % host)
-# print("database port %s " % port)
-# dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + host + ':' + port)
-
 
 
 @app.route('/')
@@ -98,5 +89,6 @@ def search_user_stats():
         'results': resp['Items']
     })
 
-# if __name__== '__main__':
-#     app.run()
+
+if __name__ == '__main__':
+    app.run()
