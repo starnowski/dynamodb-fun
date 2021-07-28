@@ -2,6 +2,7 @@ from flask import render_template, Flask, jsonify, request
 from app import app
 import os
 from boto3.dynamodb.conditions import Key
+from app import routes
 
 
 @app.route('/')

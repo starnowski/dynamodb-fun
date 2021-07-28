@@ -1,8 +1,6 @@
 import os
 import boto3
 from flask import Flask
-#Required
-from app import routes
 from app import jsonencoder
 
 app = Flask(__name__)
