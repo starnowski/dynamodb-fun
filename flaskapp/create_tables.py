@@ -62,7 +62,7 @@ def create_user_stats_table(dynamodb):
             },
             {
                 'AttributeName': 'timestamp',
-                'AttributeType': 'S'
+                'AttributeType': 'N'
             }
         ],
         ProvisionedThroughput={
