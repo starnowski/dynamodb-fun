@@ -96,7 +96,7 @@ def search_user_stats():
     if after_timestamp:
         dt_object = datetime.fromisoformat(after_timestamp)
         primary_key = primary_key & Key('timestamp').gte(Decimal(datetime.timestamp(dt_object)))
-        kwargs = {'KeyConditionExpression': primary_key}
+        kwargs['KeyConditionExpression'] = primary_key
 
     resp = table.query(**kwargs)
     print('Search response %s ' % resp['Items'])

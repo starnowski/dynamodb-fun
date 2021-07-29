@@ -102,7 +102,7 @@ class TestCreateTable(unittest.TestCase):
         after_timestamp = test_time + timedelta(minutes=5)
         user_stat_timestamp = test_time + timedelta(minutes=15)
         print ("user_stat_timestamp ", user_stat_timestamp, " after_timestamp ", after_timestamp)
-        payload = {'user_id': '1', 'timestamp': user_stat_timestamp.utcnow().isoformat(), 'weight': 81, 'blood_pressure': 156}
+        payload = {'user_id': '1', 'timestamp': user_stat_timestamp.isoformat(), 'weight': 81, 'blood_pressure': 156}
         response = requests.post(self.host + '/user_stats', json=payload)
         self.assertEqual(response.status_code, 200, "Request should be successful")
         search_payload = {'user_id': '1', 'limit': 1, 'after_timestamp': after_timestamp.isoformat()}
