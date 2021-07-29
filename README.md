@@ -48,3 +48,6 @@ https://www.dynamodbguide.com/working-with-multiple-items
 ### Date types for DynamoDB
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes.String
 
+
+### Lambda docker
+https://hub.docker.com/r/amazon/aws-lambda-python
