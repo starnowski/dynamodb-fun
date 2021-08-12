@@ -53,3 +53,8 @@ https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.Nami
 https://hub.docker.com/r/amazon/aws-lambda-python
 #### Invoking local lambda
 https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-using-invoke.html
+
+### Lambda image testing
+https://docs.aws.amazon.com/lambda/latest/dg/images-test.html
+
+https://docs.aws.amazon.com/lambda/latest/dg/python-image.html
