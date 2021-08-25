@@ -58,3 +58,6 @@ https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/s
 https://docs.aws.amazon.com/lambda/latest/dg/images-test.html
 
 https://docs.aws.amazon.com/lambda/latest/dg/python-image.html
+
+### Lamda that return json object
+https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html
