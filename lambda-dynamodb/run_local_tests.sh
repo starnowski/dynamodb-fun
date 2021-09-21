@@ -9,8 +9,11 @@ function waitUntilDockerContainerIsReady {
     timeoutInSeconds=30
     while : ; do
         set +e
+        pushd "${SCRIPT_DIR}/../flaskapp-tests"
         ./test_docker_image.sh
-        [[ "$?" -ne 0 && $checkCount -ne $timeoutInSeconds ]] || break
+        docker_container_result="$?"
+        popd
+        [[ "$docker_container_result" -ne 0 && $checkCount -ne $timeoutInSeconds ]] || break
         checkCount=$(( checkCount+1 ))
         echo "Waiting $checkCount seconds for database to start"
         sleep 1
@@ -36,26 +39,24 @@ function shutdownDockerContainer {
     lastCommandStatus="$?"
     set +e
 
-    echo "Shutting down flask app with pid $FLASK_APP_PID"
-    kill $FLASK_APP_PID
-
     echo "Shutting down docker container"
-    pushd "${SCRIPT_DIR}"
+    pushd "${SCRIPT_DIR}/../flaskapp-tests"
     docker-compose down
     popd
 
     echo "Removing local database"
-    ls -la "${SCRIPT_DIR}/../docker/dynamodb/"
-    rm -rf "${SCRIPT_DIR}/../docker/dynamodb/"
+    ls -la "${SCRIPT_DIR}/../flaskapp-tests/docker/dynamodb/"
+    rm -rf "${SCRIPT_DIR}/../flaskapp-tests/docker/dynamodb/"
 
     exit $lastCommandStatus
 }
 
+trap shutdownDockerContainer EXIT SIGINT
 
 ## Remove database files
-pushd "${SCRIPT_DIR}/.."
-rm -rf "${SCRIPT_DIR}/../docker/dynamodb"
-mkdir -p "${SCRIPT_DIR}/../docker/dynamodb"
+pushd "${SCRIPT_DIR}/../flaskapp-tests"
+rm -rf "${SCRIPT_DIR}/../flaskapp-tests/docker/dynamodb"
+mkdir -p "${SCRIPT_DIR}/../flaskapp-tests/docker/dynamodb"
 pwd
 docker-compose up --detach
 popd
@@ -67,5 +68,8 @@ export DYNAMODB_PORT=9000
 export DYNAMODB_HOST=localhost
 
 waitUntilDockerContainerIsReady
+
+DYNAMODB_CONTAINER_IP=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' dynamodb-local`
+export DYNAMODB_CONTAINER_IP="$DYNAMODB_CONTAINER_IP"
 
 "${SCRIPT_DIR}/run_tests.sh"

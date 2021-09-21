@@ -4,6 +4,16 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+function buildDockerImage {
+    pushd "${SCRIPT_DIR}/get_user_stat"
+      ./build_image.sh
+    popd
+}
+
+function runDockerImage() {
+    docker run --detach -p "${LAMBDA_PORT}:8080" get_user_stats
+}
+
 function waitUntilDockerContainerIsReady {
     checkCount=1
     timeoutInSeconds=30
@@ -18,47 +28,17 @@ function waitUntilDockerContainerIsReady {
     set -e
 }
 
-function waitUntilHttpServerIsReady {
-    checkCount=1
-    timeoutInSeconds=30
-    while : ; do
-        set +e
-        curl "${FLASK_APP_HOST}"
-        [[ "$?" -ne 0 && $checkCount -ne $timeoutInSeconds ]] || break
-        checkCount=$(( checkCount+1 ))
-        echo "Waiting $checkCount seconds for flask app to start"
-        sleep 1
-    done
-    set -e
-}
-
 function shutdownDockerContainer {
     lastCommandStatus="$?"
     set +e
 
-    echo "Shutting down flask app with pid $FLASK_APP_PID"
-    kill $FLASK_APP_PID
-
     echo "Shutting down docker container"
-    pushd "${SCRIPT_DIR}"
-    docker-compose down
-    popd
-
-    echo "Removing local database"
-    ls -la "${SCRIPT_DIR}/../docker/dynamodb/"
-    rm -rf "${SCRIPT_DIR}/../docker/dynamodb/"
+    docker rm $(docker stop $(docker ps -a -q --filter ancestor=get_user_stats --format="{{.ID}}"))
 
     exit $lastCommandStatus
 }
 
-
-## Remove database files
-pushd "${SCRIPT_DIR}/.."
-rm -rf "${SCRIPT_DIR}/../docker/dynamodb"
-mkdir -p "${SCRIPT_DIR}/../docker/dynamodb"
-pwd
-docker-compose up --detach
-popd
+export LAMBDA_PORT=9100
 
 waitUntilDockerContainerIsReady
 
