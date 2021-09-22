@@ -64,3 +64,6 @@ https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html
 
 ### Lambda execution lifetime 
 https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html
+
+### Lambda developer guide
+https://docs.aws.amazon.com/lambda/latest/dg/lambda-dg.pdf
