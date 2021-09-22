@@ -67,3 +67,7 @@ https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html
 
 ### Lambda developer guide
 https://docs.aws.amazon.com/lambda/latest/dg/lambda-dg.pdf
+
+### Lambda local invocation passing query and path parameters
+https://aws.amazon.com/blogs/opensource/developing-microservices-using-container-image-support-for-aws-lambda-and-aws-cdk/
+https://stackoverflow.com/questions/31329958/how-to-pass-a-querystring-or-route-parameter-to-aws-lambda-from-amazon-api-gatew
