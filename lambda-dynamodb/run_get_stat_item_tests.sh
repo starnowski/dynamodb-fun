@@ -33,7 +33,7 @@ function shutdownDockerContainer {
     set +e
 
     echo "Shutting down docker container"
-    docker rm $(docker stop $(docker ps -a -q --filter ancestor=get_user_stats:latest --format="{{.ID}}"))
+    docker rm $(docker stop $(docker ps -a -q --filter ancestor=get_user_stats --format="{{.ID}}"))
 
     exit $lastCommandStatus
 }
@@ -46,4 +46,4 @@ runDockerImage
 
 #waitUntilDockerContainerIsReady
 
-"${SCRIPT_DIR}/run_tests.sh"
+"${SCRIPT_DIR}/get_user_stat/run_tests.sh"

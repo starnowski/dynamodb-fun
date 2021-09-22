@@ -4,7 +4,7 @@ import requests
 from datetime import datetime, timedelta
 
 
-class TestCreateTable(unittest.TestCase):
+class TestGetUserStatsItem(unittest.TestCase):
 
     def setUp(self):
         self.host = os.environ['FLASK_APP_HOST']
