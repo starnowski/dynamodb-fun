@@ -14,32 +14,36 @@ function runDockerImage() {
     docker run --detach -p "${LAMBDA_PORT}:8080" get_user_stats
 }
 
-function waitUntilDockerContainerIsReady {
-    checkCount=1
-    timeoutInSeconds=30
-    while : ; do
-        set +e
-        ./test_docker_image.sh
-        [[ "$?" -ne 0 && $checkCount -ne $timeoutInSeconds ]] || break
-        checkCount=$(( checkCount+1 ))
-        echo "Waiting $checkCount seconds for database to start"
-        sleep 1
-    done
-    set -e
-}
+#function waitUntilDockerContainerIsReady {
+#    checkCount=1
+#    timeoutInSeconds=30
+#    while : ; do
+#        set +e
+#        ./test_docker_image.sh
+#        [[ "$?" -ne 0 && $checkCount -ne $timeoutInSeconds ]] || break
+#        checkCount=$(( checkCount+1 ))
+#        echo "Waiting $checkCount seconds for database to start"
+#        sleep 1
+#    done
+#    set -e
+#}
 
 function shutdownDockerContainer {
     lastCommandStatus="$?"
     set +e
 
     echo "Shutting down docker container"
-    docker rm $(docker stop $(docker ps -a -q --filter ancestor=get_user_stats --format="{{.ID}}"))
+    docker rm $(docker stop $(docker ps -a -q --filter ancestor=get_user_stats:latest --format="{{.ID}}"))
 
     exit $lastCommandStatus
 }
 
 export LAMBDA_PORT=9100
 
-waitUntilDockerContainerIsReady
+trap shutdownDockerContainer EXIT SIGINT
+buildDockerImage
+runDockerImage
+
+#waitUntilDockerContainerIsReady
 
 "${SCRIPT_DIR}/run_tests.sh"
