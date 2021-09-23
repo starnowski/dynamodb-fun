@@ -71,3 +71,5 @@ https://docs.aws.amazon.com/lambda/latest/dg/lambda-dg.pdf
 ### Lambda local invocation passing query and path parameters
 https://aws.amazon.com/blogs/opensource/developing-microservices-using-container-image-support-for-aws-lambda-and-aws-cdk/
 https://stackoverflow.com/questions/31329958/how-to-pass-a-querystring-or-route-parameter-to-aws-lambda-from-amazon-api-gatew
+
+https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-dynamo-db.html

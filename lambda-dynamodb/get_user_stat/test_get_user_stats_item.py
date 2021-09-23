@@ -3,6 +3,7 @@ import os
 import requests
 from datetime import datetime, timedelta
 import boto3
+from decimal import Decimal
 
 
 class TestGetUserStatsItem(unittest.TestCase):
@@ -11,17 +12,20 @@ class TestGetUserStatsItem(unittest.TestCase):
         self.port = os.environ['LAMBDA_PORT']
         self.host = "localhost:" + self.port
         print("FLASK_APP_HOST host %s " % self.host)
-        self.test_start = datetime.utcnow().isoformat()
+        self.test_start = datetime.utcnow()
         self.user_id = "GET_STAT_LAMBDA_TEST1"
+        host = os.environ.get('DYNAMODB_HOST')
+        port = os.environ.get('DYNAMODB_PORT')
+        self.dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + host + ':' + port)
 
     def steps_1_create_user_stat(self):
         # given
-        table = self.dynamodb.Table('users')
+        table = self.dynamodb.Table('user_stats')
 
         # when
         resp = table.put_item(
             Item={
-                'user_id': user_id,
+                'user_id': self.user_id,
                 'timestamp': Decimal(datetime.timestamp(self.test_start)),
                 'weight': 82,
                 'blood_pressure': 122
@@ -31,8 +35,8 @@ class TestGetUserStatsItem(unittest.TestCase):
         # then
         response = table.get_item(
             Key={
-                'username': 'janedoe',
-                'last_name': 'Doe'
+                'user_id': self.user_id,
+                'timestamp': Decimal(datetime.timestamp(self.test_start))
             }
         )
         item = response['Item']
