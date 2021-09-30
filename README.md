@@ -73,3 +73,8 @@ https://aws.amazon.com/blogs/opensource/developing-microservices-using-container
 https://stackoverflow.com/questions/31329958/how-to-pass-a-querystring-or-route-parameter-to-aws-lambda-from-amazon-api-gatew
 
 https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-dynamo-db.html
+
+### AWS SAM Lambda
+https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-using-start-api.html
+https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-local-start-lambda.html
+https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway-template.html
