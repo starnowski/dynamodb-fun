@@ -1,5 +1,5 @@
 import json
-
+import boto3
 # import requests
 
 
@@ -33,6 +33,34 @@ def lambda_handler(event, context):
 
     #     raise e
 
+    dynamodb = boto3.resource('dynamodb')
+    if event['resource'] == "/leads" and event['httpMethod'] == "POST":
+        data = json.loads(event['body'])  or {}
+        print(data)
+        name = data.get('name')
+        type = data.get('type')
+        url = data.get('url')
+        if not name or not type:
+            return {"statusCode": 400,
+                    'error': 'Please provide name and type'}
+
+        table = dynamodb.Table('leads')
+        resp = table.put_item(
+            Item={
+                'name': name,
+                'type': type,
+                'url': url
+            }
+        )
+        print(resp)
+        return {
+            "statusCode": 200,
+            "body": json.dumps({
+            'name': name,
+            'type': type,
+            'url': url
+            })
+        }
     return {
         "statusCode": 200,
         "body": json.dumps({
