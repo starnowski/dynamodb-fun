@@ -16,7 +16,7 @@ function waitUntilSAMLocalIsReady {
     set -e
 }
 
-pushd "${SCRIPT_DIR}/../sam_app/sam_app"
+pushd "${SCRIPT_DIR}/../sam_app"
 sam local start-api &
 popd
 
