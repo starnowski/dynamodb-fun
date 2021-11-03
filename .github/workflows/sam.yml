@@ -1,0 +1,30 @@
+name: Run tests for SAM project
+on:
+  push:
+    paths:
+      - 'sam_app/**'
+      - '.github/workflows/sam.yml'
+      - '.github/start_sam_locally.sh'
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - uses: aws-actions/setup-sam@v1
+#      - uses: aws-actions/configure-aws-credentials@v1
+#        with:
+#          aws-access-key-id: XXXXXXX
+#          aws-secret-access-key: XXXXXXXXXX
+#          aws-region: us-east-2
+      # Build inside Docker containers
+      - run: cd sam_app/sam_app && sam build
+      - run: ./.github/start_sam_locally.sh
+      - run: cd flaskapp-tests && python3 -m pip install -r test-requirements.txt
+      - run: cd flaskapp-tests && ./run_python_tests.sh
+        env:
+          FLASK_APP_HOST:  "http://localhost:3000"
