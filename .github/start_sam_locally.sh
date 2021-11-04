@@ -20,9 +20,12 @@ DYNAMODB_HOST=`curl ifconfig.me`
 cat << SCRIPT > "${tmpfile}"
 #!/bin/bash
 {
-  "DYNAMODB_HOST": "$DYNAMODB_HOST"
+  "DynamoDBFunction": {
+    "DYNAMODB_HOST": "$DYNAMODB_HOST"
+  }
 }
 SCRIPT
+echo "${tmpfile}"
 cat "${tmpfile}"
 
 pushd "${SCRIPT_DIR}/../sam_app"
