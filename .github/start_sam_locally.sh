@@ -16,7 +16,8 @@ function waitUntilSAMLocalIsReady {
     set -e
 }
 tmpfile=$(mktemp)
-DYNAMODB_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
+#DYNAMODB_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
+DYNAMODB_HOST="host.docker.internal"
 cat << SCRIPT > "${tmpfile}"
 {
   "DynamoDBFunction": {
