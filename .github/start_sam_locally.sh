@@ -24,7 +24,10 @@ DYNAMODB_HOST=`ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f
 cat << SCRIPT > "${tmpfile}"
 {
   "DynamoDBFunction": {
-    "DYNAMODB_HOST": "$DYNAMODB_HOST"
+    "DYNAMODB_HOST": "$DYNAMODB_HOST",
+    "AWS_DEFAULT_REGION": "us-east-1",
+    "AWS_ACCESS_KEY_ID": "DUMMYIDEXAMPLE",
+    "AWS_SECRET_ACCESS_KEY": "DUMMYEXAMPLEKEY"
   }
 }
 SCRIPT
