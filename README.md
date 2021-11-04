@@ -78,3 +78,6 @@ https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-dynamo-db.
 https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-using-start-api.html
 https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-local-start-lambda.html
 https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway-template.html
+
+### AWS SAM Lambda - java
+https://github.com/aws-samples/aws-sam-java-rest
