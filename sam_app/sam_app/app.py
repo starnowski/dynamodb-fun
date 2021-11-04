@@ -160,4 +160,4 @@ def enrich_with_correct_timestap(item):
 
 
 def covert_dynamodb_list(list):
-    return map(enrich_with_correct_timestap, list)
+    return list(map(enrich_with_correct_timestap, list))
