@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - 'sam_app/**'
+      - 'flaskapp/**'
+      - 'flaskapp-tests/**'
       - '.github/workflows/sam.yml'
       - '.github/start_sam_locally.sh'
     branches:
