@@ -16,6 +16,7 @@ function waitUntilSAMLocalIsReady {
     set -e
 }
 tmpfile=$(mktemp)
+ifconfig
 #DYNAMODB_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
 DYNAMODB_HOST=$(ip route show | awk '/default/ {print $3}')
 cat << SCRIPT > "${tmpfile}"
