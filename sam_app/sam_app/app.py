@@ -35,7 +35,7 @@ def lambda_handler(event, context):
     #     raise e
 
     if os.getenv("DYNAMODB_HOST"):
-        app.dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + os.getenv("DYNAMODB_HOST") + ':9000')
+        dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + os.getenv("DYNAMODB_HOST") + ':9000')
     else:
         dynamodb = boto3.resource('dynamodb')
     if event['resource'] == "/leads" and event['httpMethod'] == "POST":
