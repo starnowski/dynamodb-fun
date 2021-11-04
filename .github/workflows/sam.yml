@@ -27,6 +27,7 @@ jobs:
       - run: cd sam_app && sam build
       - run: ./.github/start_sam_locally.sh
       - run: cd flaskapp-tests && python3 -m pip install -r test-requirements.txt
-      - run: cd flaskapp-tests && ./run_tests.sh
+      - run: cd flaskapp && python3 create_tables.py
+      - run: cd flaskapp-tests && ./run_python_tests.sh
         env:
           FLASK_APP_HOST:  "http://localhost:3000"
