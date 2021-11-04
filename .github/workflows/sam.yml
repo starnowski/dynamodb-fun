@@ -28,6 +28,9 @@ jobs:
       - run: ./.github/start_sam_locally.sh
       - run: cd flaskapp-tests && python3 -m pip install -r test-requirements.txt
       - run: cd flaskapp && python3 create_tables.py
+        env:
+          DYNAMODB_HOST: localhost
+          DYNAMODB_PORT: 9000
       - run: cd flaskapp-tests && ./run_python_tests.sh
         env:
           FLASK_APP_HOST:  "http://localhost:3000"
