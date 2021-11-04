@@ -39,7 +39,8 @@ def lambda_handler(event, context):
     #     raise e
 
     try:
-        if os.getenv("DYNAMODB_HOST"):
+        if os.getenv("DYNAMODB_HOST") and os.getenv("DYNAMODB_HOST") != "":
+            print("DYNAMODB_HOST is " + os.getenv("DYNAMODB_HOST"))
             dynamodb = boto3.resource('dynamodb', endpoint_url='http://' + os.getenv("DYNAMODB_HOST") + ':9000',
                                       aws_access_key_id='foo',
                                       aws_secret_access_key='bar',
