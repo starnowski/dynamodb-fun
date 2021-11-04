@@ -31,6 +31,9 @@ jobs:
         env:
           DYNAMODB_HOST: localhost
           DYNAMODB_PORT: 9000
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
+          AWS_SECRET_ACCESS_KEY: DUMMYEXAMPLEKEY
       - run: cd flaskapp-tests && ./run_python_tests.sh
         env:
           FLASK_APP_HOST:  "http://localhost:3000"
