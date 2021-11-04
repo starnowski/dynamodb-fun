@@ -20,7 +20,7 @@ ifconfig
 #DYNAMODB_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
 DYNAMODB_HOST=`ifconfig eth0 | grep "inet\b" | cut -d: -f2 | awk '{print $1;}'`
 DYNAMODB_HOST=`ifconfig eth0 | grep 'inet' | cut -d' ' -f2`
-#DYNAMODB_HOST=`ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1`
+DYNAMODB_HOST=`ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1`
 cat << SCRIPT > "${tmpfile}"
 {
   "DynamoDBFunction": {
