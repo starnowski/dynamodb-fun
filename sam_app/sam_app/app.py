@@ -65,6 +65,41 @@ def lambda_handler(event, context):
             'url': url
             })
         }
+
+#
+    if event['resource'] == "/user_stats" and event['httpMethod'] == "POST":
+        data = json.loads(event['body'])  or {}
+        print(data)
+        user_id = data.get('user_id')
+        timestamp = data.get('timestamp')
+        if not user_id or not timestamp:
+            return {"statusCode": 400,
+                    'error': 'Please provide user_id and timestamp'}
+
+        weight = data.get('weight')
+        blood_pressure = data.get('blood_pressure')
+
+        table = dynamodb.Table('user_stats')
+        timestamp_val = datetime.fromisoformat(timestamp)
+        resp = table.put_item(
+            Item={
+                'user_id': user_id,
+                'timestamp': Decimal(datetime.timestamp(timestamp_val)),
+                'weight': weight,
+                'blood_pressure': blood_pressure
+            }
+        )
+        print(resp)
+        return {
+            "statusCode": 200,
+            "body": json.dumps({
+                'user_id': user_id,
+                'timestamp': timestamp,
+                'weight': weight,
+                'blood_pressure': blood_pressure
+            })
+        }
+#
     return {
         "statusCode": 200,
         "body": json.dumps({
