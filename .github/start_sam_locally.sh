@@ -15,9 +15,18 @@ function waitUntilSAMLocalIsReady {
     done
     set -e
 }
+tmpfile=$(mktemp)
+DYNAMODB_HOST=`curl ifconfig.me`
+cat << SCRIPT > "${tmpfile}"
+#!/bin/bash
+{
+  "DYNAMODB_HOST": "$DYNAMODB_HOST"
+}
+SCRIPT
+cat "${tmpfile}"
 
 pushd "${SCRIPT_DIR}/../sam_app"
-sam local start-api &
+sam local start-api --env-vars "${tmpfile}" &
 popd
 
 waitUntilSAMLocalIsReady
