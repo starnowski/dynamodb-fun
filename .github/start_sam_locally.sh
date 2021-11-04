@@ -18,7 +18,6 @@ function waitUntilSAMLocalIsReady {
 tmpfile=$(mktemp)
 DYNAMODB_HOST=`curl ifconfig.me`
 cat << SCRIPT > "${tmpfile}"
-#!/bin/bash
 {
   "DynamoDBFunction": {
     "DYNAMODB_HOST": "$DYNAMODB_HOST"
