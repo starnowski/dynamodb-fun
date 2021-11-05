@@ -118,3 +118,6 @@ modules.xml
 
 ## Project 'tutorial'
 **/dynamodb/docker/dynamodb/*
+
+## AWS SAM
+**/.aws-sam
