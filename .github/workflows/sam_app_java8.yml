@@ -2,11 +2,11 @@ name: Run tests for SAM java8 project
 on:
   push:
     paths:
-      - 'sam_app/**'
+      - 'sam_app_java8/**'
       - 'flaskapp/**'
       - 'flaskapp-tests/**'
-      - '.github/workflows/sam.yml'
-      - '.github/start_sam_locally.sh'
+      - '.github/workflows/sam_app_java8.yml'
+      - '.github/start_sam_app_java8_locally.sh'
     branches:
       - main
 jobs:
