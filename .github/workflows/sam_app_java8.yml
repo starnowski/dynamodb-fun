@@ -1,0 +1,52 @@
+name: Run tests for SAM java8 project
+on:
+  push:
+    paths:
+      - 'sam_app/**'
+      - 'flaskapp/**'
+      - 'flaskapp-tests/**'
+      - '.github/workflows/sam.yml'
+      - '.github/start_sam_locally.sh'
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - uses: aws-actions/setup-sam@v1
+#      - uses: aws-actions/configure-aws-credentials@v1
+#        with:
+#          aws-access-key-id: XXXXXXX
+#          aws-secret-access-key: XXXXXXXXXX
+#          aws-region: us-east-2
+      # Build inside Docker containers
+      - run: cd sam_app && sam build
+      - run: ./.github/start_sam_locally.sh
+        env:
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
+          AWS_SECRET_ACCESS_KEY: DUMMYEXAMPLEKEY
+      - run: cd flaskapp-tests && python3 -m pip install -r test-requirements.txt
+      - name: Setup DynamoDB Local
+        uses: rrainn/dynamodb-action@v2.0.0
+        with:
+          dbPath: # undefined by default, if this is undefined inMemory will be used
+          sharedDb: # undefined by default
+          delayTransientStatuses: # undefined by default
+          optimizeDbBeforeStartup: # undefined by default
+          port: 9000
+          cors: '*'
+      - run: cd flaskapp && python3 create_tables.py
+        env:
+          DYNAMODB_HOST: localhost
+          DYNAMODB_PORT: 9000
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
+          AWS_SECRET_ACCESS_KEY: DUMMYEXAMPLEKEY
+      - run: cd flaskapp-tests && ./run_python_tests.sh
+        env:
+          FLASK_APP_HOST:  "http://localhost:3000"
