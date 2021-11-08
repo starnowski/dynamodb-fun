@@ -81,3 +81,8 @@ https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway-template.html
 
 ### AWS SAM Lambda - java
 https://github.com/aws-samples/aws-sam-java-rest
+
+### DynamoDB - test container
+https://www.sebastianhesse.de/2020/05/14/using-dynamodb-local-and-testcontainers-in-java-within-bitbucket-pipelines/
+https://nickolasfisher.com/blog/Setup-and-Use-a-DynamoDB-Test-Container-with-the-AWS-Java-SDK-20
+https://www.viralpatel.net/spring-boot-dynamodb-integration-test-testcontainers/
