@@ -24,7 +24,7 @@ jobs:
 #          aws-secret-access-key: XXXXXXXXXX
 #          aws-region: us-east-2
       # Build inside Docker containers
-      - run: cd sam_app && sam build
+      - run: cd sam_app_java8 && sam build
       - run: ./.github/start_sam_app_java8_locally.sh
         env:
           AWS_DEFAULT_REGION: us-east-1
