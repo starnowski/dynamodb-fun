@@ -2,6 +2,7 @@ package helloworld.dao;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.model.*;
@@ -29,14 +30,14 @@ public abstract class DynamoTestContainerTest {
     @BeforeAll
     public static void setupDynamoDB() throws ExecutionException, InterruptedException {
         dynamoDbAsyncClient = getDynamoClient();
-        createUserStatsTableAsync().get();
+        createUserStatsTable();
         createLeadsTable();
     }
 
     private static AmazonDynamoDB getDynamoClient() {
         return AmazonDynamoDBClientBuilder.standard()
-                .withRegion("us-east-1")
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("FAKE", "FAKE")))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:" + genericContainer.getFirstMappedPort(), null))
                 .build();
     }
 
@@ -59,31 +60,26 @@ public abstract class DynamoTestContainerTest {
         );
     }
 
-    private static CompletableFuture<CreateTableResponse> createUserStatsTableAsync() {
-        return dynamoDbAsyncClient.createTable(CreateTableRequest.builder()
-                .keySchema(
-                        KeySchemaElement.builder()
-                                .keyType(KeyType.HASH)
-                                .attributeName("user_id")
-                                .build(),
-                        KeySchemaElement.builder()
-                                .keyType(KeyType.RANGE)
-                                .attributeName("timestamp")
-                                .build()
+    private static CreateTableResult createUserStatsTable() {
+        return dynamoDbAsyncClient.createTable(new CreateTableRequest()
+                .withKeySchema(
+                        new KeySchemaElement()
+                                .withKeyType(KeyType.HASH)
+                                .withAttributeName("user_id"),
+                        new KeySchemaElement()
+                                .withKeyType(KeyType.RANGE)
+                                .withAttributeName("timestamp")
                 )
-                .attributeDefinitions(
-                        AttributeDefinition.builder()
-                                .attributeName("user_id")
-                                .attributeType(ScalarAttributeType.S)
-                                .build(),
-                        AttributeDefinition.builder()
-                                .attributeName("timestamp")
-                                .attributeType(ScalarAttributeType.N)
-                                .build()
+                .withAttributeDefinitions(
+                        new AttributeDefinition()
+                                .withAttributeName("user_id")
+                                .withAttributeType(ScalarAttributeType.S),
+                        new AttributeDefinition()
+                                .withAttributeName("timestamp")
+                                .withAttributeType(ScalarAttributeType.N)
                 )
-                .provisionedThroughput(ProvisionedThroughput.builder().readCapacityUnits(5L).writeCapacityUnits(5L).build())
-                .tableName("user_stats")
-                .build()
+                .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(5L))
+                .withTableName("user_stats")
         );
     }
 }
