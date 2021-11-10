@@ -1,16 +1,16 @@
 package helloworld.dao;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.model.*;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
-import software.amazon.awssdk.services.dynamodb.model.*;
+import software.amazon.awssdk.services.dynamodb.model.CreateTableResponse;
 
 import java.net.URI;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 @Testcontainers
 public abstract class DynamoTestContainerTest {
 
-    private static DynamoDbAsyncClient dynamoDbAsyncClient;
+    private static AmazonDynamoDB dynamoDbAsyncClient;
 
     @Container
     public static GenericContainer genericContainer = new GenericContainer(
@@ -30,43 +30,32 @@ public abstract class DynamoTestContainerTest {
     public static void setupDynamoDB() throws ExecutionException, InterruptedException {
         dynamoDbAsyncClient = getDynamoClient();
         createUserStatsTableAsync().get();
-        createLeadsTableAsync().get();
+        createLeadsTable();
     }
 
-    private static DynamoDbAsyncClient getDynamoClient() {
-        return DynamoDbAsyncClient.builder()
-                .region(Region.US_EAST_1)
-                .endpointOverride(URI.create("http://localhost:" + genericContainer.getFirstMappedPort()))
-                .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create("FAKE", "FAKE")))
+    private static AmazonDynamoDB getDynamoClient() {
+        return AmazonDynamoDBClientBuilder.standard()
+                .withRegion("us-east-1")
+                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("FAKE", "FAKE")))
                 .build();
     }
 
-    private static CompletableFuture<CreateTableResponse> createLeadsTableAsync() {
-        return dynamoDbAsyncClient.createTable(CreateTableRequest.builder()
-                .keySchema(
-                        KeySchemaElement.builder()
-                                .keyType(KeyType.HASH)
-                                .attributeName("name")
-                                .build(),
-                        KeySchemaElement.builder()
-                                .keyType(KeyType.RANGE)
-                                .attributeName("type")
-                                .build()
+    private static CreateTableResult createLeadsTable() {
+        return dynamoDbAsyncClient.createTable(new CreateTableRequest()
+                .withKeySchema(
+                        new KeySchemaElement("name", KeyType.HASH),
+                        new KeySchemaElement("type", KeyType.RANGE)
                 )
-                .attributeDefinitions(
-                        AttributeDefinition.builder()
-                                .attributeName("name")
-                                .attributeType(ScalarAttributeType.S)
-                                .build(),
-                        AttributeDefinition.builder()
-                                .attributeName("type")
-                                .attributeType(ScalarAttributeType.S)
-                                .build()
+                .withAttributeDefinitions(
+                        new AttributeDefinition()
+                                .withAttributeName("name")
+                                .withAttributeType(ScalarAttributeType.S),
+                        new AttributeDefinition()
+                                .withAttributeName("type")
+                                .withAttributeType(ScalarAttributeType.S)
                 )
-                .provisionedThroughput(ProvisionedThroughput.builder().readCapacityUnits(5L).writeCapacityUnits(5L).build())
-                .tableName("leads")
-                .build()
+                .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(5L))
+                .withTableName("leads")
         );
     }
 
