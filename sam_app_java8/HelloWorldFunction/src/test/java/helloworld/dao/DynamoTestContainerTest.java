@@ -11,16 +11,15 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import software.amazon.awssdk.services.dynamodb.model.CreateTableResponse;
 
-import java.net.URI;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Testcontainers
 public abstract class DynamoTestContainerTest {
 
-    private static AmazonDynamoDB dynamoDbAsyncClient;
+    public static final String LEADS_TABLE_NAME = "leads";
+    public static final String USER_STATS_TABLE_NAME = "user_stats";
+    protected static AmazonDynamoDB dynamoDbAsyncClient;
 
     @Container
     public static GenericContainer genericContainer = new GenericContainer(
@@ -56,7 +55,7 @@ public abstract class DynamoTestContainerTest {
                                 .withAttributeType(ScalarAttributeType.S)
                 )
                 .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(5L))
-                .withTableName("leads")
+                .withTableName(LEADS_TABLE_NAME)
         );
     }
 
@@ -79,7 +78,7 @@ public abstract class DynamoTestContainerTest {
                                 .withAttributeType(ScalarAttributeType.N)
                 )
                 .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(5L))
-                .withTableName("user_stats")
+                .withTableName(USER_STATS_TABLE_NAME)
         );
     }
 }
