@@ -86,3 +86,7 @@ https://github.com/aws-samples/aws-sam-java-rest
 https://www.sebastianhesse.de/2020/05/14/using-dynamodb-local-and-testcontainers-in-java-within-bitbucket-pipelines/
 https://nickolasfisher.com/blog/Setup-and-Use-a-DynamoDB-Test-Container-with-the-AWS-Java-SDK-20
 https://www.viralpatel.net/spring-boot-dynamodb-integration-test-testcontainers/
+
+### DynamoDB - Reserved Words
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html
+https://dynobase.dev/dynamodb-reserved-words/
