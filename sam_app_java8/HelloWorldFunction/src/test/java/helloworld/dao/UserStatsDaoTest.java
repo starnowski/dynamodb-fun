@@ -24,10 +24,10 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
 
     private static Stream<Arguments> provideShouldReturnCorrectNumberOfResultsBasedOnLimitParameter() {
         return Stream.of(
-                Arguments.of(prepareUserStatsArray("x1", 1), UserStatQueryRequest.builder().userId("x1").limit(1L), 1),
-                Arguments.of(prepareUserStatsArray("x2", 3), UserStatQueryRequest.builder().userId("x1"), 3),
-                Arguments.of(prepareUserStatsArray("x33", 3), UserStatQueryRequest.builder().userId("x1").limit(2L), 2),
-                Arguments.of(prepareUserStatsArray("x111", 5), UserStatQueryRequest.builder().userId("x1").limit(4L), 4)
+                Arguments.of(prepareUserStatsArray("x1", 1), UserStatQueryRequest.builder().userId("x1").limit(1L).build(), 1),
+                Arguments.of(prepareUserStatsArray("x2", 3), UserStatQueryRequest.builder().userId("x1").build(), 3),
+                Arguments.of(prepareUserStatsArray("x33", 3), UserStatQueryRequest.builder().userId("x1").limit(2L).build(), 2),
+                Arguments.of(prepareUserStatsArray("x111", 5), UserStatQueryRequest.builder().userId("x1").limit(4L).build(), 4)
         );
     }
 
