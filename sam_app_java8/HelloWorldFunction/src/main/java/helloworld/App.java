@@ -17,9 +17,7 @@ import helloworld.model.UserStatQueryRequest;
 import helloworld.model.UserStatSearchResponse;
 
 import javax.inject.Inject;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,9 +35,18 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
     @Inject
     UserStatsDao userStatsDao;
 
+    String initializationError;
+
     public App() {
-        AppModule module = DaggerAppModule.create();
-        module.inject(this);
+        try {
+            AppModule module = DaggerAppModule.create();
+            module.inject(this);
+        } catch (Exception ex) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            initializationError = sw.toString();
+        }
     }
 
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
@@ -51,6 +58,11 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                 .withHeaders(headers);
 
         try {
+            if (initializationError != null) {
+                return response
+                        .withStatusCode(200)
+                        .withBody(String.format("{ \"message\": \"%s\" }", initializationError));
+            }
             if (input != null) {
                 if ("/leads".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
                     return handlePostLeadsRequest(input, response);
