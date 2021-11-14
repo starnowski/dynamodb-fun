@@ -51,14 +51,16 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                 .withHeaders(headers);
 
         try {
-            if ("/leads".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                return handlePostLeadsRequest(input, response);
-            }
-            if ("/user_stats".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                return handlePostUserStatRequest(input, response);
-            }
-            if ("/user_stats/search".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                return handlePostUserStatQueryRequestRequest(input, response);
+            if (input != null) {
+                if ("/leads".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
+                    return handlePostLeadsRequest(input, response);
+                }
+                if ("/user_stats".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
+                    return handlePostUserStatRequest(input, response);
+                }
+                if ("/user_stats/search".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
+                    return handlePostUserStatQueryRequestRequest(input, response);
+                }
             }
             final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
             String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
