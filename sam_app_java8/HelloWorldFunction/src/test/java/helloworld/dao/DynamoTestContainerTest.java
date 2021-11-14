@@ -1,25 +1,29 @@
 package helloworld.dao;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.model.*;
+import helloworld.config.AppTestModule;
+import helloworld.config.DaggerAppTestModule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
-import software.amazon.awssdk.services.dynamodb.model.*;
 
-import java.net.URI;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Testcontainers
 public abstract class DynamoTestContainerTest {
 
-    private static DynamoDbAsyncClient dynamoDbAsyncClient;
+    public static final String LEADS_TABLE_NAME = "leads";
+    public static final String USER_STATS_TABLE_NAME = "user_stats";
+    protected static AmazonDynamoDB dynamoDbAsyncClient;
+    protected AppTestModule appTestModule;
 
     @Container
     public static GenericContainer genericContainer = new GenericContainer(
@@ -29,72 +33,62 @@ public abstract class DynamoTestContainerTest {
     @BeforeAll
     public static void setupDynamoDB() throws ExecutionException, InterruptedException {
         dynamoDbAsyncClient = getDynamoClient();
-        createUserStatsTableAsync().get();
-        createLeadsTableAsync().get();
+        createUserStatsTable();
+        createLeadsTable();
     }
 
-    private static DynamoDbAsyncClient getDynamoClient() {
-        return DynamoDbAsyncClient.builder()
-                .region(Region.US_EAST_1)
-                .endpointOverride(URI.create("http://localhost:" + genericContainer.getFirstMappedPort()))
-                .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create("FAKE", "FAKE")))
+    @BeforeEach
+    public void setUp()
+    {
+        this.appTestModule = DaggerAppTestModule.builder().amazonDynamoDB(dynamoDbAsyncClient).build();
+    }
+
+    private static AmazonDynamoDB getDynamoClient() {
+        return AmazonDynamoDBClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("FAKE", "FAKE")))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:" + genericContainer.getFirstMappedPort(), null))
                 .build();
     }
 
-    private static CompletableFuture<CreateTableResponse> createLeadsTableAsync() {
-        return dynamoDbAsyncClient.createTable(CreateTableRequest.builder()
-                .keySchema(
-                        KeySchemaElement.builder()
-                                .keyType(KeyType.HASH)
-                                .attributeName("name")
-                                .build(),
-                        KeySchemaElement.builder()
-                                .keyType(KeyType.RANGE)
-                                .attributeName("type")
-                                .build()
+    private static CreateTableResult createLeadsTable() {
+        return dynamoDbAsyncClient.createTable(new CreateTableRequest()
+                .withKeySchema(
+                        new KeySchemaElement("name", KeyType.HASH),
+                        new KeySchemaElement("type", KeyType.RANGE)
                 )
-                .attributeDefinitions(
-                        AttributeDefinition.builder()
-                                .attributeName("name")
-                                .attributeType(ScalarAttributeType.S)
-                                .build(),
-                        AttributeDefinition.builder()
-                                .attributeName("type")
-                                .attributeType(ScalarAttributeType.S)
-                                .build()
+                .withAttributeDefinitions(
+                        new AttributeDefinition()
+                                .withAttributeName("name")
+                                .withAttributeType(ScalarAttributeType.S),
+                        new AttributeDefinition()
+                                .withAttributeName("type")
+                                .withAttributeType(ScalarAttributeType.S)
                 )
-                .provisionedThroughput(ProvisionedThroughput.builder().readCapacityUnits(5L).writeCapacityUnits(5L).build())
-                .tableName("leads")
-                .build()
+                .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(5L))
+                .withTableName(LEADS_TABLE_NAME)
         );
     }
 
-    private static CompletableFuture<CreateTableResponse> createUserStatsTableAsync() {
-        return dynamoDbAsyncClient.createTable(CreateTableRequest.builder()
-                .keySchema(
-                        KeySchemaElement.builder()
-                                .keyType(KeyType.HASH)
-                                .attributeName("user_id")
-                                .build(),
-                        KeySchemaElement.builder()
-                                .keyType(KeyType.RANGE)
-                                .attributeName("timestamp")
-                                .build()
+    private static CreateTableResult createUserStatsTable() {
+        return dynamoDbAsyncClient.createTable(new CreateTableRequest()
+                .withKeySchema(
+                        new KeySchemaElement()
+                                .withKeyType(KeyType.HASH)
+                                .withAttributeName("user_id"),
+                        new KeySchemaElement()
+                                .withKeyType(KeyType.RANGE)
+                                .withAttributeName("timestamp")
                 )
-                .attributeDefinitions(
-                        AttributeDefinition.builder()
-                                .attributeName("user_id")
-                                .attributeType(ScalarAttributeType.S)
-                                .build(),
-                        AttributeDefinition.builder()
-                                .attributeName("timestamp")
-                                .attributeType(ScalarAttributeType.N)
-                                .build()
+                .withAttributeDefinitions(
+                        new AttributeDefinition()
+                                .withAttributeName("user_id")
+                                .withAttributeType(ScalarAttributeType.S),
+                        new AttributeDefinition()
+                                .withAttributeName("timestamp")
+                                .withAttributeType(ScalarAttributeType.N)
                 )
-                .provisionedThroughput(ProvisionedThroughput.builder().readCapacityUnits(5L).writeCapacityUnits(5L).build())
-                .tableName("user_stats")
-                .build()
+                .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(5L))
+                .withTableName(USER_STATS_TABLE_NAME)
         );
     }
 }

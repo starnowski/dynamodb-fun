@@ -129,3 +129,6 @@ Next, you can use AWS Serverless Application Repository to deploy ready to use A
 
 ### Java DynamoDB
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBMapper.html
+
+
+https://dagger.dev/dev-guide/testing
