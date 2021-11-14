@@ -23,7 +23,7 @@ DYNAMODB_HOST=`ifconfig eth0 | grep 'inet' | cut -d' ' -f2`
 DYNAMODB_HOST=`ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1`
 cat << SCRIPT > "${tmpfile}"
 {
-  "DynamoDBFunction": {
+  "HelloWorldFunction": {
     "DYNAMODB_HOST": "$DYNAMODB_HOST",
     "AWS_DEFAULT_REGION": "us-east-1",
     "AWS_ACCESS_KEY_ID": "DUMMYIDEXAMPLE",
