@@ -5,17 +5,23 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import helloworld.model.Leads;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 class LeadsDaoTest extends DynamoTestContainerTest {
 
-    @Inject
     LeadsDao tested;
+
+    @BeforeEach
+    public void setUp()
+    {
+        super.setUp();
+        this.tested = this.appTestModule.provideLeadsDao();
+    }
 
     @Test
     public void test1() {

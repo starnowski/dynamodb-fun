@@ -6,7 +6,10 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.model.*;
+import helloworld.config.AppTestModule;
+import helloworld.config.DaggerAppTestModule;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -20,6 +23,7 @@ public abstract class DynamoTestContainerTest {
     public static final String LEADS_TABLE_NAME = "leads";
     public static final String USER_STATS_TABLE_NAME = "user_stats";
     protected static AmazonDynamoDB dynamoDbAsyncClient;
+    protected AppTestModule appTestModule;
 
     @Container
     public static GenericContainer genericContainer = new GenericContainer(
@@ -31,6 +35,12 @@ public abstract class DynamoTestContainerTest {
         dynamoDbAsyncClient = getDynamoClient();
         createUserStatsTable();
         createLeadsTable();
+    }
+
+    @BeforeEach
+    public void setUp()
+    {
+        this.appTestModule = DaggerAppTestModule.builder().amazonDynamoDB(dynamoDbAsyncClient).build();
     }
 
     private static AmazonDynamoDB getDynamoClient() {

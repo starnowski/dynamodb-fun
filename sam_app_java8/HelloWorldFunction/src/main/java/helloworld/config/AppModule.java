@@ -1,17 +1,13 @@
 package helloworld.config;
 
-import dagger.Module;
-import dagger.Provides;
-import helloworld.dao.LeadsDao;
+import dagger.Component;
+import helloworld.App;
 
 import javax.inject.Singleton;
 
-@Module
-public class AppModule {
+@Singleton
+@Component(modules = {AppDynamoDBModule.class, DaoModules.class, MapperModule.class})
+public interface AppModule {
 
-    @Singleton
-    @Provides
-    LeadsDao leadsDao() {
-        return new LeadsDao();
-    }
+    void inject(App app);
 }

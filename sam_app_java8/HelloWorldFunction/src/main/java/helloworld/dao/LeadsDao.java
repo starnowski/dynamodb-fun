@@ -4,12 +4,13 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import helloworld.model.Leads;
 
-import javax.inject.Inject;
-
 public class LeadsDao {
 
-    @Inject
-    AmazonDynamoDB amazonDynamoDB;
+    private AmazonDynamoDB amazonDynamoDB;
+
+    public LeadsDao(AmazonDynamoDB amazonDynamoDB) {
+        this.amazonDynamoDB = amazonDynamoDB;
+    }
 
     public Leads persist(Leads lead)
     {
