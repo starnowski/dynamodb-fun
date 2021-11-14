@@ -130,13 +130,13 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
         // GIVEN
         LocalDateTime localDateTime = LocalDateTime.now();
         UserStat userStat = new UserStat();
-        String userStatId = "ReturnResultThatWereCreatedAfterSpecificTimestamp";
+        String userStatId = "test4";
         userStat.setUserId(userStatId);
-        Long userStatTimestamp = localDateTime.toEpochSecond(ZoneOffset.MIN);
+        Long userStatTimestamp = localDateTime.minusMinutes(30L).toEpochSecond(ZoneOffset.MIN);
         userStat.setTimestamp(userStatTimestamp);
         DynamoDBMapper mapper = new DynamoDBMapper(this.dynamoDbAsyncClient);
         mapper.save(userStat);
-        UserStatQueryRequest queryRequest = UserStatQueryRequest.builder().userId(userStatId).after_timestamp(localDateTime.minusMinutes(30L).toEpochSecond(ZoneOffset.MIN)).build();
+        UserStatQueryRequest queryRequest = UserStatQueryRequest.builder().userId(userStatId).after_timestamp(localDateTime.toEpochSecond(ZoneOffset.MIN)).build();
 
         // WHEN
         QueryResultPage<UserStat> results = tested.query(queryRequest);

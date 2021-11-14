@@ -29,18 +29,25 @@ public class UserStatsDao {
         DynamoDBMapper mapper = new DynamoDBMapper(amazonDynamoDB);
         Map<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
         eav.put(":val1", new AttributeValue().withS(queryRequest.getUserId()));
+        StringBuilder keyConditionExpressionBuilder = new StringBuilder();
+        keyConditionExpressionBuilder.append("user_id = :val1");
         Map<String, String> ean = new HashMap<String, String>();
-        DynamoDBQueryExpression<UserStat> queryExpression = new DynamoDBQueryExpression<UserStat>()
-                .withKeyConditionExpression("user_id = :val1")
-                .withExpressionAttributeValues(eav);
+        DynamoDBQueryExpression<UserStat> queryExpression = new DynamoDBQueryExpression<UserStat>();
         if (queryRequest.getLimit() != null) {
             queryExpression.withLimit(Math.toIntExact(queryRequest.getLimit()));
+        }
+        if (queryRequest.getAfter_timestamp() != null) {
+            keyConditionExpressionBuilder.append(" and #t_attribute >= :val2");
+            eav.put(":val2", new AttributeValue().withN(queryRequest.getAfter_timestamp().toString()));
+            ean.put("#t_attribute", "timestamp");
+        }
+        if (!eav.isEmpty()) {
+            queryExpression.withExpressionAttributeValues(eav);
         }
         if (!ean.isEmpty()) {
             queryExpression.withExpressionAttributeNames(ean);
         }
-        queryExpression.withScanIndexForward(false);
-//        return mapper.query(UserStat.class, queryExpression);
+        queryExpression.withKeyConditionExpression(keyConditionExpressionBuilder.toString());
         return mapper.queryPage(UserStat.class, queryExpression);
     }
 }
