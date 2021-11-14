@@ -15,6 +15,7 @@
         <dynamodblocal.version>1.11.119</dynamodblocal.version>
         <lombok.version>1.18.2</lombok.version>
         <com.amazonaws.aws-java-sdk-dynamodb.version>1.12.106</com.amazonaws.aws-java-sdk-dynamodb.version>
+        <org.junit.jupiter.version>5.8.1</org.junit.jupiter.version>
     </properties>
 
     <dependencies>
@@ -27,12 +28,6 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-events</artifactId>
             <version>3.6.0</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
@@ -85,6 +80,18 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>1.15.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${org.junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${org.junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
