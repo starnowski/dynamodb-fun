@@ -80,7 +80,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
             return response
                     .withStatusCode(200)
                     .withBody(output);
-        } catch (IOException e) {
+        } catch (Exception e) {
             String output = String.format("{ \"exceptionMessage\": \"%s\" }", e.getMessage());
             return response
                     .withBody(output)
