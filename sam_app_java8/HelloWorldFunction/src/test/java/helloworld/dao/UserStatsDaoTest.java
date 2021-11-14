@@ -2,7 +2,7 @@ package helloworld.dao;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
+import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import helloworld.model.UserStat;
 import helloworld.model.UserStatQueryRequest;
@@ -25,9 +25,9 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
     private static Stream<Arguments> provideShouldReturnCorrectNumberOfResultsBasedOnLimitParameter() {
         return Stream.of(
                 Arguments.of(prepareUserStatsArray("x1", 1), UserStatQueryRequest.builder().userId("x1").limit(1L).build(), 1),
-                Arguments.of(prepareUserStatsArray("x2", 3), UserStatQueryRequest.builder().userId("x1").build(), 3),
-                Arguments.of(prepareUserStatsArray("x33", 3), UserStatQueryRequest.builder().userId("x1").limit(2L).build(), 2),
-                Arguments.of(prepareUserStatsArray("x111", 5), UserStatQueryRequest.builder().userId("x1").limit(4L).build(), 4)
+                Arguments.of(prepareUserStatsArray("x2", 3), UserStatQueryRequest.builder().userId("x2").build(), 3),
+                Arguments.of(prepareUserStatsArray("x33", 3), UserStatQueryRequest.builder().userId("x33").limit(2L).build(), 2),
+                Arguments.of(prepareUserStatsArray("x111", 5), UserStatQueryRequest.builder().userId("x111").limit(4L).build(), 4)
         );
     }
 
@@ -89,18 +89,15 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
 
     @ParameterizedTest
     @MethodSource("provideShouldReturnCorrectNumberOfResultsBasedOnLimitParameter")
-    public void shouldReturnCorrectNumberOfResultsBasedOnLimitParameter(UserStat[] userStats, UserStatQueryRequest queryRequest, int expectedUserStatsNumberOfFetchedResults) {
+    public void shouldReturnCorrectNumberOfResultsBasedOnLimitParameter(UserStat[] userStats, UserStatQueryRequest queryRequest, int expectedUserStatsNumberOfFetchedResults) throws InterruptedException {
         // GIVEN
-        for (UserStat userStat : userStats) {
-            DynamoDBMapper mapper = new DynamoDBMapper(this.dynamoDbAsyncClient);
-            mapper.save(userStat);
-        }
+        DynamoDBMapper mapper = new DynamoDBMapper(this.dynamoDbAsyncClient);
+        mapper.batchSave(userStats);
 
         // WHEN
-        PaginatedQueryList<UserStat> results = tested.query(queryRequest);
+        QueryResultPage<UserStat> results = tested.query(queryRequest);
 
         // THEN
-        Assertions.assertEquals(expectedUserStatsNumberOfFetchedResults, results.stream().count());
-        Assertions.assertEquals(userStats.length, results.size());
+        Assertions.assertEquals(expectedUserStatsNumberOfFetchedResults, results.getCount());
     }
 }
