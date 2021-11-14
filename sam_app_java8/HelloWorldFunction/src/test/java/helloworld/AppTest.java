@@ -1,12 +1,14 @@
 package helloworld;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 
 public class AppTest {
   @Test
+  @Disabled
   public void successfulResponse() {
     App app = new App();
     APIGatewayProxyResponseEvent result = app.handleRequest(null, null);
