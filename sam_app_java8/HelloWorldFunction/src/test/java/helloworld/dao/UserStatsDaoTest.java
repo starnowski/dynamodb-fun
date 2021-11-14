@@ -18,6 +18,9 @@ import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 class UserStatsDaoTest extends DynamoTestContainerTest {
 
     UserStatsDao tested;
@@ -66,12 +69,12 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
 
         // THEN
         latestUserStat = mapper.query(UserStat.class, queryExpression);
-        Assertions.assertFalse(latestUserStat.isEmpty());
-        Assertions.assertEquals(1, latestUserStat.size());
-        Assertions.assertEquals(name, latestUserStat.get(0).getUserId());
-        Assertions.assertEquals(timestamp, latestUserStat.get(0).getTimestamp());
-        Assertions.assertEquals(weight, latestUserStat.get(0).getWeight());
-        Assertions.assertEquals(bloodPressure, latestUserStat.get(0).getBloodPressure());
+        assertFalse(latestUserStat.isEmpty());
+        assertEquals(1, latestUserStat.size());
+        assertEquals(name, latestUserStat.get(0).getUserId());
+        assertEquals(timestamp, latestUserStat.get(0).getTimestamp());
+        assertEquals(weight, latestUserStat.get(0).getWeight());
+        assertEquals(bloodPressure, latestUserStat.get(0).getBloodPressure());
     }
 
     @ParameterizedTest
@@ -85,7 +88,7 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
         QueryResultPage<UserStat> results = tested.query(queryRequest);
 
         // THEN
-        Assertions.assertEquals(expectedUserStatsNumberOfFetchedResults, results.getCount());
+        assertEquals(expectedUserStatsNumberOfFetchedResults, results.getCount());
     }
 
     private static UserStat[] prepareUserStatsArray(String userStatId, int numberOfResults) {
@@ -118,7 +121,27 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
         QueryResultPage<UserStat> results = tested.query(queryRequest);
 
         // THEN
-        Assertions.assertEquals(1, results.getCount());
-        Assertions.assertEquals(userStatId, results.getResults().get(0).getUserId());
+        assertEquals(1, results.getCount());
+        assertEquals(userStatId, results.getResults().get(0).getUserId());
+    }
+
+    @Test
+    public void shouldReturnNoResultsWhenThereAreNoCreatedRecordsAfterSpecificTimestamp() {
+        // GIVEN
+        LocalDateTime localDateTime = LocalDateTime.now();
+        UserStat userStat = new UserStat();
+        String userStatId = "ReturnResultThatWereCreatedAfterSpecificTimestamp";
+        userStat.setUserId(userStatId);
+        Long userStatTimestamp = localDateTime.toEpochSecond(ZoneOffset.MIN);
+        userStat.setTimestamp(userStatTimestamp);
+        DynamoDBMapper mapper = new DynamoDBMapper(this.dynamoDbAsyncClient);
+        mapper.save(userStat);
+        UserStatQueryRequest queryRequest = UserStatQueryRequest.builder().userId(userStatId).after_timestamp(localDateTime.minusMinutes(30L).toEpochSecond(ZoneOffset.MIN)).build();
+
+        // WHEN
+        QueryResultPage<UserStat> results = tested.query(queryRequest);
+
+        // THEN
+        assertEquals(0, results.getCount());
     }
 }
