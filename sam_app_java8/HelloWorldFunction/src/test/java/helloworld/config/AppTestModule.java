@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import dagger.BindsInstance;
 import dagger.Component;
 import helloworld.dao.LeadsDao;
+import helloworld.dao.UserStatsDao;
 
 import javax.inject.Singleton;
 
@@ -12,6 +13,8 @@ import javax.inject.Singleton;
 public interface AppTestModule extends AppModule{
 
     LeadsDao provideLeadsDao();
+
+    UserStatsDao provideUserStatsDao();
     @Component.Builder
     interface Builder {
         @BindsInstance

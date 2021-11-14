@@ -24,7 +24,7 @@ class LeadsDaoTest extends DynamoTestContainerTest {
     }
 
     @Test
-    public void test1() {
+    public void createLeads() {
         // GIVEN
         String name = "XCompany";
         String type = "Software";
