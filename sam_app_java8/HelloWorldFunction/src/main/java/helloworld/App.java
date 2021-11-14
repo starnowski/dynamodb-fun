@@ -84,7 +84,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
     }
 
     private APIGatewayProxyResponseEvent handlePostLeadsRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
-        Leads leads = objectMapper.convertValue(input.getBody(), Leads.class);
+        Leads leads = objectMapper.readValue(input.getBody(), Leads.class);
         leads = leadsDao.persist(leads);
         String output = objectMapper.writeValueAsString(leads);
         return response
@@ -93,7 +93,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
     }
 
     private APIGatewayProxyResponseEvent handlePostUserStatRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
-        UserStat userStat = objectMapper.convertValue(input.getBody(), UserStat.class);
+        UserStat userStat = objectMapper.readValue(input.getBody(), UserStat.class);
         userStat = userStatsDao.persist(userStat);
         String output = objectMapper.writeValueAsString(userStat);
         return response
@@ -102,7 +102,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
     }
 
     private APIGatewayProxyResponseEvent handlePostUserStatQueryRequestRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
-        UserStatQueryRequest queryRequest = objectMapper.convertValue(input.getBody(), UserStatQueryRequest.class);
+        UserStatQueryRequest queryRequest = objectMapper.readValue(input.getBody(), UserStatQueryRequest.class);
         QueryResultPage<UserStat> results = userStatsDao.query(queryRequest);
         UserStatSearchResponse userStatSearchResponse = new UserStatSearchResponse();
         userStatSearchResponse.setResults(results.getResults());
