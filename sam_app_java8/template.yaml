@@ -35,7 +35,7 @@ Resources:
         UserStatsSearchPost:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /user_stats/
+            Path: /user_stats/search
             Method: post
   DynamoDBLeadsTable:
     Type: 'AWS::DynamoDB::Table'
