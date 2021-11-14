@@ -69,8 +69,9 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                     .withStatusCode(200)
                     .withBody(output);
         } catch (IOException e) {
+            String output = String.format("{ \"exceptionMessage\": \"%s\" }", e.getMessage());
             return response
-                    .withBody("{}")
+                    .withBody(output)
                     .withStatusCode(500);
         }
     }
