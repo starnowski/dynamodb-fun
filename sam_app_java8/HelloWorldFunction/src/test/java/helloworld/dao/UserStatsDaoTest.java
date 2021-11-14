@@ -74,6 +74,20 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
         Assertions.assertEquals(bloodPressure, latestUserStat.get(0).getBloodPressure());
     }
 
+    @ParameterizedTest
+    @MethodSource("provideShouldReturnCorrectNumberOfResultsBasedOnLimitParameter")
+    public void shouldReturnCorrectNumberOfResultsBasedOnLimitParameter(UserStat[] userStats, UserStatQueryRequest queryRequest, int expectedUserStatsNumberOfFetchedResults) throws InterruptedException {
+        // GIVEN
+        DynamoDBMapper mapper = new DynamoDBMapper(this.dynamoDbAsyncClient);
+        mapper.batchSave(userStats);
+
+        // WHEN
+        QueryResultPage<UserStat> results = tested.query(queryRequest);
+
+        // THEN
+        Assertions.assertEquals(expectedUserStatsNumberOfFetchedResults, results.getCount());
+    }
+
     private static UserStat[] prepareUserStatsArray(String userStatId, int numberOfResults) {
         LocalDateTime localDateTime = LocalDateTime.now();
         List<UserStat> results = new ArrayList<>();
@@ -87,17 +101,24 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
         return results.toArray(new UserStat[0]);
     }
 
-    @ParameterizedTest
-    @MethodSource("provideShouldReturnCorrectNumberOfResultsBasedOnLimitParameter")
-    public void shouldReturnCorrectNumberOfResultsBasedOnLimitParameter(UserStat[] userStats, UserStatQueryRequest queryRequest, int expectedUserStatsNumberOfFetchedResults) throws InterruptedException {
+    @Test
+    public void shouldReturnResultsThatWereCreatedAfterSpecificTimestamp() {
         // GIVEN
+        LocalDateTime localDateTime = LocalDateTime.now();
+        UserStat userStat = new UserStat();
+        String userStatId = "ReturnResultThatWereCreatedAfterSpecificTimestamp";
+        userStat.setUserId(userStatId);
+        Long userStatTimestamp = localDateTime.plusMinutes(15).toEpochSecond(ZoneOffset.MIN);
+        userStat.setTimestamp(userStatTimestamp);
         DynamoDBMapper mapper = new DynamoDBMapper(this.dynamoDbAsyncClient);
-        mapper.batchSave(userStats);
+        mapper.save(userStat);
+        UserStatQueryRequest queryRequest = UserStatQueryRequest.builder().userId(userStatId).after_timestamp(localDateTime.toEpochSecond(ZoneOffset.MIN)).build();
 
         // WHEN
         QueryResultPage<UserStat> results = tested.query(queryRequest);
 
         // THEN
-        Assertions.assertEquals(expectedUserStatsNumberOfFetchedResults, results.getCount());
+        Assertions.assertEquals(1, results.getCount());
+        Assertions.assertEquals(userStatId, results.getResults().get(0).getUserId());
     }
 }
