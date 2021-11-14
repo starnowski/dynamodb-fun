@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -14,9 +15,11 @@ import lombok.NoArgsConstructor;
 @DynamoDBTable(tableName = "user_stats")
 public class UserStat {
 
+    @JsonProperty("user_id")
     private String userId;
     private Long timestamp;
     private Integer weight;
+    @JsonProperty("blood_pressure")
     private Integer bloodPressure;
 
     @DynamoDBHashKey(attributeName = "user_id")

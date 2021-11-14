@@ -1,15 +1,20 @@
 package helloworld;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import helloworld.config.AppModule;
 import helloworld.config.DaggerAppModule;
 import helloworld.dao.LeadsDao;
 import helloworld.dao.UserStatsDao;
 import helloworld.model.Leads;
+import helloworld.model.UserStat;
+import helloworld.model.UserStatQueryRequest;
+import helloworld.model.UserStatSearchResponse;
 
 import javax.inject.Inject;
 import java.io.BufferedReader;
@@ -46,8 +51,14 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                 .withHeaders(headers);
 
         try {
-            if ("leads".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
+            if ("/leads".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
                 return handlePostLeadsRequest(input, response);
+            }
+            if ("/user_stats".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
+                return handlePostUserStatRequest(input, response);
+            }
+            if ("/user_stats/search".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
+                return handlePostUserStatQueryRequestRequest(input, response);
             }
             final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
             String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
@@ -69,10 +80,30 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
         }
     }
 
-    private APIGatewayProxyResponseEvent handlePostLeadsRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) {
+    private APIGatewayProxyResponseEvent handlePostLeadsRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
         Leads leads = objectMapper.convertValue(input.getBody(), Leads.class);
-        leadsDao.persist(leads);
-        String output = String.format("{ \"name\": \"%s\", \"type\": \"%s\", \"url\": \"%s\" }", leads.getName(), leads.getType(), leads.getUrl());
+        leads = leadsDao.persist(leads);
+        String output = objectMapper.writeValueAsString(leads);
+        return response
+                .withStatusCode(200)
+                .withBody(output);
+    }
+
+    private APIGatewayProxyResponseEvent handlePostUserStatRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
+        UserStat userStat = objectMapper.convertValue(input.getBody(), UserStat.class);
+        userStat = userStatsDao.persist(userStat);
+        String output = objectMapper.writeValueAsString(userStat);
+        return response
+                .withStatusCode(200)
+                .withBody(output);
+    }
+
+    private APIGatewayProxyResponseEvent handlePostUserStatQueryRequestRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
+        UserStatQueryRequest queryRequest = objectMapper.convertValue(input.getBody(), UserStatQueryRequest.class);
+        QueryResultPage<UserStat> results = userStatsDao.query(queryRequest);
+        UserStatSearchResponse userStatSearchResponse = new UserStatSearchResponse();
+        userStatSearchResponse.setResults(results.getResults());
+        String output = objectMapper.writeValueAsString(userStatSearchResponse);
         return response
                 .withStatusCode(200)
                 .withBody(output);
