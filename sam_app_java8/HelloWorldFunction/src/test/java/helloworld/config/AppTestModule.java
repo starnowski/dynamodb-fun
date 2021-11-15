@@ -5,6 +5,7 @@ import dagger.BindsInstance;
 import dagger.Component;
 import helloworld.dao.LeadsDao;
 import helloworld.dao.UserStatsDao;
+import helloworld.handlers.UserStatsPostHandler;
 
 import javax.inject.Singleton;
 
@@ -15,6 +16,8 @@ public interface AppTestModule extends AppModule{
     LeadsDao provideLeadsDao();
 
     UserStatsDao provideUserStatsDao();
+
+    UserStatsPostHandler provideUserStatsPostHandler();
     @Component.Builder
     interface Builder {
         @BindsInstance

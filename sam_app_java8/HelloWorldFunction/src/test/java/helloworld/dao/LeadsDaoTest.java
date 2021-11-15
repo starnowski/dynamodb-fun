@@ -3,6 +3,7 @@ package helloworld.dao;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import helloworld.DynamoTestContainerTest;
 import helloworld.model.Leads;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

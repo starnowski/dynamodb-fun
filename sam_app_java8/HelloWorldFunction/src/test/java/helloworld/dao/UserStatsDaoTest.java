@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import helloworld.DynamoTestContainerTest;
 import helloworld.model.UserStat;
 import helloworld.model.UserStatQueryRequest;
 import org.junit.jupiter.api.Assertions;
