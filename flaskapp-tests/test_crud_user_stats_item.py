@@ -20,7 +20,7 @@ class TestCreateTable(unittest.TestCase):
 
         # then
         print('Response for user_stats object %s ' % response)
-        print('Response for user_stats content %s ' % response.read())
+        print('Response for user_stats content %s ' % response.text)
         json = response.json()
         print('Response json %s ' % json)
         self.assertEqual(response.status_code, 200, "Response should have status 200")
