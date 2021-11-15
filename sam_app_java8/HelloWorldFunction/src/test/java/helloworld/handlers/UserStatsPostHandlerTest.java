@@ -3,16 +3,18 @@ package helloworld.handlers;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import helloworld.DynamoTestContainerTest;
 import helloworld.model.UserStat;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -28,9 +30,10 @@ class UserStatsPostHandlerTest extends DynamoTestContainerTest {
     }
 
     @Test
-    public void createUserStats() {
+    public void createUserStats() throws JsonProcessingException {
         // GIVEN
         String name = "XCompany";
+        Date date = Calendar.getInstance().getTime();
         Long timestamp = Calendar.getInstance().getTimeInMillis();
         Integer weight = 91;
         Integer bloodPressure = 123;
@@ -45,14 +48,20 @@ class UserStatsPostHandlerTest extends DynamoTestContainerTest {
                 .withExpressionAttributeNames(ean);
         List<UserStat> latestUserStat = mapper.query(UserStat.class, queryExpression);
         Assertions.assertTrue(latestUserStat.isEmpty());
-        UserStat userStat = new UserStat();
-        userStat.setUserId(name);
-        userStat.setTimestamp(timestamp);
-        userStat.setWeight(weight);
-        userStat.setBloodPressure(bloodPressure);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        String text = sdf.format(date);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("user_id", name)
+                .put("timestamp", text)
+                .put("weight", weight)
+                .put("blood_pressure", bloodPressure);
+        //{"user_id": "1", "timestamp": "2021-11-15T00:35:26.501320", "weight": 83, "blood_pressure": 123}
+        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
+        APIGatewayProxyRequestEvent requestEvent = new APIGatewayProxyRequestEvent();
+        requestEvent.setBody(jsonObject.toString());
 
         // WHEN
-//        tested.persist(userStat);
+        tested.handlePostUserStatRequest(requestEvent, response);
 
         // THEN
         latestUserStat = mapper.query(UserStat.class, queryExpression);
