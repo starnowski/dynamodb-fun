@@ -21,7 +21,7 @@ public class AppDynamoDBModule {
         if (dynamoDBHOst != null && !dynamoDBHOst.trim().isEmpty()) {
             return AmazonDynamoDBClientBuilder.standard()
                     .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("FAKE", "FAKE")))
-                    .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://" + dynamoDBHOst + ":" + "9000", null))
+                    .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://" + dynamoDBHOst + ":" + "9000", "us-east-1"))
                     .build();
         }
         return AmazonDynamoDBClientBuilder.defaultClient();
