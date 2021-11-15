@@ -17,6 +17,7 @@ public class AppDynamoDBModule {
     @Provides
     AmazonDynamoDB dynamoDb() {
         String dynamoDBHOst = System.getProperty("DYNAMODB_HOST");
+        dynamoDBHOst = dynamoDBHOst != null && !dynamoDBHOst.trim().isEmpty() ? dynamoDBHOst : System.getenv("DYNAMODB_HOST");
         if (dynamoDBHOst != null && !dynamoDBHOst.trim().isEmpty()) {
             return AmazonDynamoDBClientBuilder.standard()
                     .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("FAKE", "FAKE")))
