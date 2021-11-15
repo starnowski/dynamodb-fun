@@ -15,6 +15,7 @@ import helloworld.model.Leads;
 import helloworld.model.UserStat;
 import helloworld.model.UserStatQueryRequest;
 import helloworld.model.UserStatSearchResponse;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.io.*;
@@ -59,9 +60,12 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
 
         try {
             if (initializationError != null) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("message", initializationError);
+                String payload = jsonObject.toString();
                 return response
                         .withStatusCode(200)
-                        .withBody(String.format("{ \"message\": \"%s\" }", initializationError));
+                        .withBody(payload);
             }
             if (input != null) {
                 if ("/leads".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
