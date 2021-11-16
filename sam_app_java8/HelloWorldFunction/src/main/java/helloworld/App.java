@@ -11,6 +11,7 @@ import helloworld.config.AppModule;
 import helloworld.config.DaggerAppModule;
 import helloworld.dao.LeadsDao;
 import helloworld.dao.UserStatsDao;
+import helloworld.handlers.UserStatsPostHandler;
 import helloworld.model.Leads;
 import helloworld.model.UserStat;
 import helloworld.model.UserStatQueryRequest;
@@ -35,6 +36,8 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
     LeadsDao leadsDao;
     @Inject
     UserStatsDao userStatsDao;
+    @Inject
+    UserStatsPostHandler userStatsPostHandler;
 
     String initializationError;
 
@@ -72,7 +75,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                     return handlePostLeadsRequest(input, response);
                 }
                 if ("/user_stats".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                    return handlePostUserStatRequest(input, response);
+                    return userStatsPostHandler.handlePostUserStatRequest(input, response);
                 }
                 if ("/user_stats/search".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
                     return handlePostUserStatQueryRequestRequest(input, response);
@@ -108,16 +111,8 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                 .withBody(output);
     }
 
-    private APIGatewayProxyResponseEvent handlePostUserStatRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
-        UserStat userStat = objectMapper.readValue(input.getBody(), UserStat.class);
-        userStat = userStatsDao.persist(userStat);
-        String output = objectMapper.writeValueAsString(userStat);
-        return response
-                .withStatusCode(200)
-                .withBody(output);
-    }
-
     private APIGatewayProxyResponseEvent handlePostUserStatQueryRequestRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
+        //TODO
         UserStatQueryRequest queryRequest = objectMapper.readValue(input.getBody(), UserStatQueryRequest.class);
         QueryResultPage<UserStat> results = userStatsDao.query(queryRequest);
         UserStatSearchResponse userStatSearchResponse = new UserStatSearchResponse();
