@@ -6,8 +6,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import helloworld.dao.UserStatsDao;
 import helloworld.model.UserStat;
+import helloworld.model.UserStatDto;
+import ma.glasnost.orika.BoundMapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 import javax.inject.Inject;
+import java.util.Date;
 
 public class UserStatsPostHandler {
 
@@ -16,16 +21,34 @@ public class UserStatsPostHandler {
     @Inject
     UserStatsDao userStatsDao;
 
+    final BoundMapperFacade<UserStatDto, UserStat> userStatDtoMapper;
+
     @Inject
     public UserStatsPostHandler() {
+        MapperFactory mapperFactory = new DefaultMapperFactory.Builder()
+                .build();
+        mapperFactory.classMap(UserStatDto.class, UserStat.class);
+        this.userStatDtoMapper = mapperFactory.getMapperFacade(UserStatDto.class, UserStat.class);
     }
 
     public APIGatewayProxyResponseEvent handlePostUserStatRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
-        UserStat userStat = objectMapper.readValue(input.getBody(), UserStat.class);
-        userStat = userStatsDao.persist(userStat);
-        String output = objectMapper.writeValueAsString(userStat);
+        UserStatDto dto = objectMapper.readValue(input.getBody(), UserStatDto.class);
+        UserStat userStat = userStatsDao.persist(mapToValue(dto));
+        String output = objectMapper.writeValueAsString(mapToDto(userStat));
         return response
                 .withStatusCode(200)
                 .withBody(output);
+    }
+
+    private UserStat mapToValue(UserStatDto dto) {
+        UserStat value = userStatDtoMapper.map(dto);
+        value.setTimestamp(dto.getTimestamp().getTime());
+        return value;
+    }
+
+    private UserStatDto mapToDto(UserStat userStat) {
+        UserStatDto dto = userStatDtoMapper.mapReverse(userStat);
+        dto.setTimestamp(new Date(userStat.getTimestamp()));
+        return dto;
     }
 }
