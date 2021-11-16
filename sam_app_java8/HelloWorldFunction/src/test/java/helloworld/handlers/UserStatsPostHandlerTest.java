@@ -34,13 +34,12 @@ class UserStatsPostHandlerTest extends DynamoTestContainerTest {
         // GIVEN
         String name = "XCompany";
         Date date = Calendar.getInstance().getTime();
-        Long timestamp = Calendar.getInstance().getTimeInMillis();
         Integer weight = 91;
         Integer bloodPressure = 123;
         DynamoDBMapper mapper = new DynamoDBMapper(DynamoTestContainerTest.dynamoDbAsyncClient);
         Map<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
         eav.put(":val1", new AttributeValue().withS(name));
-        eav.put(":val2", new AttributeValue().withN(timestamp.toString()));
+        eav.put(":val2", new AttributeValue().withN(Long.toString(date.getTime())));
         Map<String, String> ean = new HashMap<String, String>();
         ean.put("#t_attribute", "timestamp");
         DynamoDBQueryExpression<UserStat> queryExpression = new DynamoDBQueryExpression<UserStat>()
@@ -48,7 +47,8 @@ class UserStatsPostHandlerTest extends DynamoTestContainerTest {
                 .withExpressionAttributeNames(ean);
         List<UserStat> latestUserStat = mapper.query(UserStat.class, queryExpression);
         Assertions.assertTrue(latestUserStat.isEmpty());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         String text = sdf.format(date);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("user_id", name)
@@ -68,8 +68,33 @@ class UserStatsPostHandlerTest extends DynamoTestContainerTest {
         assertFalse(latestUserStat.isEmpty());
         assertEquals(1, latestUserStat.size());
         assertEquals(name, latestUserStat.get(0).getUserId());
-        assertEquals(timestamp, latestUserStat.get(0).getTimestamp());
+        assertEquals(date.getTime(), latestUserStat.get(0).getTimestamp());
         assertEquals(weight, latestUserStat.get(0).getWeight());
         assertEquals(bloodPressure, latestUserStat.get(0).getBloodPressure());
+    }
+
+    @Test
+    public void createUserStatsProdJson() throws JsonProcessingException {
+        // GIVEN
+        String name = "ProdXXX";
+        DynamoDBMapper mapper = new DynamoDBMapper(DynamoTestContainerTest.dynamoDbAsyncClient);
+        Map<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+        eav.put(":val1", new AttributeValue().withS(name));
+        DynamoDBQueryExpression<UserStat> queryExpression = new DynamoDBQueryExpression<UserStat>()
+                .withKeyConditionExpression("user_id = :val1").withExpressionAttributeValues(eav);
+        List<UserStat> latestUserStat = mapper.query(UserStat.class, queryExpression);
+        Assertions.assertTrue(latestUserStat.isEmpty());
+        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
+        APIGatewayProxyRequestEvent requestEvent = new APIGatewayProxyRequestEvent();
+        requestEvent.setBody("{\"user_id\": \"ProdXXX\", \"timestamp\": \"2021-11-16T01:03:12.055701\", \"weight\": 83, \"blood_pressure\": 123}");
+
+        // WHEN
+        tested.handlePostUserStatRequest(requestEvent, response);
+
+        // THEN
+        latestUserStat = mapper.query(UserStat.class, queryExpression);
+        assertFalse(latestUserStat.isEmpty());
+        assertEquals(1, latestUserStat.size());
+        assertEquals(name, latestUserStat.get(0).getUserId());
     }
 }

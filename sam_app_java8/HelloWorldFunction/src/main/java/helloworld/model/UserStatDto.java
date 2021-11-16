@@ -9,7 +9,7 @@ public class UserStatDto {
 
     @JsonProperty("user_id")
     private String userId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
     private Date timestamp;
 
     private Integer weight;
