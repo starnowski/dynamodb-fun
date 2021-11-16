@@ -27,7 +27,6 @@ public class UserStatsPostHandler {
     public UserStatsPostHandler() {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder()
                 .build();
-        mapperFactory.classMap(UserStatDto.class, UserStat.class);
         this.userStatDtoMapper = mapperFactory.getMapperFacade(UserStatDto.class, UserStat.class);
     }
 
@@ -42,13 +41,13 @@ public class UserStatsPostHandler {
 
     private UserStat mapToValue(UserStatDto dto) {
         UserStat value = userStatDtoMapper.map(dto);
-        value.setTimestamp(dto.getTimestamp().getTime());
+        value.setTimestamp(dto.getTimestamp() == null ? null : dto.getTimestamp().getTime());
         return value;
     }
 
     private UserStatDto mapToDto(UserStat userStat) {
         UserStatDto dto = userStatDtoMapper.mapReverse(userStat);
-        dto.setTimestamp(new Date(userStat.getTimestamp()));
+        dto.setTimestamp(userStat == null ? null : new Date(userStat.getTimestamp()));
         return dto;
     }
 }
