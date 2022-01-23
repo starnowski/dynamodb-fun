@@ -2,6 +2,8 @@
 
 [![Run tests for tutorial project](https://github.com/starnowski/dynamodb-fun/actions/workflows/tutorial.yml/badge.svg)](https://github.com/starnowski/dynamodb-fun/actions/workflows/tutorial.yml)
 [![Run tests for flask project](https://github.com/starnowski/dynamodb-fun/actions/workflows/flaskapp.yml/badge.svg)](https://github.com/starnowski/dynamodb-fun/actions/workflows/flaskapp.yml)
+[![Run tests for SAM java8 project](https://github.com/starnowski/dynamodb-fun/actions/workflows/sam_app_java8.yml/badge.svg)](https://github.com/starnowski/dynamodb-fun/actions/workflows/sam_app_java8.yml)
+[![Run tests for SAM project](https://github.com/starnowski/dynamodb-fun/actions/workflows/sam.yml/badge.svg)](https://github.com/starnowski/dynamodb-fun/actions/workflows/sam.yml)
 
 ### Deploy dynamodb locally
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
