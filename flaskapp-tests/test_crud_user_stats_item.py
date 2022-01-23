@@ -12,7 +12,7 @@ class TestCreateTable(unittest.TestCase):
         self.test_start = datetime.utcnow().isoformat()
 
     def print_json(self, json, text):
-        print('Test : %s Response json %s ' % json, text)
+        print('Test : %s Response json %s ' % (json, text))
 
     def steps_1_create_user_stat(self):
         # given
