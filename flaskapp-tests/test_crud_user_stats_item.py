@@ -11,6 +11,9 @@ class TestCreateTable(unittest.TestCase):
         print("FLASK_APP_HOST host %s " % self.host)
         self.test_start = datetime.utcnow().isoformat()
 
+    def print_json(self, json, text):
+        print('Test : %s Response json %s ' % json, text)
+
     def steps_1_create_user_stat(self):
         # given
         payload = {'user_id': '1', 'timestamp': datetime.utcnow().isoformat(), 'weight': 83, 'blood_pressure': 123}
@@ -22,7 +25,7 @@ class TestCreateTable(unittest.TestCase):
         print('Response for user_stats object %s ' % response)
         print('Response for user_stats content %s ' % response.text)
         json = response.json()
-        print('Response json %s ' % json)
+        self.print_json(json, "steps_1_create_user_stat")
         self.assertEqual(response.status_code, 200, "Response should have status 200")
         self.assertTrue('user_id' in json, "The user_id should be part of response")
         self.assertTrue('timestamp' in json, "The timestamp should be part of response")
@@ -42,7 +45,7 @@ class TestCreateTable(unittest.TestCase):
         # then
         print('Response for user_stats search object %s ' % response)
         json = response.json()
-        print('Response json %s ' % json)
+        self.print_json(json, "steps_2_search_user_stat")
         self.assertEqual(response.status_code, 200, "Response should have status 200")
         self.assertTrue('results' in json, "The results should be part of response")
         stat = json['results'][0]
@@ -69,7 +72,7 @@ class TestCreateTable(unittest.TestCase):
         # then
         print('Response for user_stats search object %s ' % response)
         json = response.json()
-        print('Response json %s ' % json)
+        self.print_json(json, "steps_3_search_get_multiple_user_stat")
         self.assertEqual(response.status_code, 200, "Response should have status 200")
         self.assertTrue('results' in json, "The results should be part of response")
         stat = json['results'][0]
@@ -92,7 +95,7 @@ class TestCreateTable(unittest.TestCase):
         # then
         print('Response for user_stats search object %s ' % response)
         json = response.json()
-        print('Response json %s ' % json)
+        self.print_json(json, "steps_4_search_get_user_stat_with_limit")
         self.assertEqual(response.status_code, 200, "Response should have status 200")
         self.assertTrue('results' in json, "The results should be part of response")
         self.assertEqual(len(json['results']), 1, "The array length should be correct")
@@ -114,7 +117,7 @@ class TestCreateTable(unittest.TestCase):
         # then
         print('Response for user_stats search object %s ' % response)
         json = response.json()
-        print('Response json %s ' % json)
+        self.print_json(json, "steps_5_search_get_user_stat_after_timestamp")
         self.assertEqual(response.status_code, 200, "Response should have status 200")
         self.assertTrue('results' in json, "The results should be part of response")
         self.assertEqual(len(json['results']), 1, "The array length should be correct")
