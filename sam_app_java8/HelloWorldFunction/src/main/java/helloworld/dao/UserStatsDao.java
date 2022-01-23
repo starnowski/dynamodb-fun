@@ -5,8 +5,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
-import com.amazonaws.services.dynamodbv2.model.Condition;
 import helloworld.model.UserStat;
 import helloworld.model.UserStatQueryRequest;
 
@@ -42,10 +40,10 @@ public class UserStatsDao {
             keyConditionExpressionBuilder.append(" and #t_attribute >= :val2");
             eav.put(":val2", new AttributeValue().withN(queryRequest.getAfter_timestamp().toString()));
             ean.put("#t_attribute", "timestamp");
-            queryExpression.withRangeKeyCondition("timestamp",
-                    new Condition()
-                            .withComparisonOperator(ComparisonOperator.GE)
-                            .withAttributeValueList(new AttributeValue().withN(queryRequest.getAfter_timestamp().toString())));
+//            queryExpression.withRangeKeyCondition("timestamp",
+//                    new Condition()
+//                            .withComparisonOperator(ComparisonOperator.GE)
+//                            .withAttributeValueList(new AttributeValue().withN(queryRequest.getAfter_timestamp().toString())));
         }
         if (!eav.isEmpty()) {
             queryExpression.withExpressionAttributeValues(eav);
