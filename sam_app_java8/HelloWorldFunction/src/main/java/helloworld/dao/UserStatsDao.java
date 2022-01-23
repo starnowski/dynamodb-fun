@@ -48,7 +48,7 @@ public class UserStatsDao {
             queryExpression.withExpressionAttributeNames(ean);
         }
         queryExpression.withKeyConditionExpression(keyConditionExpressionBuilder.toString());
-        queryExpression.withScanIndexForward(false);
+        queryExpression.withScanIndexForward(true);
         return mapper.queryPage(UserStat.class, queryExpression);
     }
 }
