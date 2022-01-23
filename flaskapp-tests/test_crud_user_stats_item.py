@@ -64,7 +64,7 @@ class TestCreateTable(unittest.TestCase):
     def steps_3_search_get_multiple_user_stat(self):
         # given
         payload1 = {'user_id': '1', 'timestamp': (self.test_start + timedelta(minutes=1)).isoformat(), 'weight': 83, 'blood_pressure': 109}
-        payload2 = {'user_id': '1', 'timestamp': (self.test_start + timedelta(minutes=1)).isoformat(), 'weight': 82, 'blood_pressure': 114}
+        payload2 = {'user_id': '1', 'timestamp': (self.test_start + timedelta(minutes=2)).isoformat(), 'weight': 82, 'blood_pressure': 114}
         self.print_json_payload(payload1, 'steps_3_search_get_multiple_user_stat payload1')
         response = requests.post(self.host + '/user_stats', json=payload1)
         self.print_json_payload(payload2, 'steps_3_search_get_multiple_user_stat payload2')
