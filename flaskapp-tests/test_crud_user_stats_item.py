@@ -14,9 +14,14 @@ class TestCreateTable(unittest.TestCase):
     def print_json(self, json, text):
         print('Test : %s Response json %s ' % (text, json))
 
+    def print_json_payload(self, json, text):
+        print('Test : %s Payload json %s ' % (text, json))
+
     def steps_1_create_user_stat(self):
         # given
         payload = {'user_id': '1', 'timestamp': datetime.utcnow().isoformat(), 'weight': 83, 'blood_pressure': 123}
+        self.print_json_payload(payload, 'steps_1_create_user_stat')
+
 
         # when
         response = requests.post(self.host + '/user_stats', json=payload)
@@ -60,7 +65,9 @@ class TestCreateTable(unittest.TestCase):
         # given
         payload1 = {'user_id': '1', 'timestamp': datetime.utcnow().isoformat(), 'weight': 83, 'blood_pressure': 109}
         payload2 = {'user_id': '1', 'timestamp': datetime.utcnow().isoformat(), 'weight': 82, 'blood_pressure': 114}
+        self.print_json_payload(payload1, 'steps_3_search_get_multiple_user_stat payload1')
         response = requests.post(self.host + '/user_stats', json=payload1)
+        self.print_json_payload(payload2, 'steps_3_search_get_multiple_user_stat payload2')
         self.assertEqual(response.status_code, 200, "Second request should be successful")
         response = requests.post(self.host + '/user_stats', json=payload2)
         self.assertEqual(response.status_code, 200, "Third request should be successful")
@@ -107,6 +114,7 @@ class TestCreateTable(unittest.TestCase):
         user_stat_timestamp = test_time + timedelta(minutes=15)
         print ("user_stat_timestamp ", user_stat_timestamp, " after_timestamp ", after_timestamp)
         payload = {'user_id': '1', 'timestamp': user_stat_timestamp.isoformat(), 'weight': 81, 'blood_pressure': 156}
+        self.print_json_payload(payload, 'steps_5_search_get_user_stat_after_timestamp payload')
         response = requests.post(self.host + '/user_stats', json=payload)
         self.assertEqual(response.status_code, 200, "Request should be successful")
         search_payload = {'user_id': '1', 'limit': 1, 'after_timestamp': after_timestamp.isoformat()}
