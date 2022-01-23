@@ -9,7 +9,7 @@ class TestCreateTable(unittest.TestCase):
     def setUp(self):
         self.host = os.environ['FLASK_APP_HOST']
         print("FLASK_APP_HOST host %s " % self.host)
-        self.test_start = datetime.utcnow().isoformat()
+        self.test_start = datetime.utcnow()
 
     def print_json(self, json, text):
         print('Test : %s Response json %s ' % (text, json))
@@ -19,7 +19,7 @@ class TestCreateTable(unittest.TestCase):
 
     def steps_1_create_user_stat(self):
         # given
-        payload = {'user_id': '1', 'timestamp': datetime.utcnow().isoformat(), 'weight': 83, 'blood_pressure': 123}
+        payload = {'user_id': '1', 'timestamp': self.test_start.isoformat(), 'weight': 83, 'blood_pressure': 123}
         self.print_json_payload(payload, 'steps_1_create_user_stat')
 
 
@@ -63,8 +63,8 @@ class TestCreateTable(unittest.TestCase):
 
     def steps_3_search_get_multiple_user_stat(self):
         # given
-        payload1 = {'user_id': '1', 'timestamp': datetime.utcnow().isoformat(), 'weight': 83, 'blood_pressure': 109}
-        payload2 = {'user_id': '1', 'timestamp': datetime.utcnow().isoformat(), 'weight': 82, 'blood_pressure': 114}
+        payload1 = {'user_id': '1', 'timestamp': (self.test_start + timedelta(minutes=1)).isoformat(), 'weight': 83, 'blood_pressure': 109}
+        payload2 = {'user_id': '1', 'timestamp': (self.test_start + timedelta(minutes=1)).isoformat(), 'weight': 82, 'blood_pressure': 114}
         self.print_json_payload(payload1, 'steps_3_search_get_multiple_user_stat payload1')
         response = requests.post(self.host + '/user_stats', json=payload1)
         self.print_json_payload(payload2, 'steps_3_search_get_multiple_user_stat payload2')
@@ -109,7 +109,7 @@ class TestCreateTable(unittest.TestCase):
 
     def steps_5_search_get_user_stat_after_timestamp(self):
         # given
-        test_time = datetime.utcnow()
+        test_time = self.test_start
         after_timestamp = test_time + timedelta(minutes=5)
         user_stat_timestamp = test_time + timedelta(minutes=15)
         print ("user_stat_timestamp ", user_stat_timestamp, " after_timestamp ", after_timestamp)
