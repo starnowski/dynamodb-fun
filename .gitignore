@@ -121,3 +121,5 @@ modules.xml
 
 ## AWS SAM
 **/.aws-sam
+
+**/node_modules/*
