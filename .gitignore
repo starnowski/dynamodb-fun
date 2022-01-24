@@ -125,3 +125,4 @@ modules.xml
 **/node_modules/*
 
 **/.esbuild/*
+**/.serverless/*
