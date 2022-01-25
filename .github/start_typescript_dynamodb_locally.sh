@@ -36,7 +36,8 @@ cat "${tmpfile}"
 
 pushd "${SCRIPT_DIR}/../typescript-dynamodb"
 #sam local start-api --env-vars "${tmpfile}" &
-sls offline start &
+#sls offline start &
+npm run start-locally &
 popd
 
 waitUntilSLSLocalIsReady
