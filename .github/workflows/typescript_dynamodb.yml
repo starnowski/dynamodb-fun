@@ -21,6 +21,7 @@ jobs:
         with:
           node-version: '14'
       - run: cd typescript-dynamodb && npm install
+      - run: npm install serverless -g
       - run: ./.github/start_typescript_dynamodb_locally.sh
         env:
           AWS_DEFAULT_REGION: us-east-1
