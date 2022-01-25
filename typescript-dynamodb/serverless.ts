@@ -1,6 +1,7 @@
 import type { AWS } from '@serverless/typescript';
 
 import hello from '@functions/hello';
+import leads from '@functions/leads';
 
 const serverlessConfiguration: AWS = {
   service: 'typescript-dynamodb',
@@ -22,7 +23,7 @@ const serverlessConfiguration: AWS = {
     lambdaHashingVersion: '20201221',
   },
   // import the function via paths
-  functions: { hello },
+  functions: { hello, leads },
   package: { individually: true },
   custom: {
     esbuild: {
