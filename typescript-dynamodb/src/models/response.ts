@@ -1,33 +1,33 @@
 import { Any } from "json-schema-to-ts/lib/meta-types";
 
 
-interface IUserStat {
+export interface IUserStat {
     user_id: string;
     timestamp: number;
     weight?: number;
     blood_pressure?: number;
 }
 
-class UserStat implements IUserStat{
+export class UserStat implements IUserStat{
     user_id: string;
     timestamp: number;
     weight?: number;
     blood_pressure?: number;
 }
 
-interface IResponse {
+export interface IResponse {
     results: IUserStat[];
 }
 
-interface IUserStatQueryRequest {
+export interface IUserStatQueryRequest {
 
     userId: string;
     after_timestamp?: number;
     limit?: number;
 }
 
-interface Leads {
-
+export interface Lead {
+    
     name: string;
     type: string;
     url?: string;
