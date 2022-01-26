@@ -37,6 +37,34 @@ describe("LeadsDao", () => {
     expect(result.type).toEqual("secret");
     expect(result.url).toEqual("www.yyy.eu");
   });
+
+  test("should save lead without url", async () => {
+    // given
+    let lead = {
+      name: "xxx",
+      type: "xxx-business",
+      url: "www.aaaa.com"
+    };
+    let databaseService = sinon.createStubInstance(DatabaseService);
+    let tested = new LeadsDao(databaseService);
+    let output = {
+      Attributes: {
+        name: "2233",
+        type: "true"
+      }
+    };
+    let promise = new Promise<PutItemOutput>(resolve => resolve(output));
+    databaseService.create.returns(promise);
+    
+    // when
+    let result = await tested.persist(lead);
+
+    // then
+    expect(result).toBeDefined();
+    expect(result.name).toEqual("2233");
+    expect(result.type).toEqual("true");
+    expect(result.url).toBeNull();
+  });
 });
 
 
