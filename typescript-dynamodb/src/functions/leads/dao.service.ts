@@ -14,6 +14,13 @@ export default class LeadsDao {
                 type: lead.type,
                 url: lead.url
             }
-        }).then();
+        }).then((value) => {
+            value.Attributes;
+            return {
+                name: value.Attributes.name,
+                type: value.Attributes.type,
+                url: value.Attributes.url !== undefined ? value.Attributes.url : null
+            };
+        } );
     }
 }
