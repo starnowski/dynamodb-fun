@@ -1,9 +1,10 @@
 import * as AWS from 'aws-sdk';
 import ResponseModel from 'src/models/response';
+import { Service } from 'typedi';
 
 // Put
 type PutItem = AWS.DynamoDB.DocumentClient.PutItemInput;
-type PutItemOutput = AWS.DynamoDB.DocumentClient.PutItemOutput;
+export type PutItemOutput = AWS.DynamoDB.DocumentClient.PutItemOutput;
 
 // Batch write
 type BatchWrite = AWS.DynamoDB.DocumentClient.BatchWriteItemInput;
@@ -31,6 +32,7 @@ AWS.config.update({ region: "eu-west-1" });
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
+@Service()
 export default class DatabaseService {
 
     create = async(params: PutItem): Promise<PutItemOutput> => {
@@ -81,4 +83,3 @@ export default class DatabaseService {
         }
     }
 }
-

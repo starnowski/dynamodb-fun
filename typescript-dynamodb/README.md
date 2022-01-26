@@ -97,3 +97,11 @@ Any tsconfig.json can be used, but if you do, set the environment variable `TS_N
 
 ### Links
 https://levelup.gitconnected.com/creating-a-simple-serverless-application-using-typescript-and-aws-part-1-be2188f5ff93
+
+#### testing framework sinon
+https://sinonjs.org/
+
+
+#### IoC for Typescript
+https://levelup.gitconnected.com/dependency-injection-in-typescript-2f66912d143c
+https://github.com/mertturkmenoglu/typescript-dependency-injection
