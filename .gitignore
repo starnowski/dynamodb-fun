@@ -126,3 +126,5 @@ modules.xml
 
 **/.esbuild/*
 **/.serverless/*
+
+**/coverage/*
