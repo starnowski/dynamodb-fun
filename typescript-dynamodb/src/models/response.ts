@@ -1,6 +1,3 @@
-import { Any } from "json-schema-to-ts/lib/meta-types";
-
-
 export interface IUserStat {
     user_id: string;
     timestamp: number;

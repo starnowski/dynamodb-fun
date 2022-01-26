@@ -4,12 +4,13 @@
     "experimentalDecorators": true,
     "lib": ["ESNext"],
     "moduleResolution": "node",
-    "noUnusedLocals": true,
+    "noUnusedLocals": true, // Turn off in case to resolve TS6133 error
     "noUnusedParameters": true,
     "removeComments": true,
     "sourceMap": true,
     "target": "ES2020",
-    "outDir": "lib"
+    "outDir": "lib",
+    "esModuleInterop": true
   },
   "include": ["src/**/*.ts", "serverless.ts"],
   "exclude": [

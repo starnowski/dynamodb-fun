@@ -1,5 +1,5 @@
 import * as AWS from 'aws-sdk';
-import ResponseModel from 'src/models/response';
+import ResponseModel from '@models/response';
 import { Service } from 'typedi';
 
 // Put
@@ -25,8 +25,6 @@ type GetItemOutput = AWS.DynamoDB.DocumentClient.GetItemOutput;
 // Delete
 type DeleteItem = AWS.DynamoDB.DocumentClient.DeleteItemInput;
 type DeleteItemOutput = AWS.DynamoDB.DocumentClient.DeleteItemOutput;
-
-type Item = {[index: string]: string};
 
 AWS.config.update({ region: "eu-west-1" });
 
