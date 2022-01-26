@@ -33,9 +33,9 @@ const documentClient = new AWS.DynamoDB.DocumentClient();
 @Service()
 export default class DatabaseService {
 
-    create = async(params: PutItem): Promise<PutItemOutput> => {
+    create(params: PutItem): Promise<PutItemOutput> {
         try {
-            return await documentClient.put(params).promise();
+            return documentClient.put(params).promise();
         } catch (error) {
             throw new ResponseModel({}, 500, `create-error: ${error}`);
         }

@@ -26,8 +26,7 @@ describe("LeadsDao", () => {
       }
     };
     let promise = new Promise<PutItemOutput>(resolve => resolve(output));
-    sinon.stub(databaseService, "create").returns(promise);
-    
+    databaseService.create.returns(promise);
     
     // when
     let result = await tested.persist(lead);
