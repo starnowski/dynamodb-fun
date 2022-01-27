@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Lead } from "src/models/response";
 import DatabaseService from "src/services/database.services";
 import { inject, injectable } from "tsyringe";

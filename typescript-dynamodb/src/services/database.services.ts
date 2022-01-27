@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import * as AWS from 'aws-sdk';
 import ResponseModel from '@models/response';
 import { injectable } from 'tsyringe';
