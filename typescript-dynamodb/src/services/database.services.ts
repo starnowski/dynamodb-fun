@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import * as AWS from 'aws-sdk';
 import ResponseModel from '@models/response';
 import { injectable } from 'tsyringe';
+import IConfig from './config.interface';
 
 // Put
 type PutItem = AWS.DynamoDB.DocumentClient.PutItemInput;
@@ -27,7 +28,13 @@ type GetItemOutput = AWS.DynamoDB.DocumentClient.GetItemOutput;
 type DeleteItem = AWS.DynamoDB.DocumentClient.DeleteItemInput;
 type DeleteItemOutput = AWS.DynamoDB.DocumentClient.DeleteItemOutput;
 
-AWS.config.update({ region: "eu-west-1" });
+const config: IConfig = { region: "eu-west-1" };
+if (process.env.STAGE === process.env.DYNAMODB_LOCAL_STAGE) {
+    config.accessKeyId = process.env.DYNAMODB_LOCAL_ACCESS_KEY_ID; 
+    config.secretAccessKey = process.env.DYNAMODB_LOCAL_SECRET_ACCESS_KEY; 
+    config.endpoint = process.env.DYNAMODB_LOCAL_ENDPOINT;
+}
+AWS.config.update(config);
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
