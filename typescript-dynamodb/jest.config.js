@@ -11,6 +11,8 @@ module.exports = {
         '@functions/(.*)$': '<rootDir>/src/functions/$1',
         '@services/(.*)$': '<rootDir>/src/services/$1',
         '@models/(.*)$': '<rootDir>/src/models/$1',
+        '@libs/(.*)$': '<rootDir>/src/libs/$1',
+        '@src/(.*)$': '<rootDir>/src/$1'
       },
     collectCoverage: true,
     verbose: true,

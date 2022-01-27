@@ -5,7 +5,7 @@ import { middyfy } from '@libs/lambda';
 import { Lead } from '@models/response';
 import LeadsDao from './dao.service';
 import schema from './schema';
-import { diContainer } from 'src/DIRegister';
+import { diContainer } from '@src/DIRegister';
 
 
 const leads: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
