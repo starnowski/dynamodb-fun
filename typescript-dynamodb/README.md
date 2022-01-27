@@ -120,3 +120,6 @@ curl --location --request POST 'http://localhost:3000/dev/leads' \
 
 ### Great tutorial about labmda with DI dependency injection
 https://towardsaws.com/my-first-lambda-a-story-of-clean-architecture-caching-di-and-serverless-9d9dd400e5cb
+
+### Mocking DI dependency injection
+https://tech.gc.com/dependency-injection/
