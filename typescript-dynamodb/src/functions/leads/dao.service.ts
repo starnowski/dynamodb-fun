@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-import { Lead } from "src/models/response";
-import DatabaseService from "src/services/database.services";
+import { Lead } from "@models/response";
+import DatabaseService from "@services/database.services";
 import { inject, injectable } from "tsyringe";
 // import { Inject, Service } from "typedi";
 
