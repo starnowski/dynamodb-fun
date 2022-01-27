@@ -15,22 +15,14 @@ function waitUntilSLSLocalIsReady {
     done
     set -e
 }
-tmpfile=$(mktemp)
-ifconfig
-#DYNAMODB_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
-DYNAMODB_HOST=`ifconfig eth0 | grep "inet\b" | cut -d: -f2 | awk '{print $1;}'`
-DYNAMODB_HOST=`ifconfig eth0 | grep 'inet' | cut -d' ' -f2`
-DYNAMODB_HOST=`ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1`
 
 export STAGE="DYNAMODB_LOCAL"
 export DYNAMODB_LOCAL_STAGE="DYNAMODB_LOCAL"
 export DYNAMODB_LOCAL_ACCESS_KEY_ID="DUMMYIDEXAMPLE"
 export DYNAMODB_LOCAL_SECRET_ACCESS_KEY="DUMMYEXAMPLEKEY"
-export DYNAMODB_LOCAL_STAGE="${DYNAMODB_HOST}"
+export DYNAMODB_LOCAL_STAGE="127.0.0.1:9000"
 
 pushd "${SCRIPT_DIR}/../typescript-dynamodb"
-#sam local start-api --env-vars "${tmpfile}" &
-#sls offline start &
 npm run start-locally &
 popd
 
