@@ -36,6 +36,7 @@ describe("Leads handler", () => {
 
         // then
         expect(result.statusCode).toEqual(200);
+        expect(result.body).toEqual(JSON.stringify(lead));
     });
 
     afterEach(() => {
