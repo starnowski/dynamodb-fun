@@ -1,6 +1,7 @@
 import * as AWS from 'aws-sdk';
 import ResponseModel from '@models/response';
-import { Service } from 'typedi';
+import { injectable } from 'tsyringe';
+// import { Service } from 'typedi';
 
 // Put
 type PutItem = AWS.DynamoDB.DocumentClient.PutItemInput;
@@ -30,7 +31,8 @@ AWS.config.update({ region: "eu-west-1" });
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
-@Service()
+// @Service()
+@injectable()
 export default class DatabaseService {
 
     create(params: PutItem): Promise<PutItemOutput> {
@@ -41,43 +43,43 @@ export default class DatabaseService {
         }
     }
 
-    batchCreate = async(params: BatchWrite): Promise<BatchWriteOutPut> => {
-        try {
-            return await documentClient.batchWrite(params).promise();
-        } catch (error) {
-            throw new ResponseModel({}, 500, `batch-write-error: ${error}`);
-        }
-    }
+    // batchCreate = async(params: BatchWrite): Promise<BatchWriteOutPut> => {
+    //     try {
+    //         return await documentClient.batchWrite(params).promise();
+    //     } catch (error) {
+    //         throw new ResponseModel({}, 500, `batch-write-error: ${error}`);
+    //     }
+    // }
 
-    update = async (params: UpdateItem): Promise<UpdateItemOutPut> => {
-        try {
-            return await documentClient.update(params).promise();
-        } catch (error) {
-            throw new ResponseModel({}, 500, `update-error: ${error}`);
-        }
-    }
+    // update = async (params: UpdateItem): Promise<UpdateItemOutPut> => {
+    //     try {
+    //         return await documentClient.update(params).promise();
+    //     } catch (error) {
+    //         throw new ResponseModel({}, 500, `update-error: ${error}`);
+    //     }
+    // }
 
-    query = async (params: QueryItem): Promise<QueryItemOutput> => {
-        try {
-            return await documentClient.query(params).promise();
-        } catch (error) {
-            throw new ResponseModel({}, 500, `query-error: ${error}`);
-        }
-    }
+    // query = async (params: QueryItem): Promise<QueryItemOutput> => {
+    //     try {
+    //         return await documentClient.query(params).promise();
+    //     } catch (error) {
+    //         throw new ResponseModel({}, 500, `query-error: ${error}`);
+    //     }
+    // }
 
-    get = async (params: GetItem): Promise<GetItemOutput> => {
-        try {
-            return await documentClient.get(params).promise();
-        } catch (error) {
-            throw new ResponseModel({}, 500, `get-error: ${error}`);
-        }
-    }
+    // get = async (params: GetItem): Promise<GetItemOutput> => {
+    //     try {
+    //         return await documentClient.get(params).promise();
+    //     } catch (error) {
+    //         throw new ResponseModel({}, 500, `get-error: ${error}`);
+    //     }
+    // }
 
-    delete = async (params: DeleteItem): Promise<DeleteItemOutput> => {
-        try {
-            return await documentClient.delete(params).promise();
-        } catch (error) {
-            throw new ResponseModel({}, 500, `delete-error: ${error}`);
-        }
-    }
+    // delete = async (params: DeleteItem): Promise<DeleteItemOutput> => {
+    //     try {
+    //         return await documentClient.delete(params).promise();
+    //     } catch (error) {
+    //         throw new ResponseModel({}, 500, `delete-error: ${error}`);
+    //     }
+    // }
 }

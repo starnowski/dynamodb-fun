@@ -1,12 +1,20 @@
 import { Lead } from "src/models/response";
 import DatabaseService from "src/services/database.services";
-import { Service } from "typedi";
+import { inject, injectable } from "tsyringe";
+// import { Inject, Service } from "typedi";
 
-@Service()
+// @Service()
+@injectable()
 export default class LeadsDao {
 
-    constructor(private readonly databaseService: DatabaseService) { }
+    constructor(
+        // @Inject() 
+        @inject("DatabaseService")
+    public databaseService: DatabaseService) { }
+
     persist(lead:Lead):Promise<Lead>  {
+        console.log("databaseService");
+        console.log(this.databaseService);
         return this.databaseService.create({
             TableName: "leads",
             Item: {

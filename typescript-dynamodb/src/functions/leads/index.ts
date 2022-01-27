@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import schema from './schema';
 import { handlerPath } from '@libs/handlerResolver';
 

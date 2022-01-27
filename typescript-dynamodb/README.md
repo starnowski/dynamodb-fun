@@ -105,3 +105,18 @@ https://sinonjs.org/
 #### IoC for Typescript
 https://levelup.gitconnected.com/dependency-injection-in-typescript-2f66912d143c
 https://github.com/mertturkmenoglu/typescript-dependency-injection
+
+
+curl --location --request POST 'http://localhost:3000/dev/leads' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Frederic",
+    "url": "www.dog.com"
+}'
+
+
+{"message":"Hello Frederic, welcome to the exciting Serverless world!","event":{"body":{"name":"Frederic","url":"www.dog.com"},"headers":{"Host":"localhost:3000","User-Agent":"curl/7.68.0","Accept":"*/*","Content-Type":"application/json","Content-Length":"52"},"httpMethod":"POST","isBase64Encoded":false,"multiValueHeaders":{"Host":["localhost:3000"],"User-Agent":["curl/7.68.0"],"Accept":["*/*"],"Content-Type":["application/json"],"Content-Length":["52"]},"multiValueQueryStringParameters":null,"path":"/leads","pathParameters":null,"queryStringParameters":null,"requestContext":{"accountId":"offlineContext_accountId","apiId":"offlineContext_apiId","authorizer":{"principalId":"offlineContext_authorizer_principalId"},"domainName":"offlineContext_domainName","domainPrefix":"offlineContext_domainPrefix","extendedRequestId":"ckyw6fiz60000y6xje5qddckr","httpMethod":"POST","identity":{"accessKey":null,"accountId":"offlineContext_accountId","apiKey":"offlineContext_apiKey","apiKeyId":"offlineContext_apiKeyId","caller":"offlineContext_caller","cognitoAuthenticationProvider":"offlineContext_cognitoAuthenticationProvider","cognitoAuthenticationType":"offlineContext_cognitoAuthenticationType","cognitoIdentityId":"offlineContext_cognitoIdentityId","cognitoIdentityPoolId":"offlineContext_cognitoIdentityPoolId","principalOrgId":null,"sourceIp":"127.0.0.1","user":"offlineContext_user","userAgent":"curl/7.68.0","userArn":"offlineContext_userArn"},"path":"/leads","protocol":"HTTP/1.1","requestId":"ckyw6fiz70001y6xj4q6i3joo","requestTime":"27/Jan/2022:00:26:41 +0100","requestTimeEpoch":1643239601099,"resourceId":"offlineContext_resourceId","resourcePath":"/dev/leads","stage":"dev"},"resource":"/leads","rawBody":"{\n    \"name\": \"Frederic\",\n    \"url\": \"www.dog.com\"\n}"}}
+
+
+### Great tutorial about labmda with DI dependency injection
+https://towardsaws.com/my-first-lambda-a-story-of-clean-architecture-caching-di-and-serverless-9d9dd400e5cb

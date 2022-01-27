@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import type { AWS } from '@serverless/typescript';
 
 import leads from '@functions/leads';
@@ -34,6 +35,9 @@ const serverlessConfiguration: AWS = {
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
+    },
+    esbuildPluginTsc: {
+      force: true
     },
     ['serverless-offline']: {
           httpPort: 3000,
