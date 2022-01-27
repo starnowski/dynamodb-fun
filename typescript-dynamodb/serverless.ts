@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import type { AWS } from '@serverless/typescript';
 
 import leads from '@functions/leads';

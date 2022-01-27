@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import * as AWS from 'aws-sdk';
 import ResponseModel from '@models/response';
 import { injectable } from 'tsyringe';
-// import { Service } from 'typedi';
 
 // Put
 type PutItem = AWS.DynamoDB.DocumentClient.PutItemInput;
@@ -32,7 +31,6 @@ AWS.config.update({ region: "eu-west-1" });
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
-// @Service()
 @injectable()
 export default class DatabaseService {
 

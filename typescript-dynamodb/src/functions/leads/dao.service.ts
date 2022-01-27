@@ -2,9 +2,7 @@ import 'reflect-metadata';
 import { Lead } from "@models/response";
 import DatabaseService from "@services/database.services";
 import { inject, injectable } from "tsyringe";
-// import { Inject, Service } from "typedi";
 
-// @Service()
 @injectable()
 export default class LeadsDao {
 
