@@ -63,7 +63,7 @@ describe("LeadsDao", () => {
     expect(result).toBeDefined();
     expect(result.name).toEqual("2233");
     expect(result.type).toEqual("true");
-    expect(result.url).toBeNull();
+    expect(result.url).toBeUndefined();
   });
 });
 

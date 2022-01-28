@@ -22,11 +22,10 @@ export default class LeadsDao {
                 url: lead.url
             }
         }).then((value) => {
-            value.Attributes;
             return {
-                name: value.Attributes.name,
-                type: value.Attributes.type,
-                url: value.Attributes.url !== undefined ? value.Attributes.url : null
+                name: value.Attributes ? value.Attributes.name : lead.name,
+                type: value.Attributes ? value.Attributes.type : lead.type,
+                url: value.Attributes ? value.Attributes.url : lead.url
             };
         } );
     }
