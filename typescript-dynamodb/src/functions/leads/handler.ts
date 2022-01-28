@@ -15,7 +15,12 @@ const leads: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) =
     type: event.body.type,
     url: event.body.url
   };
-  const result = await leadsDao.persist(lead);
+  let result;
+  try {
+    result = await leadsDao.persist(lead);
+  } catch (error) {
+    result = error.stack;
+  }
   return formatJSONResponse(result);
 }
 
