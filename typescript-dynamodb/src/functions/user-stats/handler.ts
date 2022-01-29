@@ -26,6 +26,22 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
     }
     return formatJSONResponse(result);
   }
+  if (event.path == "/user_stats/search") {
+    let ob = JSON.parse(event.body!);
+    let userStat:UserStat = {
+      user_id: ob.user_id,
+      timestamp: ob.timestamp,
+      blood_pressure: ob.blood_pressure,
+      weight: ob.weight
+    };
+    let result;
+    try {
+      result = await userStatsDao.persist(userStat);
+    } catch (error) {
+      result = error.stack;
+    }
+    return formatJSONResponse(result);
+  }
   return null;
 }
 

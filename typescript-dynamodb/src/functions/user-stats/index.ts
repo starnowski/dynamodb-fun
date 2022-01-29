@@ -11,5 +11,14 @@ export default {
         }
       }
     }
+    ,
+    {
+      http: {
+        method: 'post',
+        path: 'user_stats/search',
+        request: {
+        }
+      }
+    }
   ]
 }
