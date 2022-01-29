@@ -32,7 +32,7 @@ describe("UserStats handler", () => {
         // when
         let result = await main({
             body: JSON.stringify(request),
-            path: "user_stats",
+            path: "/user_stats",
             httpMethod: "POST",
             headers: {
                 "Content-Type": 'application/json'
