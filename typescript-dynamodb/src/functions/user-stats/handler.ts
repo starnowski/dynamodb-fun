@@ -12,6 +12,8 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
   if (event.path == "/user_stats") {
     let result;
     try {
+      console.log("event.body");
+      console.log(event.body);
       let ob = JSON.parse(event.body);
       let userStat:UserStat = {
         user_id: ob.user_id,
