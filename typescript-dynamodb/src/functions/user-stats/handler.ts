@@ -44,7 +44,7 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
     return formatJSONResponse(result);
   }
   return {
-    statusCode: 404,
+    statusCode: 400,
     body: "Invalid resource"
   };
 }
