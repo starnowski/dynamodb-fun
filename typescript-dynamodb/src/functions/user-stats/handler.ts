@@ -12,7 +12,7 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
   if (event.path == "/user_stats") {
     let result;
     try {
-      let ob = JSON.parse(event.body!);
+      let ob = JSON.parse(event.body);
       let userStat:UserStat = {
         user_id: ob.user_id,
         timestamp: ob.timestamp,
@@ -29,7 +29,7 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
   if (event.path == "/user_stats/search") {
     let result;
     try {
-      let ob = JSON.parse(event.body!);
+      let ob = JSON.parse(event.body);
       let userStat:UserStat = {
         user_id: ob.user_id,
         timestamp: ob.timestamp,
