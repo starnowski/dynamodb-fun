@@ -28,11 +28,10 @@ const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
   if (event.path == "/user_stats/search") {
     let result:any;
     try {
-      let ob = JSON.parse(event.body);
       let userStatQuery:IUserStatQueryRequest = {
-        userId: ob.user_id,
-        after_timestamp: (new Date(ob.timestamp).getTime()/1000),
-        limit: ob.limit
+        userId: event.body.user_id,
+        after_timestamp: (new Date(event.body.timestamp).getTime()/1000),
+        limit: event.body.limit
       };
       result = await userStatsDao.query(userStatQuery);
     } catch (error) {
