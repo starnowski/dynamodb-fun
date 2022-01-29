@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { formatJSONResponse } from '@libs/apiGateway';
-import { middyfy } from '@libs/lambda';
 import { IUserStatQueryRequest, UserStat } from '@models/response';
 import { diContainer } from '@src/DIRegister';
 import UserStatsDao from './dao.service';
@@ -44,7 +43,10 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
     }
     return formatJSONResponse(result);
   }
-  return null;
+  return {
+    statusCode: 404,
+    body: "Invalid resource"
+  };
 }
 
 export const main = middy(user_stats);
