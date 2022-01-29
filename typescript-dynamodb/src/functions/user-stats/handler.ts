@@ -1,27 +1,24 @@
 import 'reflect-metadata';
-import { formatJSONResponse } from '@libs/apiGateway';
+import { formatJSONResponse, ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { IUserStatQueryRequest, UserStat } from '@models/response';
 import { diContainer } from '@src/DIRegister';
 import UserStatsDao from './dao.service';
-import { APIGatewayProxyEvent, APIGatewayProxyResult, Context, Handler } from 'aws-lambda';
-import middy from '@middy/core';
+import { middyfy } from '@src/libs/lambda';
 
 
-export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
+const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
   const userStatsDao:UserStatsDao = diContainer.resolve("UserStatsDao");
   if (event.path == "/user_stats") {
-    let result;
+    let result:any;
     try {
       console.log("event.body");
       console.log(event.body);
-      let ob = JSON.parse(event.body);
       let userStat:UserStat = {
-        user_id: ob.user_id,
-        timestamp: (new Date(ob.timestamp).getTime()/1000),
-        blood_pressure: ob.blood_pressure,
-        weight: ob.weight
+        user_id: event.body.user_id,
+        timestamp: (new Date(event.body.timestamp).getTime()/1000),
+        blood_pressure: event.body.blood_pressure,
+        weight: event.body.weight
       };
-      let result;
       result = await userStatsDao.persist(userStat);
     } catch (error) {
       result = error.stack;
@@ -29,7 +26,7 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
     return formatJSONResponse(result);
   }
   if (event.path == "/user_stats/search") {
-    let result;
+    let result:any;
     try {
       let ob = JSON.parse(event.body);
       let userStatQuery:IUserStatQueryRequest = {
@@ -49,4 +46,4 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
   };
 }
 
-export const main = middy(user_stats);
+export const main = middyfy(user_stats);
