@@ -1,6 +1,7 @@
 import * as sinon from 'sinon';
-import DatabaseService, { PutItemOutput } from '@services/database.services';
+import DatabaseService, { PutItemOutput, QueryItemOutput } from '@services/database.services';
 import UserStatsDao from '@functions/user-stats/dao.service';
+import { IUserStatQueryRequest } from '@src/models/response';
 
 
 describe("UserStatsDao", () => {
@@ -65,6 +66,60 @@ describe("UserStatsDao", () => {
     expect(result.timestamp).toEqual(9999999);
     expect(result.weight).toEqual(88);
     expect(result.blood_pressure).toEqual(110);
+  });
+
+  test("should pass user_id and limit for query request", async () => {
+    // given
+    let userStatQueryRequet:IUserStatQueryRequest = {
+      userId: "blond",
+      limit: 37
+    };
+    let passedQueryInput = null;
+    let databaseService = sinon.createStubInstance(DatabaseService);
+    let tested = new UserStatsDao(databaseService);
+    let output = {
+      Items: [
+        {
+          user_id: "blond",
+          timestamp: 444,
+          weight: 26,
+          blood_pressure: 105
+        },
+        {
+          user_id: "blondXXX",//Normally it would be the same user_id
+          timestamp: 7775,
+          blood_pressure: 65
+        }
+      ]
+    };
+    let expectedUserStatsResults = [
+      {
+        user_id: "blond",
+        timestamp: 444,
+        weight: 26,
+        blood_pressure: 105
+      },
+      {
+        user_id: "blondXXX",//Normally it would be the same user_id
+        timestamp: 7775,
+        blood_pressure: 65
+      }
+    ];
+    let promise = new Promise<QueryItemOutput>(resolve => resolve(output));
+    databaseService.query.callsFake(input => {passedQueryInput = input; return promise;});
+    
+    // when
+    let result = await tested.query(userStatQueryRequet);
+
+    // then
+    expect(result).toEqual(expectedUserStatsResults);
+    // verify input
+    expect(passedQueryInput.Limit).toEqual(37);
+    expect(passedQueryInput.TableName).toEqual("user_stats");
+    expect(passedQueryInput.KeyConditionExpression).toEqual("user_id = :val1");
+    expect(passedQueryInput.ExpressionAttributeValues).toEqual({
+      val1: "blond"
+    });
   });
 
 });

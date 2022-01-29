@@ -18,7 +18,7 @@ type UpdateItemOutPut = AWS.DynamoDB.DocumentClient.UpdateItemOutput;
 
 // Query
 type QueryItem = AWS.DynamoDB.DocumentClient.QueryInput;
-type QueryItemOutput = AWS.DynamoDB.DocumentClient.QueryOutput;
+export type QueryItemOutput = AWS.DynamoDB.DocumentClient.QueryOutput;
 
 // Get
 type GetItem = AWS.DynamoDB.DocumentClient.GetItemInput;
@@ -66,9 +66,9 @@ export default class DatabaseService {
         }
     }
 
-    query = async (params: QueryItem): Promise<QueryItemOutput> => {
+    query(params: QueryItem): Promise<QueryItemOutput> {
         try {
-            return await documentClient.query(params).promise();
+            return documentClient.query(params).promise();
         } catch (error) {
             throw new ResponseModel({}, 500, `query-error: ${error}`);
         }
