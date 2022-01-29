@@ -53,7 +53,7 @@ export default class UserStatsDao {
         console.log(this.databaseService);
         let expressionAttributeNames = null;
         let expressionAttributeValues = {
-            val1: query.userId
+            ":val1": query.userId
         };
         return this.databaseService.query({
             TableName: "user_stats",
