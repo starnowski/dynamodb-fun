@@ -27,10 +27,15 @@ describe("Leads handler", () => {
 
         // when
         let result = await main({
-            body: {
+            body: JSON.stringify({
                 name: name,
                 type: type,
                 url: url
+            }),
+            path: "leads",
+            httpMethod: "POST",
+            headers: {
+                "Content-Type": 'application/json'
             }
         }, null);
 

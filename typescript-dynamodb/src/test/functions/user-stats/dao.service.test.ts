@@ -119,7 +119,7 @@ describe("UserStatsDao", () => {
     expect(passedQueryInput.TableName).toEqual("user_stats");
     expect(passedQueryInput.KeyConditionExpression).toEqual("user_id = :val1");
     expect(passedQueryInput.ExpressionAttributeValues).toEqual({
-      val1: "blond"
+      ":val1": "blond"
     });
   });
 

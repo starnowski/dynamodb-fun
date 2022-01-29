@@ -112,7 +112,8 @@ curl --location --request POST 'http://localhost:3000/dev/leads' \
 --verbose \
 --data-raw '{
     "name": "Frederic",
-    "url": "www.dog.com"
+    "url": "www.dog.com",
+    "type": "company"
 }'
 
 curl --location --request POST 'http://localhost:3000/dev/user_stats' \

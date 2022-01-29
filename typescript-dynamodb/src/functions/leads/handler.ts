@@ -25,4 +25,28 @@ const leads: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) =
   return formatJSONResponse(result);
 }
 
-export const main = middyfy(leads).use(validator({inputSchema: schema}));
+const inputSchema = {
+  type: 'object',
+  properties: {
+    body: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string'
+        }
+        ,
+        type: {
+          type: 'string'
+        }
+        ,
+        url: {
+          type: 'string'
+        }
+      },
+      // Insert here all required event properties
+      required: ['name', 'type']
+    }
+  }
+}
+
+export const main = middyfy(leads).use(validator({inputSchema: inputSchema}));
