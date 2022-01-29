@@ -5,6 +5,7 @@ import { UserStat } from '@models/response';
 import { diContainer } from '@src/DIRegister';
 import UserStatsDao from './dao.service';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context, Handler } from 'aws-lambda';
+import middy from '@middy/core';
 
 
 export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
@@ -47,4 +48,4 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
   return null;
 }
 
-export const main = middyfy(user_stats);
+export const main = middy(user_stats);
