@@ -119,7 +119,7 @@ curl --location --request POST 'http://localhost:3000/dev/user_stats' \
 --header 'Content-Type: application/json' \
 --verbose \
 --data-raw '{
-    "user_id": "1", "timestamp": "2012", "weight": 83, "blood_pressure": 123
+    "user_id": "1", "timestamp": "2022-01-29T16:05:57.270471", "weight": 83, "blood_pressure": 123
 }'
 
 

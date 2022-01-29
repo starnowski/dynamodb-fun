@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
-import { UserStat } from '@models/response';
+import { IUserStatQueryRequest, UserStat } from '@models/response';
 import { diContainer } from '@src/DIRegister';
 import UserStatsDao from './dao.service';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context, Handler } from 'aws-lambda';
@@ -18,7 +18,7 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
       let ob = JSON.parse(event.body);
       let userStat:UserStat = {
         user_id: ob.user_id,
-        timestamp: ob.timestamp,
+        timestamp: (new Date(ob.timestamp).getTime()/1000),
         blood_pressure: ob.blood_pressure,
         weight: ob.weight
       };
@@ -33,13 +33,12 @@ export const user_stats: Handler = async (event: APIGatewayProxyEvent, context: 
     let result;
     try {
       let ob = JSON.parse(event.body);
-      let userStat:UserStat = {
-        user_id: ob.user_id,
-        timestamp: ob.timestamp,
-        blood_pressure: ob.blood_pressure,
-        weight: ob.weight
+      let userStatQuery:IUserStatQueryRequest = {
+        userId: ob.user_id,
+        after_timestamp: (new Date(ob.timestamp).getTime()/1000),
+        limit: ob.limit
       };
-      result = await userStatsDao.persist(userStat);
+      result = await userStatsDao.query(userStatQuery);
     } catch (error) {
       result = error.stack;
     }
