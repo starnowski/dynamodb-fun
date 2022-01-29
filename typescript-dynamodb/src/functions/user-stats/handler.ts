@@ -6,6 +6,23 @@ import UserStatsDao from './dao.service';
 import { middyfy } from '@src/libs/lambda';
 
 
+function mapUserStatToDto(userStat:UserStat):any{
+  return {
+    user_id: userStat.user_id,
+    timestamp: new Date(userStat.timestamp),
+    weight: userStat.weight,
+    blood_pressure: userStat.blood_pressure
+  };
+}
+
+function mapUserStatsToDtos(userStats:UserStat[]):any{
+  let results = [];
+  userStats.forEach(userStat => {
+    results.push(mapUserStatToDto(userStat));
+  });
+  return results;
+}
+
 const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
   const userStatsDao:UserStatsDao = diContainer.resolve("UserStatsDao");
   if (event.path == "/user_stats") {
@@ -20,6 +37,7 @@ const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
         weight: event.body.weight
       };
       result = await userStatsDao.persist(userStat);
+      result = mapUserStatToDto(result);
     } catch (error) {
       result = error.stack;
     }
@@ -34,6 +52,7 @@ const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
         limit: event.body.limit
       };
       result = await userStatsDao.query(userStatQuery);
+      result = mapUserStatsToDtos(result);
     } catch (error) {
       result = error.stack;
     }
