@@ -80,15 +80,15 @@ describe("UserStatsDao", () => {
     let output = {
       Items: [
         {
-          user_id: {S: "blond"},
-          timestamp: {N: 444},
-          weight: {N: 26},
-          blood_pressure: {N: 105}
+          user_id: "blond",
+          timestamp: 444,
+          weight: 26,
+          blood_pressure: 105
         },
         {
-          user_id: {S: "blondXXX"},//Normally it would be the same user_id
-          timestamp: {N: 7775},
-          blood_pressure: {N: 65}
+          user_id: "blondXXX",//Normally it would be the same user_id
+          timestamp: 7775,
+          blood_pressure: 65
         }
       ]
     };

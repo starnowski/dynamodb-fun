@@ -1,9 +1,9 @@
 
 
-import { main } from "@functions/leads/handler";
 import { UserStat } from "@models/response";
 import { diContainer } from "@src/DIRegister";
 import UserStatsDao from "@src/functions/user-stats/dao.service";
+import { main } from "@src/functions/user-stats/handler";
 import sinon from "sinon";
 
 
@@ -12,9 +12,6 @@ describe("UserStats handler", () => {
     // https://tech.gc.com/dependency-injection/
     test("should pass event to dao layer", async () => {
         // given
-        let name = "DaveSoft";
-        let type = "Company";
-        let url = "www.somepage.com";
         let userStat = {
             "user_id": "1", 
             "timestamp": 1643468757270, 
@@ -35,7 +32,7 @@ describe("UserStats handler", () => {
         // when
         let result = await main({
             body: JSON.stringify(request),
-            path: "leads",
+            path: "user_stats",
             httpMethod: "POST",
             headers: {
                 "Content-Type": 'application/json'

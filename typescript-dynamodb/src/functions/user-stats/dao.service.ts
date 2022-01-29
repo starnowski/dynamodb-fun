@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import { IUserStatQueryRequest, UserStat } from "@models/response";
 import DatabaseService, { QueryItemOutput } from "@services/database.services";
 import { inject, injectable } from "tsyringe";
-import { AttributeMap } from 'aws-sdk/clients/dynamodb';
 
 @injectable()
 export default class UserStatsDao {
@@ -40,12 +39,16 @@ export default class UserStatsDao {
         return results;
     }
 
-    mapItemToUserStat(map:AttributeMap):UserStat{
+    mapItemToUserStat(map:any):UserStat{
         return {
-            user_id: map.user_id ? map.user_id.S : null,
-            timestamp: map.timestamp ? parseInt(map.timestamp.N) : null,
-            weight: map.weight ? parseInt(map.weight.N) : null,
-            blood_pressure: map.blood_pressure ? parseInt(map.blood_pressure.N) : null,
+            user_id: map.user_id ? map.user_id : null,
+            timestamp: map.timestamp ? map.timestamp : null,
+            weight: map.weight ? map.weight : null,
+            blood_pressure: map.blood_pressure ? map.blood_pressure : null
+            // user_id: map.user_id ? map.user_id.S : null,
+            // timestamp: map.timestamp ? parseInt(map.timestamp.N) : null,
+            // weight: map.weight ? parseInt(map.weight.N) : null,
+            // blood_pressure: map.blood_pressure ? parseInt(map.blood_pressure.N) : null
         };
     }
 
