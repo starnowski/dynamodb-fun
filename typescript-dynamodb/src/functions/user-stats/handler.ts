@@ -32,7 +32,7 @@ const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
       console.log(event.body);
       let userStat:UserStat = {
         user_id: event.body.user_id,
-        timestamp: (new Date(event.body.timestamp).getTime()/1000),
+        timestamp: (new Date(event.body.timestamp).getTime()),
         blood_pressure: event.body.blood_pressure,
         weight: event.body.weight
       };
@@ -48,7 +48,7 @@ const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
     try {
       let userStatQuery:IUserStatQueryRequest = {
         userId: event.body.user_id,
-        after_timestamp: (new Date(event.body.timestamp).getTime()/1000),
+        after_timestamp: (new Date(event.body.timestamp).getTime()),
         limit: event.body.limit
       };
       result = await userStatsDao.query(userStatQuery);
