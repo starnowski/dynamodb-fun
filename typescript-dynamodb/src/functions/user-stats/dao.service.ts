@@ -51,7 +51,7 @@ export default class UserStatsDao {
 
     query(query:IUserStatQueryRequest):Promise<UserStat[]>  {
         console.log(this.databaseService);
-        let expressionAttributeNames = {};
+        let expressionAttributeNames = null;
         let expressionAttributeValues = {
             val1: query.userId
         };

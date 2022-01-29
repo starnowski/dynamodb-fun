@@ -6,6 +6,7 @@ import { Lead } from '@models/response';
 import LeadsDao from './dao.service';
 import schema from './schema';
 import { diContainer } from '@src/DIRegister';
+import validator from '@middy/validator';
 
 
 const leads: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
@@ -24,4 +25,4 @@ const leads: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) =
   return formatJSONResponse(result);
 }
 
-export const main = middyfy(leads);
+export const main = middyfy(leads).use(validator({inputSchema: schema}));
