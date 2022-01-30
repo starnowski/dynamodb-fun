@@ -111,7 +111,7 @@ curl --location --request POST 'http://localhost:3000/dev/leads' \
 --header 'Content-Type: application/json' \
 --verbose \
 --data-raw '{
-    "name": "Frederic",
+    "name": "Simon",
     "url": "www.dog.com",
     "type": "company"
 }'
@@ -120,7 +120,14 @@ curl --location --request POST 'http://localhost:3000/dev/user_stats' \
 --header 'Content-Type: application/json' \
 --verbose \
 --data-raw '{
-    "user_id": "1", "timestamp": "2022-01-29T16:05:57.270471", "weight": 83, "blood_pressure": 123
+    "user_id": "113", "timestamp": "2022-01-29T16:05:57.270471", "weight": 83, "blood_pressure": 123
+}'
+
+curl --location --request POST 'http://localhost:3000/dev/user_stats/search' \
+--header 'Content-Type: application/json' \
+--verbose \
+--data-raw '{
+    "user_id": "113"
 }'
 
 
@@ -147,4 +154,33 @@ https://www.npmjs.com/package/wiremock-captain
 
 https://github.com/HBOCodeLabs/wiremock-captain
 https://medium.com/@piotr.zadka/using-wiremock-to-substitute-weather-api-response-in-sample-node-js-project-fe209f6637ae
+
+
+
+### Local testing
+
+export STAGE="DYNAMODB_LOCAL"
+export DYNAMODB_LOCAL_STAGE="DYNAMODB_LOCAL"
+export DYNAMODB_LOCAL_ACCESS_KEY_ID="DUMMYIDEXAMPLE"
+export DYNAMODB_LOCAL_SECRET_ACCESS_KEY="DUMMYEXAMPLEKEY"
+export DYNAMODB_LOCAL_ENDPOINT="http://127.0.0.1:9000"
+export DYNAMODB_LOCAL_REGION="us-east-1"
+npm run start-locally
+
+
+- run wiremock with proxy
+npx wiremock --port 9050 --verbose 
+
+- start recoring
+export STAGE="DYNAMODB_LOCAL"
+export DYNAMODB_LOCAL_STAGE="DYNAMODB_LOCAL"
+export DYNAMODB_LOCAL_ACCESS_KEY_ID="DUMMYIDEXAMPLE"
+export DYNAMODB_LOCAL_SECRET_ACCESS_KEY="DUMMYEXAMPLEKEY"
+export DYNAMODB_LOCAL_ENDPOINT="http://127.0.0.1:9050"
+export DYNAMODB_LOCAL_REGION="us-east-1"
+npm run start-locally
+
+- open page http://localhost:9050/__admin/recorder/
+- go to admin page and set url "http://localhost:9000"
+- Press "Record" button
 
