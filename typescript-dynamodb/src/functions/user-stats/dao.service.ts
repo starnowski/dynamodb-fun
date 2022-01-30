@@ -45,10 +45,6 @@ export default class UserStatsDao {
             timestamp: map.timestamp ? map.timestamp : null,
             weight: map.weight ? map.weight : null,
             blood_pressure: map.blood_pressure ? map.blood_pressure : null
-            // user_id: map.user_id ? map.user_id.S : null,
-            // timestamp: map.timestamp ? parseInt(map.timestamp.N) : null,
-            // weight: map.weight ? parseInt(map.weight.N) : null,
-            // blood_pressure: map.blood_pressure ? parseInt(map.blood_pressure.N) : null
         };
     }
 

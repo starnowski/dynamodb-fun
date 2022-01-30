@@ -67,7 +67,7 @@ const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
     try {
       let userStatQuery:IUserStatQueryRequest = {
         userId: event.body.user_id,
-        after_timestamp: (new Date(event.body.timestamp).getTime()),
+        after_timestamp: mapTimeWithMicrosecondsToNumber(event.body.after_timestamp),
         limit: event.body.limit
       };
       result = await userStatsDao.query(userStatQuery);
