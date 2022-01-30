@@ -4,12 +4,30 @@ import { IUserStatQueryRequest, UserStat } from '@models/response';
 import { diContainer } from '@src/DIRegister';
 import UserStatsDao from './dao.service';
 import { middyfy } from '@src/libs/lambda';
+import { PreciseDate } from '@google-cloud/precise-date';
+
+function mapTimeWithMicrosecondsToNumber(param:string):number {
+  let pd = new PreciseDate(param + "000Z");
+  let time = pd.getTime();
+  time *= 1000;
+  time += pd.getMicroseconds();
+  console.log("microsends is : " + time);
+  return time;
+}
+
+function mapNumberOfMicrosecondsToWithTimeWithMicroseconds(mictime:number):string {
+  let pd = new PreciseDate(BigInt(mictime + "000").valueOf());
+  let fullISOString = pd.toISOString();
+  var index = fullISOString.lastIndexOf( "000Z" );
+  return fullISOString.substring(0, index);
+}
+
 
 
 function mapUserStatToDto(userStat:UserStat):any{
   return {
     user_id: userStat.user_id,
-    timestamp: new Date(userStat.timestamp),
+    timestamp: mapNumberOfMicrosecondsToWithTimeWithMicroseconds(userStat.timestamp),
     weight: userStat.weight,
     blood_pressure: userStat.blood_pressure
   };
@@ -32,7 +50,8 @@ const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
       console.log(event.body);
       let userStat:UserStat = {
         user_id: event.body.user_id,
-        timestamp: (new Date(event.body.timestamp).getTime()),
+        // timestamp: (new Date(event.body.timestamp).getTime()),
+        timestamp: mapTimeWithMicrosecondsToNumber(event.body.timestamp),
         blood_pressure: event.body.blood_pressure,
         weight: event.body.weight
       };

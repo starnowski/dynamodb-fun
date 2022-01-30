@@ -14,7 +14,7 @@ describe("UserStats handler", () => {
         // given
         let userStat = {
             "user_id": "1", 
-            "timestamp": 1643468757270, 
+            "timestamp": 1643472357270471, 
             "weight": 83, 
             "blood_pressure": 123
           };
