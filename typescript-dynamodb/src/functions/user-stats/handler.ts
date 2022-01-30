@@ -72,6 +72,9 @@ const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
       };
       result = await userStatsDao.query(userStatQuery);
       result = mapUserStatsToDtos(result);
+      result = {
+        results: result
+      };
     } catch (error) {
       result = error.stack;
     }
