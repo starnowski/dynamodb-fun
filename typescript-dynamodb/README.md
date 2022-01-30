@@ -133,3 +133,18 @@ https://towardsaws.com/my-first-lambda-a-story-of-clean-architecture-caching-di-
 
 ### Mocking DI dependency injection
 https://tech.gc.com/dependency-injection/
+
+
+### Running bash script by npm 
+https://awsm.page/nodejs/run-shell-scripts-using-npm-script/
+https://stackoverflow.com/questions/34937724/running-bash-scripts-with-npm
+
+
+### Wiremock with Nodejs
+https://www.npmjs.com/package/wiremock
+https://www.npmjs.com/package/express
+https://www.npmjs.com/package/wiremock-captain
+
+https://github.com/HBOCodeLabs/wiremock-captain
+https://medium.com/@piotr.zadka/using-wiremock-to-substitute-weather-api-response-in-sample-node-js-project-fe209f6637ae
+
