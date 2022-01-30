@@ -5,6 +5,7 @@
   "main": "serverless.ts",
   "scripts": {
     "test-unittest": "jest --detectOpenHandles --forceExit --config ./jest.config.js src/test",
+    "test-integration": "jest --detectOpenHandles --forceExit --config ./jest.config.js src/integration",
     "build": "sls package",
     "start-locally": "sls offline start"
   },
@@ -30,6 +31,7 @@
     "jest": "^27.4.7",
     "json-schema-to-ts": "^1.5.0",
     "mock-http-server": "^1.4.5",
+    "portfinder": "^1.0.28",
     "serverless": "^2.72.2",
     "serverless-esbuild": "^1.23.3",
     "serverless-offline": "^8.3.1",

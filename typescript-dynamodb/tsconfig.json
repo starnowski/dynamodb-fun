@@ -6,7 +6,7 @@
     "lib": ["ESNext"],
     "moduleResolution": "node",
     "noUnusedLocals": true, // Turn off in case to resolve TS6133 error
-    "noUnusedParameters": true,
+    "noUnusedParameters": true, // Turn off in case to resolve TS6133 error for function parameters
     "removeComments": true,
     "sourceMap": true,
     "target": "ES2020",

@@ -1,0 +1,86 @@
+import { main as leadsMain} from "@src/functions/leads/handler";
+
+var ServerMock = require("mock-http-server");
+var portfinder = require('portfinder');
+jest.setTimeout(120000);
+
+describe('Integration tests', function() {
+
+    var server:any;
+
+    beforeAll(async function() {
+        jest.setTimeout(100000);
+        let generatedPort = null;
+        await portfinder.getPortPromise({
+        port: 9000,    // minimum port
+        stopPort: 9500 // maximum port
+        }).then((port) => {
+            console.log("found port: " + port);
+                generatedPort = port;
+        })
+        .catch((err) => {
+            console.log("error during port picking: " + err);
+        });
+        server = new ServerMock({ host: "localhost", port: generatedPort });
+        console.log("found port is " + generatedPort);
+
+        // Setting environment variables for integration tests
+        process.env.STAGE="integration-tests";
+        process.env.DYNAMODB_LOCAL_STAGE="integration-tests";
+        process.env.DYNAMODB_LOCAL_REGION="us-east-1";
+        process.env.DYNAMODB_LOCAL_ACCESS_KEY_ID="DUMMYIDEXAMPLE";
+        process.env.DYNAMODB_LOCAL_SECRET_ACCESS_KEY="DUMMYEXAMPLEKEY";
+        process.env.DYNAMODB_LOCAL_ENDPOINT="http://localhost:" + generatedPort;
+    });
+
+    beforeEach(function(done) {
+        jest.setTimeout(60000);
+        server.start(done);
+
+    });
+
+    afterEach(function(done) {
+        server.stop(done);
+    });
+
+    test("should save lead", async () => {
+        // given
+        jest.setTimeout(120000);
+        server.on({
+            method: 'POST',
+            path: '/',
+            reply: {
+                status:  200,
+                headers: { "content-type": "application/json" },
+                body:    JSON.stringify({})
+            }
+        });
+        let name = "Simon";
+        let type = "Company";
+        let url = "www.dog.com";
+        let lead = {
+            name: name,
+            type: type,
+            url: url
+          };
+
+        // when
+        let result = await leadsMain({
+            body: JSON.stringify({
+                name: name,
+                type: type,
+                url: url
+            }),
+            path: "leads",
+            httpMethod: "POST",
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        }, null);
+
+        // then
+        expect(result.statusCode).toEqual(200);
+        expect(result.body).toEqual(JSON.stringify(lead));
+    });
+});
+
