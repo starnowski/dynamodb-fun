@@ -123,6 +123,65 @@ describe("UserStatsDao", () => {
     });
   });
 
+
+  test("should pass user_id and after_timestamp for query request", async () => {
+    // given
+    let userStatQueryRequet:IUserStatQueryRequest = {
+      userId: "blond",
+      after_timestamp: 100
+    };
+    let passedQueryInput = null;
+    let databaseService = sinon.createStubInstance(DatabaseService);
+    let tested = new UserStatsDao(databaseService);
+    let output = {
+      Items: [
+        {
+          user_id: "blond",
+          timestamp: 111,
+          weight: 26,
+          blood_pressure: 98
+        },
+        {
+          user_id: "blondXXX",//Normally it would be the same user_id
+          timestamp: 444,
+          blood_pressure: 89
+        }
+      ]
+    };
+    let expectedUserStatsResults = [
+      {
+        user_id: "blond",
+        timestamp: 111,
+        weight: 26,
+        blood_pressure: 98
+      },
+      {
+        user_id: "blondXXX",//Normally it would be the same user_id
+        timestamp: 444,
+        weight: null,
+        blood_pressure: 89
+      }
+    ];
+    let promise = new Promise<QueryItemOutput>(resolve => resolve(output));
+    databaseService.query.callsFake(input => {passedQueryInput = input; return promise;});
+    
+    // when
+    let result = await tested.query(userStatQueryRequet);
+
+    // then
+    expect(result).toEqual(expectedUserStatsResults);
+    // verify input
+    expect(passedQueryInput.TableName).toEqual("user_stats");
+    expect(passedQueryInput.KeyConditionExpression).toEqual("user_id = :val1 and #t_attribute >= :val2");
+    expect(passedQueryInput.ExpressionAttributeValues).toEqual({
+      ":val1": "blond",
+      ":val2": 100
+    });
+    expect(passedQueryInput.ExpressionAttributeNames).toEqual({
+      "#t_attribute": "timestamp"
+    });
+  });
+
 });
 
 

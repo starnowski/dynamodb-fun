@@ -54,10 +54,18 @@ export default class UserStatsDao {
         let expressionAttributeValues = {
             ":val1": query.userId
         };
+        let keyConditionExpression:string = "user_id = :val1";
+        if (query.after_timestamp) {
+            expressionAttributeNames = {
+                "#t_attribute": "timestamp"
+            };
+            expressionAttributeValues[":val2"] = query.after_timestamp;
+            keyConditionExpression += " and #t_attribute >= :val2";
+        }
         return this.databaseService.query({
             TableName: "user_stats",
             Limit: query.limit,
-            KeyConditionExpression: "user_id = :val1",
+            KeyConditionExpression: keyConditionExpression,
             ExpressionAttributeNames: expressionAttributeNames,
             ExpressionAttributeValues: expressionAttributeValues
         }).then((value) => {
