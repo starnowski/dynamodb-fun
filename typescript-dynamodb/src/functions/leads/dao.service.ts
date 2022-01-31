@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Lead } from "@models/response";
-import DatabaseService from "@services/database.services";
 import { inject, injectable } from "tsyringe";
+import { IDatabaseService } from '@src/services/database.services';
 
 @injectable()
 export default class LeadsDao {
@@ -9,7 +9,7 @@ export default class LeadsDao {
     constructor(
         // @Inject() 
         @inject("DatabaseService")
-    public databaseService: DatabaseService) { }
+    public databaseService: IDatabaseService) { }
 
     persist(lead:Lead):Promise<Lead>  {
         console.log("databaseService");

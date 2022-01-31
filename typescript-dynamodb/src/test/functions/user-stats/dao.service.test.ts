@@ -1,5 +1,5 @@
 import * as sinon from 'sinon';
-import DatabaseService, { PutItemOutput, QueryItemOutput } from '@services/database.services';
+import IDatabaseService, { PutItemOutput, QueryItemOutput } from '@services/database.services';
 import UserStatsDao from '@functions/user-stats/dao.service';
 import { IUserStatQueryRequest } from '@src/models/response';
 
@@ -18,7 +18,7 @@ describe("UserStatsDao", () => {
       weight: 88,
       blood_pressure: 110
     };
-    let databaseService = sinon.createStubInstance(DatabaseService);
+    let databaseService = sinon.createStubInstance(IDatabaseService);
     let tested = new UserStatsDao(databaseService);
     let output = {
       Attributes: {
@@ -50,7 +50,7 @@ describe("UserStatsDao", () => {
       weight: 88,
       blood_pressure: 110
     };
-    let databaseService = sinon.createStubInstance(DatabaseService);
+    let databaseService = sinon.createStubInstance(IDatabaseService);
     let tested = new UserStatsDao(databaseService);
     let output = {
     };
@@ -75,7 +75,7 @@ describe("UserStatsDao", () => {
       limit: 37
     };
     let passedQueryInput = null;
-    let databaseService = sinon.createStubInstance(DatabaseService);
+    let databaseService = sinon.createStubInstance(IDatabaseService);
     let tested = new UserStatsDao(databaseService);
     let output = {
       Items: [

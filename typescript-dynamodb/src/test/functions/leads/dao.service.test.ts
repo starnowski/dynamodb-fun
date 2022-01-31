@@ -1,6 +1,6 @@
 import LeadsDao from '@functions/leads/dao.service';
 import * as sinon from 'sinon';
-import DatabaseService, { PutItemOutput } from '@services/database.services';
+import IDatabaseService, { PutItemOutput } from '@services/database.services';
 
 
 describe("LeadsDao", () => {
@@ -16,7 +16,7 @@ describe("LeadsDao", () => {
       type: "xxx-business",
       url: "www.xxx.com"
     };
-    let databaseService = sinon.createStubInstance(DatabaseService);
+    let databaseService = sinon.createStubInstance(IDatabaseService);
     let tested = new LeadsDao(databaseService);
     let output = {
       Attributes: {
@@ -45,7 +45,7 @@ describe("LeadsDao", () => {
       type: "xxx-business",
       url: "www.aaaa.com"
     };
-    let databaseService = sinon.createStubInstance(DatabaseService);
+    let databaseService = sinon.createStubInstance(IDatabaseService);
     let tested = new LeadsDao(databaseService);
     let output = {
       Attributes: {

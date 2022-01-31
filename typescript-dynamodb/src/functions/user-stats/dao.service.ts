@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { IUserStatQueryRequest, UserStat } from "@models/response";
-import DatabaseService, { QueryItemOutput } from "@services/database.services";
+import { IDatabaseService, QueryItemOutput } from "@services/database.services";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -8,7 +8,7 @@ export default class UserStatsDao {
 
     constructor(
         @inject("DatabaseService")
-    public databaseService: DatabaseService) { }
+    public databaseService: IDatabaseService) { }
 
     persist(userStat:UserStat):Promise<UserStat>  {
         console.log(this.databaseService);

@@ -1,8 +1,7 @@
 import 'reflect-metadata';
 import * as AWS from 'aws-sdk';
 import ResponseModel from '@models/response';
-import { injectable } from 'tsyringe';
-import IConfig from './config.interface';
+import { inject, injectable } from 'tsyringe';
 
 // Put
 type PutItem = AWS.DynamoDB.DocumentClient.PutItemInput;
@@ -28,23 +27,20 @@ type GetItemOutput = AWS.DynamoDB.DocumentClient.GetItemOutput;
 type DeleteItem = AWS.DynamoDB.DocumentClient.DeleteItemInput;
 type DeleteItemOutput = AWS.DynamoDB.DocumentClient.DeleteItemOutput;
 
-const config: IConfig = { region: "eu-west-1" };
-if (process.env.STAGE === process.env.DYNAMODB_LOCAL_STAGE) {
-    config.region = process.env.DYNAMODB_LOCAL_REGION;
-    config.accessKeyId = process.env.DYNAMODB_LOCAL_ACCESS_KEY_ID; 
-    config.secretAccessKey = process.env.DYNAMODB_LOCAL_SECRET_ACCESS_KEY; 
-    config.endpoint = process.env.DYNAMODB_LOCAL_ENDPOINT;
-}
-AWS.config.update(config);
+export interface IDatabaseService {
 
-const documentClient = new AWS.DynamoDB.DocumentClient();
+    create(params: PutItem): Promise<PutItemOutput>;
+    query(params: QueryItem): Promise<QueryItemOutput>
+}
 
 @injectable()
-export default class DatabaseService {
+export default class DatabaseService implements IDatabaseService{
+
+    constructor(@inject("DocumentClient") private documentClient:AWS.DynamoDB.DocumentClient){}
 
     create(params: PutItem): Promise<PutItemOutput> {
         try {
-            return documentClient.put(params).promise();
+            return this.documentClient.put(params).promise();
         } catch (error) {
             throw new ResponseModel({}, 500, `create-error: ${error}`);
         }
@@ -52,7 +48,7 @@ export default class DatabaseService {
 
     batchCreate = async(params: BatchWrite): Promise<BatchWriteOutPut> => {
         try {
-            return await documentClient.batchWrite(params).promise();
+            return await this.documentClient.batchWrite(params).promise();
         } catch (error) {
             throw new ResponseModel({}, 500, `batch-write-error: ${error}`);
         }
@@ -60,7 +56,7 @@ export default class DatabaseService {
 
     update = async (params: UpdateItem): Promise<UpdateItemOutPut> => {
         try {
-            return await documentClient.update(params).promise();
+            return await this.documentClient.update(params).promise();
         } catch (error) {
             throw new ResponseModel({}, 500, `update-error: ${error}`);
         }
@@ -68,7 +64,7 @@ export default class DatabaseService {
 
     query(params: QueryItem): Promise<QueryItemOutput> {
         try {
-            return documentClient.query(params).promise();
+            return this.documentClient.query(params).promise();
         } catch (error) {
             throw new ResponseModel({}, 500, `query-error: ${error}`);
         }
@@ -76,7 +72,7 @@ export default class DatabaseService {
 
     get = async (params: GetItem): Promise<GetItemOutput> => {
         try {
-            return await documentClient.get(params).promise();
+            return await this.documentClient.get(params).promise();
         } catch (error) {
             throw new ResponseModel({}, 500, `get-error: ${error}`);
         }
@@ -84,7 +80,7 @@ export default class DatabaseService {
 
     delete = async (params: DeleteItem): Promise<DeleteItemOutput> => {
         try {
-            return await documentClient.delete(params).promise();
+            return await this.documentClient.delete(params).promise();
         } catch (error) {
             throw new ResponseModel({}, 500, `delete-error: ${error}`);
         }
