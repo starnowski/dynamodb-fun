@@ -131,7 +131,7 @@ describe("UserStatsDao", () => {
       after_timestamp: 100
     };
     let passedQueryInput = null;
-    let databaseService = sinon.createStubInstance(DatabaseService);
+    let databaseService = sinon.createStubInstance(IDatabaseService);
     let tested = new UserStatsDao(databaseService);
     let output = {
       Items: [
