@@ -6,6 +6,7 @@
   "scripts": {
     "test-unit": "jest --detectOpenHandles --forceExit --config ./jest.config.js src/test",
     "test-integration": "jest --detectOpenHandles --forceExit --config ./jest.config.js src/integration",
+    "test": "npm run test-unit && npm run test-integration",
     "build": "sls package",
     "start-locally": "sls offline start"
   },
