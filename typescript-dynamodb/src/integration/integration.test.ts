@@ -1,5 +1,6 @@
 import { diContainer } from "@src/DIRegister";
 import { main as leadsMain} from "@src/functions/leads/handler";
+import { main as userStatMain } from "@src/functions/user-stats/handler";
 import IConfig from "@src/services/config.interface";
 import AWS from "aws-sdk";
 import _ from "lodash";
@@ -91,6 +92,44 @@ describe('Integration tests', function() {
         // then
         expect(result.statusCode).toEqual(200);
         expect(result.body).toEqual(JSON.stringify(lead));
+    });
+
+    test("should save user_stat", async () => {
+        // given
+        jest.setTimeout(120000);
+        server.on({
+            method: 'POST',
+            path: '/',
+            filter: function (req: { body: any; }) {
+                console.log("request body is: " + req.body);
+                return _.isEqual(JSON.parse(req.body), {"TableName":"user_stats","Item":{"user_id":{"S":"113"},"timestamp":{"N":"1643472357270471"},"weight":{"N":"83"},"blood_pressure":{"N":"123"}}} );
+              },
+            reply: {
+                status:  200,
+                headers: { "content-type": "application/json" },
+                body:    JSON.stringify({})
+            }
+        });
+        let request = {
+            "user_id": "113", 
+            "timestamp": "2022-01-29T16:05:57.270471", 
+            "weight": 83, 
+            "blood_pressure": 123
+          };
+
+        // when
+        let result = await userStatMain({
+            body: JSON.stringify(request),
+            path: "/user_stats",
+            httpMethod: "POST",
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        }, null);
+
+        // then
+        expect(result.statusCode).toEqual(200);
+        expect(result.body).toEqual(JSON.stringify(request));
     });
 });
 
