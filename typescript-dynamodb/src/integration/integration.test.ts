@@ -131,5 +131,41 @@ describe('Integration tests', function() {
         expect(result.statusCode).toEqual(200);
         expect(result.body).toEqual(JSON.stringify(request));
     });
+
+    test("should query user_stat", async () => {
+        // given
+        jest.setTimeout(120000);
+        server.on({
+            method: 'POST',
+            path: '/',
+            filter: function (req: { body: any; }) {
+                console.log("request body is: " + req.body);
+                return _.isEqual(JSON.parse(req.body), {"TableName":"user_stats","KeyConditionExpression":"user_id = :val1","ExpressionAttributeValues":{":val1":{"S":"113"}}} );
+              },
+            reply: {
+                status:  200,
+                headers: { "content-type": "application/json" },
+                body:    "{\"Items\":[{\"weight\":{\"N\":\"83\"},\"blood_pressure\":{\"N\":\"123\"},\"user_id\":{\"S\":\"113\"},\"timestamp\":{\"N\":\"1643472357270471\"}}],\"Count\":1,\"ScannedCount\":1}"
+            }
+        });
+        let request = {
+            "user_id": "113"
+        };
+        let response = "{\"results\":[{\"user_id\":\"113\",\"timestamp\":\"2022-01-29T16:05:57.270471\",\"weight\":83,\"blood_pressure\":123}]}";
+
+        // when
+        let result = await userStatMain({
+            body: JSON.stringify(request),
+            path: "/user_stats/search",
+            httpMethod: "POST",
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        }, null);
+
+        // then
+        expect(result.statusCode).toEqual(200);
+        expect(result.body).toEqual(response);
+    });
 });
 
