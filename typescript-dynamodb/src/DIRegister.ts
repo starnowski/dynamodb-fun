@@ -20,7 +20,7 @@ if (process.env.STAGE === process.env.DYNAMODB_LOCAL_STAGE) {
 }
 AWS.config.update(config);
 
-// const documentClient = new AWS.DynamoDB.DocumentClient();
-container.registerSingleton("DocumentClient", AWS.DynamoDB.DocumentClient);
+const documentClient = new AWS.DynamoDB.DocumentClient();
+container.registerInstance("DocumentClient", documentClient);
 
 export const diContainer = container;

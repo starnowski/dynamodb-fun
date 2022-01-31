@@ -1,3 +1,4 @@
+import { diContainer } from "@src/DIRegister";
 import { main as leadsMain} from "@src/functions/leads/handler";
 import IConfig from "@src/services/config.interface";
 import AWS from "aws-sdk";
@@ -26,14 +27,6 @@ describe('Integration tests', function() {
         server = new ServerMock({ host: "localhost", port: generatedPort });
         console.log("found port is " + generatedPort);
 
-        // Setting environment variables for integration tests
-        // process.env.STAGE="integration-tests";
-        // process.env.DYNAMODB_LOCAL_STAGE="integration-tests";
-        // process.env.DYNAMODB_LOCAL_REGION="us-east-1";
-        // process.env.DYNAMODB_LOCAL_ACCESS_KEY_ID="DUMMYIDEXAMPLE";
-        // process.env.DYNAMODB_LOCAL_SECRET_ACCESS_KEY="DUMMYEXAMPLEKEY";
-        // process.env.DYNAMODB_LOCAL_ENDPOINT="http://localhost:" + generatedPort;
-
         // Setting AWS config
         const config: IConfig = { region: "eu-west-1" };
         config.region="us-east-1";
@@ -41,7 +34,8 @@ describe('Integration tests', function() {
         config.secretAccessKey="DUMMYEXAMPLEKEY";
         config.endpoint="http://localhost:" + generatedPort;
         AWS.config.update(config);
-        
+        const documentClient = new AWS.DynamoDB.DocumentClient();
+        diContainer.registerInstance("DocumentClient", documentClient);
     });
 
     beforeEach(function(done) {
