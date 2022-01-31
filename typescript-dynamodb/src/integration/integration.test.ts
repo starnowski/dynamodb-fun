@@ -2,6 +2,7 @@ import { diContainer } from "@src/DIRegister";
 import { main as leadsMain} from "@src/functions/leads/handler";
 import IConfig from "@src/services/config.interface";
 import AWS from "aws-sdk";
+import _ from "lodash";
 
 var ServerMock = require("mock-http-server");
 var portfinder = require('portfinder');
@@ -54,6 +55,10 @@ describe('Integration tests', function() {
         server.on({
             method: 'POST',
             path: '/',
+            filter: function (req: { body: any; }) {
+                console.log("request body is: " + req.body);
+                return _.isEqual(JSON.parse(req.body), {"TableName":"leads","Item":{"name":{"S":"Simon"},"type":{"S":"Company"},"url":{"S":"www.dog.com"}}} );
+              },
             reply: {
                 status:  200,
                 headers: { "content-type": "application/json" },
