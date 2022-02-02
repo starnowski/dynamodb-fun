@@ -11,7 +11,7 @@ Globals:
     Timeout: 30
 
 Resources:
-  DynamoDBFunction:
+  DynamoDBLeadsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: ./
@@ -29,6 +29,24 @@ Resources:
           Properties:
             Path: /leads
             Method: post
+    Metadata:
+      DockerTag: nodejs14.x-v1  
+      DockerContext: ./
+      Dockerfile: DockerfileLeads
+
+  DynamoDBUserStatsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ./
+      Handler: app.lambda_handler
+      Runtime: nodejs14.x
+      PackageType: Container
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          DYNAMODB_HOST: ""
+      Events:
         UserStatsPost:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
@@ -42,7 +60,8 @@ Resources:
     Metadata:
       DockerTag: nodejs14.x-v1  
       DockerContext: ./
-      Dockerfile: DockerfileLeads
+      Dockerfile: DockerfileUserStats
+
   DynamoDBLeadsTable:
     Type: 'AWS::DynamoDB::Table'
     Properties:
@@ -83,9 +102,15 @@ Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  DynamoDBFunction:
+  DynamoDBLeadsFunction:
     Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt DynamoDBFunction.Arn
-  DynamoDBFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt DynamoDBFunctionRole.Arn
+    Value: !GetAtt DynamoDBLeadsFunction.Arn
+  DynamoDBLeadsFunctionIamRole:
+    Description: "Implicit IAM Role created for DynamoDBLeadsFunction function"
+    Value: !GetAtt DynamoDBLeadsFunctionRole.Arn
+  DynamoDBUserStatsFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt DynamoDBUserStatsFunction.Arn
+  DynamoDBUserStatsFunction:
+    Description: "Implicit IAM Role created for DynamoDBUserStatsFunction function"
+    Value: !GetAtt DynamoDBUserStatsFunctionRole.Arn

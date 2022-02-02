@@ -8,8 +8,8 @@ COPY tsconfig.paths.json ./
 RUN ls
 RUN npm run build
 RUN yum -y install unzip
-RUN unzip .serverless/leads.zip
-RUN ls src/functions/leads
-RUN cp src/functions/leads/handler.js ./
-RUN cp src/functions/leads/handler.js.map ./
-CMD [ "src/functions/leads/handler.main" ]
+RUN unzip .serverless/user_stats.zip
+RUN ls src/functions/user-stats
+RUN cp src/functions/user-stats/handler.js ./
+RUN cp src/functions/user-stats/handler.js.map ./
+CMD [ "src/functions/user-stats/handler.main" ]
