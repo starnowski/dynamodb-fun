@@ -1,0 +1,15 @@
+FROM amazon/aws-lambda-nodejs:14
+COPY package*.json ./
+COPY tsconfig.json tsconfig.paths.json ./
+COPY src/ ./src
+COPY serverless.ts ./
+RUN npm install
+COPY tsconfig.paths.json ./
+RUN ls
+RUN npm run build
+RUN yum -y install unzip
+RUN unzip .serverless/leads.zip
+RUN ls src/functions/leads
+RUN cp src/functions/leads/handler.js ./
+RUN cp src/functions/leads/handler.js.map ./
+CMD [ "handler.main" ]
