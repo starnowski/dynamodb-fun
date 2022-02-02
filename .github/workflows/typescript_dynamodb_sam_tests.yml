@@ -4,6 +4,7 @@ on:
     paths:
       - 'typescript-dynamodb/**'
       - '.github/workflows/typescript_dynamodb_sam_tests.yml'
+      - '.github/workflows/start_typescript_dynamodb_sam.sh'
     branches:
       - main
 jobs:
