@@ -12,4 +12,4 @@ RUN unzip .serverless/user_stats.zip
 RUN ls src/functions/user-stats
 RUN cp src/functions/user-stats/handler.js ./
 RUN cp src/functions/user-stats/handler.js.map ./
-CMD [ "src/functions/user-stats/handler.main" ]
+CMD [ "handler.main" ]
