@@ -14,15 +14,16 @@ Resources:
   DynamoDBLeadsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: ./
-      Handler: app.lambda_handler
-      Runtime: nodejs14.x
-      PackageType: Container
-      Architectures:
-        - x86_64
+      PackageType: Image
       Environment:
         Variables:
           DYNAMODB_HOST: ""
+          DYNAMODB_LOCAL_STAGE: ""
+          DYNAMODB_LOCAL_ACCESS_KEY_ID: ""
+          DYNAMODB_LOCAL_SECRET_ACCESS_KEY: ""
+          DYNAMODB_LOCAL_ENDPOINT: ""
+          DYNAMODB_LOCAL_REGION: ""
+          STAGE: ""
       Events:
         LeadsPost:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -30,22 +31,23 @@ Resources:
             Path: /leads
             Method: post
     Metadata:
-      DockerTag: nodejs14.x-v1  
+      DockerTag: nodejs14.x-leads-v1  
       DockerContext: ./
       Dockerfile: DockerfileLeads
 
   DynamoDBUserStatsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: ./
-      Handler: app.lambda_handler
-      Runtime: nodejs14.x
-      PackageType: Container
-      Architectures:
-        - x86_64
+      PackageType: Image
       Environment:
         Variables:
           DYNAMODB_HOST: ""
+          DYNAMODB_LOCAL_STAGE: ""
+          DYNAMODB_LOCAL_ACCESS_KEY_ID: ""
+          DYNAMODB_LOCAL_SECRET_ACCESS_KEY: ""
+          DYNAMODB_LOCAL_ENDPOINT: ""
+          DYNAMODB_LOCAL_REGION: ""
+          STAGE: ""
       Events:
         UserStatsPost:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -58,7 +60,7 @@ Resources:
             Path: /user_stats/search
             Method: post
     Metadata:
-      DockerTag: nodejs14.x-v1  
+      DockerTag: nodejs14.x-user-stats-v1  
       DockerContext: ./
       Dockerfile: DockerfileUserStats
 
