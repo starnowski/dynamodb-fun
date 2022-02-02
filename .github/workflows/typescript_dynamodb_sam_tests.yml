@@ -25,6 +25,7 @@ jobs:
           AWS_DEFAULT_REGION: us-east-1
           AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
           AWS_SECRET_ACCESS_KEY: DUMMYEXAMPLEKEY
+          DYNAMODB_PORT: 9000
       - run: cd flaskapp-tests && python3 -m pip install -r test-requirements.txt
       - name: Setup DynamoDB Local
         uses: rrainn/dynamodb-action@v2.0.0
