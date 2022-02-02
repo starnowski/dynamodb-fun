@@ -1,4 +1,4 @@
-name: Run npm unit and integration tests for typescript project
+name: Run tests for typescript project with usage of sam tool
 on:
   push:
     paths:
