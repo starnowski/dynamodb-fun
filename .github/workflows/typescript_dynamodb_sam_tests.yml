@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: cd typescript-dynamodb && && sam build
+      - run: cd typescript-dynamodb && sam build
       - run: ./.github/start_typescript_dynamodb_sam.sh
         env:
           AWS_DEFAULT_REGION: us-east-1
