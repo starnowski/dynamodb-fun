@@ -20,7 +20,9 @@
     "@middy/validator": "^2.5.7",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0",
-    "typedi": "^0.10.0"
+    "typedi": "^0.10.0",
+    "uuid": "^8.3.2",
+    "winston": "^3.5.1"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",

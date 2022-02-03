@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { Lead } from "@models/response";
 import { inject, injectable } from "tsyringe";
 import { IDatabaseService } from '@src/services/database.services';
+import { logInfo } from '@src/libs/logger';
 
 @injectable()
 export default class LeadsDao {
@@ -12,8 +13,8 @@ export default class LeadsDao {
     public databaseService: IDatabaseService) { }
 
     persist(lead:Lead):Promise<Lead>  {
-        console.log("databaseService");
-        console.log(this.databaseService);
+        logInfo("databaseService");
+        logInfo(this.databaseService);
         return this.databaseService.create({
             TableName: "leads",
             Item: {

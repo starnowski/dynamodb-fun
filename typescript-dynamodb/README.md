@@ -202,3 +202,7 @@ npm run start-locally
 - go to admin page and set url "http://localhost:9000"
 - Press "Record" button
 
+
+### Logging practices in Nodejs
+https://blog.appsignal.com/2021/09/01/best-practices-for-logging-in-nodejs.html
+

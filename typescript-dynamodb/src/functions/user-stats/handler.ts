@@ -5,13 +5,14 @@ import { diContainer } from '@src/DIRegister';
 import UserStatsDao from './dao.service';
 import { middyfy } from '@src/libs/lambda';
 import { PreciseDate } from '@google-cloud/precise-date';
+import { generatedLambdaRequestUUID, logInfo } from '@src/libs/logger';
 
 function mapTimeWithMicrosecondsToNumber(param:string):number {
   let pd = new PreciseDate(param + "000Z");
   let time = pd.getTime();
   time *= 1000;
   time += pd.getMicroseconds();
-  console.log("microsends is : " + time);
+  logInfo("microsends is : " + time);
   return time;
 }
 
@@ -42,12 +43,13 @@ function mapUserStatsToDtos(userStats:UserStat[]):any{
 }
 
 const user_stats: ValidatedEventAPIGatewayProxyEvent<any> = async (event) => {
+  generatedLambdaRequestUUID();
   const userStatsDao:UserStatsDao = diContainer.resolve("UserStatsDao");
   if (event.path == "/user_stats") {
     let result:any;
     try {
-      console.log("event.body");
-      console.log(event.body);
+      logInfo("event.body");
+      logInfo(event.body);
       let userStat:UserStat = {
         user_id: event.body.user_id,
         // timestamp: (new Date(event.body.timestamp).getTime()),

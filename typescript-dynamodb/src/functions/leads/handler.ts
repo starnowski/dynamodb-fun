@@ -7,9 +7,11 @@ import LeadsDao from './dao.service';
 import schema from './schema';
 import { diContainer } from '@src/DIRegister';
 import validator from '@middy/validator';
+import { generatedLambdaRequestUUID } from '@src/libs/logger';
 
 
 const leads: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+  generatedLambdaRequestUUID();
   const leadsDao:LeadsDao = diContainer.resolve("LeadsDao");
   let lead:Lead = {
     name: event.body.name,

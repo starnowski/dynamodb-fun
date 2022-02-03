@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { IUserStatQueryRequest, UserStat } from "@models/response";
 import { IDatabaseService, QueryItemOutput } from "@services/database.services";
 import { inject, injectable } from "tsyringe";
+import { logInfo } from '@src/libs/logger';
 
 @injectable()
 export default class UserStatsDao {
@@ -11,7 +12,7 @@ export default class UserStatsDao {
     public databaseService: IDatabaseService) { }
 
     persist(userStat:UserStat):Promise<UserStat>  {
-        console.log(this.databaseService);
+        logInfo(this.databaseService);
         return this.databaseService.create({
             TableName: "user_stats",
             Item: {
@@ -49,7 +50,7 @@ export default class UserStatsDao {
     }
 
     query(query:IUserStatQueryRequest):Promise<UserStat[]>  {
-        console.log(this.databaseService);
+        logInfo(this.databaseService);
         let expressionAttributeNames = null;
         let expressionAttributeValues = {
             ":val1": query.userId
