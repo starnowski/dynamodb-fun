@@ -9,7 +9,8 @@ RUN ls
 RUN npm run build
 RUN yum -y install unzip
 RUN unzip .serverless/user_stats.zip
-RUN ls src/functions/user-stats
-RUN cp src/functions/user-stats/handler.js ./
-RUN cp src/functions/user-stats/handler.js.map ./
-CMD [ "handler.main" ]
+# RUN ls src/functions/user-stats
+# RUN cp src/functions/user-stats/handler.js ./
+# RUN cp src/functions/user-stats/handler.js.map ./
+# CMD [ "handler.main" ]
+CMD [ "src/functions/user-stats/handler.main" ]

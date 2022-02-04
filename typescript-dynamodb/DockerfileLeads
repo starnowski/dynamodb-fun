@@ -9,7 +9,8 @@ RUN ls
 RUN npm run build
 RUN yum -y install unzip
 RUN unzip .serverless/leads.zip
-RUN ls src/functions/leads
-RUN cp src/functions/leads/handler.js ./
-RUN cp src/functions/leads/handler.js.map ./
-CMD [ "handler.main" ]
+# RUN ls src/functions/leads
+# RUN cp src/functions/leads/handler.js ./
+# RUN cp src/functions/leads/handler.js.map ./
+# CMD [ "handler.main" ]
+CMD [ "src/functions/leads/handler.main" ]
