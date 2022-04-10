@@ -1,0 +1,3 @@
+{
+  "message" : "$context.error.messageString"
+}
