@@ -36,4 +36,25 @@ describe("VTL template", () => {
           });
     });
 
+    test("should print headers", async () => {
+        // given
+        var vtl = fs.readFileSync(path.join(__dirname, './velocity-template_2.vm'), { encoding: 'utf8' });
+        var payload = JSON.stringify({ name: 'David' });
+
+        // when
+        console.log(payload);
+        let result = mappingTemplate({template: vtl, payload: payload, params: { header: { "some_strange_name": "XXX" } }});
+
+        console.log(result);
+        // then
+        expect(JSON.parse(result)).toEqual({
+            "params": {
+                "header": {
+                    "some_strange_name": "XXX"
+                }
+            }
+        }
+        );
+    });
+
 });
