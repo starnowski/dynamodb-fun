@@ -79,4 +79,27 @@ describe("VTL template", () => {
         );
     });
 
+    test("should print error message and conversation id", async () => {
+        // given
+        var vtl = fs.readFileSync(path.join(__dirname, './velocity-template_3.vm'), { encoding: 'utf8' });
+        var payload = JSON.stringify({ name: 'David' });
+
+        // when
+        console.log(payload);
+        let result = mappingTemplate({template: vtl, payload: payload, params: { header: { "con_id": "4345-4345-342" } },
+            context: {
+                error: {
+                    messageString: "Invalid request with conversation id"
+                }
+            } });
+
+        console.log(result);
+        // then
+        expect(JSON.parse(result)).toEqual({
+            "message": "Invalid request with conversation id",
+            "conversation_id": "4345-4345-342"
+        }
+        );
+    });
+
 });
