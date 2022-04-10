@@ -11,6 +11,7 @@ import { generatedLambdaRequestUUID } from '@src/libs/logger';
 
 
 const leads: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+  // console.log(JSON.stringify(event));
   generatedLambdaRequestUUID();
   const leadsDao:LeadsDao = diContainer.resolve("LeadsDao");
   let lead:Lead = {

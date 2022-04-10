@@ -206,3 +206,6 @@ npm run start-locally
 ### Logging practices in Nodejs
 https://blog.appsignal.com/2021/09/01/best-practices-for-logging-in-nodejs.html
 
+### VTL template
+
+http://mapping-template-checker.toqoz.net/
