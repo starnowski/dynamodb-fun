@@ -206,3 +206,11 @@ npm run start-locally
 ### Logging practices in Nodejs
 https://blog.appsignal.com/2021/09/01/best-practices-for-logging-in-nodejs.html
 
+### VTL template
+
+http://mapping-template-checker.toqoz.net/
+https://velocity.apache.org/engine/devel/vtl-reference.html
+
+https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference
+
+html#context-variable-reference-access-logging-only

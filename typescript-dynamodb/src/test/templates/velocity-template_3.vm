@@ -1,0 +1,9 @@
+{
+  "message" : "$context.error.messageString"
+  #set($allParams = $input.params())
+  #set($headers = $allParams.get("header"))
+  #set($con_id = $headers.get("con_id"))
+  #if($con_id	!= null)
+  ,"conversation_id": "$con_id"
+  #end
+}
