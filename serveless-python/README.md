@@ -12,4 +12,6 @@ serverless simulate apigateway
 ### Setting project
 https://www.serverless.com/blog/serverless-python-packaging/
 
+### Passing parameters to local invoked lambda
+https://stackoverflow.com/questions/52251075/how-to-pass-parameters-to-serverless-invoke-local
 
