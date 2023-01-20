@@ -7,3 +7,9 @@ nvm install 12.13.0
 npm install serverless-plugin-simulate --save-dev
 npm install request --save
 serverless simulate apigateway
+
+
+### Setting project
+https://www.serverless.com/blog/serverless-python-packaging/
+
+
