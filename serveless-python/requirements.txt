@@ -1,1 +1,4 @@
 requests==2.27.1
+simplejson
+boto3==1.26.33
+botocore==1.29.33
