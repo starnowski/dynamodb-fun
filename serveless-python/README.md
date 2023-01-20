@@ -18,4 +18,6 @@ https://stackoverflow.com/questions/52251075/how-to-pass-parameters-to-serverles
 ### Plugin
 https://github.com/serverless/serverless-python-requirements
 
+### How to add environment variables
+https://www.serverless.com/plugins/serverless-plugin-simulate
 
