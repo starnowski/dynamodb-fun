@@ -1,0 +1,15 @@
+{
+  "name": "serveless-python",
+  "version": "1.0.0",
+  "description": "https://medium.com/@sebastian.phelps/serverless-and-python-cb3711f6d307",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-python-requirements": "^6.0.0"
+  }
+}
