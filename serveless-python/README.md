@@ -29,5 +29,11 @@ curl --location --request POST 'http://localhost:3000/leads' --header 'Content-T
 ### Local invoke
 serverless invoke local --function hello -d '{"name": "warehouse", "type": "CLOTHES RENTAL", "url": "http://warehouse.com/nosuch_address"}'
 
+
+export AWS_DEFAULT_REGION=us-east-1
+export AWS_ACCESS_KEY_ID='DUMMYIDEXAMPLE'
+export AWS_SECRET_ACCESS_KEY='DUMMYEXAMPLEKEY'
+export DYNAMODB_PORT=9000
+export DYNAMODB_HOST=localhost
 serverless invoke local --function hello --path events/leads.json
 
