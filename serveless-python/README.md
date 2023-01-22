@@ -21,3 +21,13 @@ https://github.com/serverless/serverless-python-requirements
 ### How to add environment variables
 https://www.serverless.com/plugins/serverless-plugin-simulate
 
+curl --location --request POST 'http://localhost:3000/leads' --header 'Content-Type: application/json' \
+--verbose \
+--data-raw '{"name": "warehouse", "type": "CLOTHES RENTAL", "url": "http://warehouse.com/nosuch_address"}'
+
+
+### Local invoke
+serverless invoke local --function hello -d '{"name": "warehouse", "type": "CLOTHES RENTAL", "url": "http://warehouse.com/nosuch_address"}'
+
+serverless invoke local --function hello --path events/leads.json
+

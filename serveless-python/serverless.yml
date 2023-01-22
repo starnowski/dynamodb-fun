@@ -23,7 +23,12 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: python3.8
-
+package:
+  individually: false
+  exclude:
+    - '**/*'
+  include:
+    - handler.py
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -126,8 +131,9 @@ plugins:
 
 custom:
   pythonRequirements:
-#    dockerizePip: false
-    dockerizePip: true
+    dockerizePip: false
+    pythonBin: ${opt:pythonBin, self:provider.runtime}
+#    dockerizePip: true
     zip: true
     noDeploy:
       - pytest

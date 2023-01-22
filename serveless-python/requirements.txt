@@ -1,4 +1,4 @@
 requests==2.27.1
-simplejson
+simplejson==3.18.1
 boto3==1.26.33
 botocore==1.29.33
