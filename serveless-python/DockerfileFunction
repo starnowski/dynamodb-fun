@@ -1,0 +1,50 @@
+#FROM python:3.8.16-slim-buster as build-image
+#RUN apt update -y
+#RUN apt install curl -y
+#RUN curl -sL https://deb.nodesource.com/setup_14.x -o setup_14.sh
+#RUN chmod +x ./setup_14.sh
+#RUN ./setup_14.sh
+#RUN apt update -y
+#RUN apt upgrade -y
+#RUN apt install nodejs -y
+
+#FROM node:14 as build-image
+#
+#ARG FUNCTION_DIR="/function"
+#COPY package*.json ${FUNCTION_DIR}/
+#COPY serverless.yml ${FUNCTION_DIR}
+#COPY handler.py ${FUNCTION_DIR}
+#COPY requirements.txt ${FUNCTION_DIR}
+#WORKDIR ${FUNCTION_DIR}
+#RUN npm install
+#RUN ls
+#RUN python3 --version
+#RUN npm run build
+
+FROM nikolaik/python-nodejs:python3.8-nodejs14 as build-image
+
+ARG FUNCTION_DIR="/function"
+COPY package*.json ${FUNCTION_DIR}/
+COPY serverless.yml ${FUNCTION_DIR}
+COPY handler.py ${FUNCTION_DIR}
+COPY requirements.txt ${FUNCTION_DIR}
+WORKDIR ${FUNCTION_DIR}
+RUN npm install
+RUN ls
+RUN python3 --version
+RUN npm run build
+RUN ls -la
+RUN ls -la .serverless
+
+FROM public.ecr.aws/lambda/python:3.8
+ARG FUNCTION_DIR="/function"
+COPY --from=build-image ${FUNCTION_DIR}/.serverless ${LAMBDA_TASK_ROOT}
+WORKDIR ${LAMBDA_TASK_ROOT}
+RUN yum -y install unzip
+RUN ls -la ./
+RUN unzip serverless-python.zip
+# RUN ls src/functions/leads
+# RUN cp src/functions/leads/handler.js ./
+# RUN cp src/functions/leads/handler.js.map ./
+# CMD [ "handler.main" ]
+CMD [ "handler.lambda_handler" ]

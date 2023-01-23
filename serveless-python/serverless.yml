@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: serveless-python
+service: serverless-python
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
@@ -71,11 +71,11 @@ functions:
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
-    environment:
-      DYNAMODB_HOST: ${env:DYNAMODB_HOST}
-      AWS_DEFAULT_REGION: ${env:AWS_DEFAULT_REGION}
-      AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+#    environment:
+#      DYNAMODB_HOST: ${env:DYNAMODB_HOST}
+#      AWS_DEFAULT_REGION: ${env:AWS_DEFAULT_REGION}
+#      AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+#      AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
     events:
       - http:
           path: leads
@@ -140,9 +140,9 @@ plugins:
 
 custom:
   pythonRequirements:
-#    dockerizePip: false
-#    pythonBin: ${opt:pythonBin, self:provider.runtime}
-    dockerizePip: true
+    dockerizePip: false
+    pythonBin: ${opt:pythonBin, self:provider.runtime}
+#    dockerizePip: true
     zip: true
 #    dockerFile: ./local_tests/Dockerfile
     noDeploy:

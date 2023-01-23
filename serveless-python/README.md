@@ -51,3 +51,8 @@ https://aws.amazon.com/blogs/compute/using-serverless-to-load-test-amazon-api-ga
 ### Build Dockerfile image
 cd local_tests
 docker build -t lambci/lambda:python3.8 .
+
+
+### Saml
+./prepare_sam_tmp_env_file.sh tmp_vars
+sam local start-api --env-vars tmp_vars &

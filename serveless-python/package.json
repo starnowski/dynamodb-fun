@@ -1,10 +1,11 @@
 {
-  "name": "serveless-python",
+  "name": "serverless-python",
   "version": "1.0.0",
   "description": "https://medium.com/@sebastian.phelps/serverless-and-python-cb3711f6d307",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "sls package"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +14,7 @@
   },
   "devDependencies": {
     "requests": "^0.3.0",
+    "serverless": "^3.26.0",
     "serverless-plugin-simulate": "0.0.17",
     "serverless-python-requirements": "^6.0.0"
   }
