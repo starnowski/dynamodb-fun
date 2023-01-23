@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '14'
       - run: cd serverless-python && sam build
-      - run: ./.github/start_typescript_dynamodb_sam.sh
+      - run: ./.github/start_serverless_python_sam.sh
         env:
           AWS_DEFAULT_REGION: us-east-1
           AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
