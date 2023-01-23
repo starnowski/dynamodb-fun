@@ -37,3 +37,14 @@ export DYNAMODB_PORT=9000
 export DYNAMODB_HOST=localhost
 serverless invoke local --function hello --path events/leads.json
 
+
+#### Simulate apigateway
+serverless simulate apigateway
+
+
+### Simulate apigateway - authorizator
+https://medium.com/free-code-camp/how-you-can-speed-up-serverless-development-by-simulating-aws-lambda-locally-41c61a60fbae
+
+https://aws.amazon.com/blogs/compute/using-serverless-to-load-test-amazon-api-gateway-with-authorization/
+
+

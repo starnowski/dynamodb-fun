@@ -69,6 +69,11 @@ functions:
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
+    environment:
+      DYNAMODB_HOST: ${env:DYNAMODB_HOST}
+      AWS_DEFAULT_REGION: ${env:AWS_DEFAULT_REGION}
+      AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
     events:
       - http:
           path: leads
@@ -124,6 +129,8 @@ functions:
 #       Description: "Description for the output"
 #       Value: "Some output value"
 
+# https://www.serverless.com/framework/docs/environment-variables
+useDotenv: true
 
 plugins:
   - serverless-python-requirements
