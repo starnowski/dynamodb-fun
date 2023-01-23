@@ -35,25 +35,12 @@ cat << SCRIPT > "${tmpfile}"
     "DYNAMODB_LOCAL_ENDPOINT": "http://${DYNAMODB_HOST}:${DYNAMODB_PORT}",
     "DYNAMODB_LOCAL_REGION": "${AWS_DEFAULT_REGION}"
   }
-  ,
-  "DynamoDBUserStatsFunction": {
-    "DYNAMODB_HOST": "$DYNAMODB_HOST",
-    "AWS_DEFAULT_REGION": "us-east-1",
-    "AWS_ACCESS_KEY_ID": "DUMMYIDEXAMPLE",
-    "AWS_SECRET_ACCESS_KEY": "DUMMYEXAMPLEKEY",
-    "STAGE": "DYNAMODB_LOCAL",
-    "DYNAMODB_LOCAL_STAGE": "DYNAMODB_LOCAL",
-    "DYNAMODB_LOCAL_ACCESS_KEY_ID": "DUMMYIDEXAMPLE",
-    "DYNAMODB_LOCAL_SECRET_ACCESS_KEY": "DUMMYEXAMPLEKEY",
-    "DYNAMODB_LOCAL_ENDPOINT": "http://${DYNAMODB_HOST}:${DYNAMODB_PORT}",
-    "DYNAMODB_LOCAL_REGION": "${AWS_DEFAULT_REGION}"
-  }
 }
 SCRIPT
 echo "${tmpfile}"
 cat "${tmpfile}"
 
-pushd "${SCRIPT_DIR}/../typescript-dynamodb"
+pushd "${SCRIPT_DIR}/../serverless-python"
 sam local start-api --env-vars "${tmpfile}" &
 popd
 

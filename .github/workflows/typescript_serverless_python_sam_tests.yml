@@ -1,0 +1,48 @@
+name: Run tests for typescript project with usage of sam tool
+on:
+  push:
+    paths:
+      - 'serverless-python/**'
+      - '.github/workflows/typescript_serverless_python_sam_tests.yml'
+      - '.github/workflows/start_serverless_python_sam.sh'
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - uses: aws-actions/setup-sam@v1
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: cd serverless-python && sam build
+      - run: ./.github/start_typescript_dynamodb_sam.sh
+        env:
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
+          AWS_SECRET_ACCESS_KEY: DUMMYEXAMPLEKEY
+          DYNAMODB_PORT: 9000
+      - run: cd flaskapp-tests && python3 -m pip install -r test-requirements.txt
+      - name: Setup DynamoDB Local
+        uses: rrainn/dynamodb-action@v2.0.0
+        with:
+          dbPath: # undefined by default, if this is undefined inMemory will be used
+          sharedDb: # undefined by default
+          delayTransientStatuses: # undefined by default
+          optimizeDbBeforeStartup: # undefined by default
+          port: 9000
+          cors: '*'
+      - run: cd flaskapp && python3 create_tables.py
+        env:
+          DYNAMODB_HOST: localhost
+          DYNAMODB_PORT: 9000
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
+          AWS_SECRET_ACCESS_KEY: DUMMYEXAMPLEKEY
+      - run: cd flaskapp-tests && ./run_python_tests.sh
+        env:
+          FLASK_APP_HOST:  "http://localhost:3000"
