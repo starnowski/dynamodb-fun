@@ -28,7 +28,9 @@ package:
   exclude:
     - '**/*'
   include:
-    - handler.py
+    - '*.py'
+    - 'simplejson'
+    - 'boto3'
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -138,9 +140,10 @@ plugins:
 
 custom:
   pythonRequirements:
-    dockerizePip: false
-    pythonBin: ${opt:pythonBin, self:provider.runtime}
-#    dockerizePip: true
+#    dockerizePip: false
+#    pythonBin: ${opt:pythonBin, self:provider.runtime}
+    dockerizePip: true
     zip: true
+#    dockerFile: ./local_tests/Dockerfile
     noDeploy:
       - pytest

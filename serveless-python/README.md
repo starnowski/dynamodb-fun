@@ -48,3 +48,6 @@ https://medium.com/free-code-camp/how-you-can-speed-up-serverless-development-by
 https://aws.amazon.com/blogs/compute/using-serverless-to-load-test-amazon-api-gateway-with-authorization/
 
 
+### Build Dockerfile image
+cd local_tests
+docker build -t lambci/lambda:python3.8 .

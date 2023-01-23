@@ -1,3 +1,7 @@
+try:
+    import unzip_requirements
+except ImportError:
+    pass
 import simplejson as json
 import boto3
 from boto3.dynamodb.conditions import Key
