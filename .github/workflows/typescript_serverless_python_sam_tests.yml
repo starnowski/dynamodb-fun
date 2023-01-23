@@ -1,4 +1,4 @@
-name: Run tests for typescript project with usage of sam tool
+name: Run tests for python project with usage of sam tool
 on:
   push:
     paths:
