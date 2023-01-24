@@ -9,6 +9,7 @@ import os
 from datetime import datetime
 from decimal import Decimal
 import traceback
+import controllers.search_controller as search_controller
 
 
 def lambda_handler(event, context):
@@ -104,35 +105,7 @@ def lambda_handler(event, context):
             }
     #
         if event['resource'] == "/user_stats/search" and event['httpMethod'] == "POST":
-            data = json.loads(event['body'])  or {}
-            print(data)
-            user_id = data.get('user_id')
-            if not user_id:
-                return {"statusCode": 400,
-                        'error': 'Please provide user_id'}
-
-            table = dynamodb.Table('user_stats')
-            primary_key = Key('user_id').eq(user_id)
-            kwargs = {'KeyConditionExpression': primary_key}
-
-            limit = data.get('limit')
-            if limit:
-                kwargs['Limit'] = limit
-
-            after_timestamp = data.get('after_timestamp')
-            if after_timestamp:
-                dt_object = datetime.fromisoformat(after_timestamp)
-                primary_key = primary_key & Key('timestamp').gte(Decimal(datetime.timestamp(dt_object)))
-                kwargs['KeyConditionExpression'] = primary_key
-
-            resp = table.query(**kwargs)
-            print('Search response %s ' % resp['Items'])
-            return {
-                "statusCode": 200,
-                "body": json.dumps({
-                    'results': covert_dynamodb_list(resp['Items'])
-                })
-            }
+            return search_controller.handle(event, dynamodb)
     except Exception as e:
         return {
             "statusCode": 200,
