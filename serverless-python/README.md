@@ -56,3 +56,22 @@ docker build -t lambci/lambda:python3.8 .
 ### Saml
 ./prepare_sam_tmp_env_file.sh tmp_vars
 sam local start-api --env-vars tmp_vars &
+
+
+
+### Local dynamodb
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
+aws dynamodb list-tables --endpoint-url http://localhost:9000
+
+aws dynamodb query \
+    --table-name MusicCollection \
+    --projection-expression "SongTitle" \
+    --key-condition-expression "Artist = :v1" \
+    --expression-attribute-values file://expression-attributes.json \
+    --return-consumed-capacity TOTAL
+
+### TODO Run subprocess in tests
+https://stackoverflow.com/questions/89228/how-do-i-execute-a-program-or-call-a-system-command
+
+https://www.learnaws.org/2020/12/01/test-aws-code/
+https://github.com/getmoto/moto
