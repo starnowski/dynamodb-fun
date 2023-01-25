@@ -28,7 +28,7 @@ package:
   exclude:
     - '**/*'
   include:
-    - 'src/**'
+    - 'src/main/python/**'
     - '*.py'
     - 'simplejson'
     - 'boto3'
