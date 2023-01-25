@@ -29,6 +29,9 @@ curl --location --request POST 'http://localhost:3000/leads' --header 'Content-T
 ### Local invoke
 serverless invoke local --function hello -d '{"name": "warehouse", "type": "CLOTHES RENTAL", "url": "http://warehouse.com/nosuch_address"}'
 
+#
+export PYTHONPATH=${PYTHONPATH}:./src && serverless invoke local --function hello -d '{"name": "warehouse", "type": "CLOTHES RENTAL", "url": "http://warehouse.com/nosuch_address"}'
+
 
 export AWS_DEFAULT_REGION=us-east-1
 export AWS_ACCESS_KEY_ID='DUMMYIDEXAMPLE'

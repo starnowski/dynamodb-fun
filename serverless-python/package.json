@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "sls package"
+    "build": "sls package",
+    "test1": "sls invoke local --function hello -d '{\"name\": \"warehouse\", \"type\": \"CLOTHES RENTAL\", \"url\": \"http://warehouse.com/nosuch_address\"}'"
   },
   "author": "",
   "license": "ISC",
