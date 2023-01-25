@@ -79,3 +79,11 @@ https://stackoverflow.com/questions/89228/how-do-i-execute-a-program-or-call-a-s
 
 https://www.learnaws.org/2020/12/01/test-aws-code/
 https://github.com/getmoto/moto
+
+
+### Python packaging
+https://packaging.python.org/en/latest/guides/packaging-namespace-packages/
+
+
+### Src layout
+https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/
