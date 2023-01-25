@@ -26,9 +26,10 @@ FROM nikolaik/python-nodejs:python3.8-nodejs14 as build-image
 ARG FUNCTION_DIR="/function"
 COPY package*.json ${FUNCTION_DIR}/
 COPY serverless.yml ${FUNCTION_DIR}
-COPY src ${FUNCTION_DIR}
+COPY src ${FUNCTION_DIR}/src
 COPY requirements.txt ${FUNCTION_DIR}
 WORKDIR ${FUNCTION_DIR}
+RUN ls -la
 RUN npm install
 RUN ls
 RUN python3 --version
@@ -44,10 +45,15 @@ RUN yum -y install unzip
 RUN ls -la ./
 RUN unzip serverless-python.zip
 RUN ls -la ./
+RUN ls -la ./
+RUN ls -la ./src
+RUN ls -la ./src/com/github
 RUN ls -la ./src/com/github/starnowski
+ENV PYTHONPATH=${PYTHONPATH}:${FUNCTION_DIR}/src
 # RUN ls src/functions/leads
 # RUN cp src/functions/leads/handler.js ./
 # RUN cp src/functions/leads/handler.js.map ./
 # CMD [ "handler.main" ]
-WORKDIR ${LAMBDA_TASK_ROOT}/src/com/github/starnowski
-CMD [ "handler.lambda_handler" ]
+WORKDIR ${LAMBDA_TASK_ROOT}/src
+
+CMD [ "com/github/starnowski/handler.lambda_handler" ]
