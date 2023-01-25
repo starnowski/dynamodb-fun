@@ -58,6 +58,7 @@ docker build -t lambci/lambda:python3.8 .
 
 
 ### Saml
+sam build
 ./prepare_sam_tmp_env_file.sh tmp_vars
 sam local start-api --env-vars tmp_vars &
 
