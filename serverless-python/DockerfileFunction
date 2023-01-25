@@ -47,4 +47,4 @@ RUN unzip serverless-python.zip
 # RUN cp src/functions/leads/handler.js ./
 # RUN cp src/functions/leads/handler.js.map ./
 # CMD [ "handler.main" ]
-CMD [ "handler.lambda_handler" ]
+CMD [ "src.com.github.starnowski.handler.lambda_handler" ]
