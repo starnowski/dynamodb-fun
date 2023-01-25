@@ -44,16 +44,11 @@ WORKDIR ${LAMBDA_TASK_ROOT}
 RUN yum -y install unzip
 RUN ls -la ./
 RUN unzip serverless-python.zip
-RUN ls -la ./
-RUN ls -la ./
-RUN ls -la ./src
-RUN ls -la ./src/com/github
-RUN ls -la ./src/com/github/starnowski
-ENV PYTHONPATH=${PYTHONPATH}:${FUNCTION_DIR}/src
+ENV PYTHONPATH=${PYTHONPATH}:${FUNCTION_DIR}/src/main/python
 # RUN ls src/functions/leads
 # RUN cp src/functions/leads/handler.js ./
 # RUN cp src/functions/leads/handler.js.map ./
 # CMD [ "handler.main" ]
-WORKDIR ${LAMBDA_TASK_ROOT}/src
+WORKDIR ${LAMBDA_TASK_ROOT}/src/main/python
 
 CMD [ "com/github/starnowski/handler.lambda_handler" ]
