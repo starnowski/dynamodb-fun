@@ -43,8 +43,11 @@ WORKDIR ${LAMBDA_TASK_ROOT}
 RUN yum -y install unzip
 RUN ls -la ./
 RUN unzip serverless-python.zip
+RUN ls -la ./
+RUN ls -la ./src/com/github/starnowski
 # RUN ls src/functions/leads
 # RUN cp src/functions/leads/handler.js ./
 # RUN cp src/functions/leads/handler.js.map ./
 # CMD [ "handler.main" ]
-CMD [ "src/com.github.starnowski.handler.lambda_handler" ]
+WORKDIR ${LAMBDA_TASK_ROOT}/src/com/github/starnowski
+CMD [ "handler.lambda_handler" ]

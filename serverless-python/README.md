@@ -88,3 +88,10 @@ https://packaging.python.org/en/latest/guides/packaging-namespace-packages/
 
 ### Src layout
 https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/
+
+
+### Find Out Which Process Listening on a Particular Port
+https://www.tecmint.com/find-out-which-process-listening-on-a-particular-port/
+lsof -i :3000
+
+
