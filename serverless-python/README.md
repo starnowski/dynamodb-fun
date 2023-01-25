@@ -39,6 +39,7 @@ export AWS_SECRET_ACCESS_KEY='DUMMYEXAMPLEKEY'
 export DYNAMODB_PORT=9000
 export DYNAMODB_HOST=localhost
 serverless invoke local --function hello --path events/leads.json
+export PYTHONPATH=${PYTHONPATH}:./src && serverless invoke local --function hello --path events/leads.json
 
 
 #### Simulate apigateway
