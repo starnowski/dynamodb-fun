@@ -9,7 +9,7 @@ import os
 from datetime import datetime
 from decimal import Decimal
 import traceback
-import controllers.search_controller as search_controller
+from com.github.starnowski.controllers import search_controller as user_stats_search
 
 
 def lambda_handler(event, context):
@@ -105,7 +105,7 @@ def lambda_handler(event, context):
             }
     #
         if event['resource'] == "/user_stats/search" and event['httpMethod'] == "POST":
-            return search_controller.handle(event, dynamodb)
+            return user_stats_search.handle(event, dynamodb)
     except Exception as e:
         return {
             "statusCode": 200,
