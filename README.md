@@ -5,6 +5,7 @@
 [![Run tests for SAM java8 project](https://github.com/starnowski/dynamodb-fun/actions/workflows/sam_app_java8.yml/badge.svg)](https://github.com/starnowski/dynamodb-fun/actions/workflows/sam_app_java8.yml)
 [![Run tests for SAM project](https://github.com/starnowski/dynamodb-fun/actions/workflows/sam.yml/badge.svg)](https://github.com/starnowski/dynamodb-fun/actions/workflows/sam.yml)
 [![Run tests for typescript project](https://github.com/starnowski/dynamodb-fun/actions/workflows/typescript_dynamodb.yml/badge.svg)](https://github.com/starnowski/dynamodb-fun/actions/workflows/typescript_dynamodb.yml)
+[![Run tests for python project with usage of sam tool](https://github.com/starnowski/dynamodb-fun/actions/workflows/typescript_serverless_python_sam_tests.yml/badge.svg)](https://github.com/starnowski/dynamodb-fun/actions/workflows/typescript_serverless_python_sam_tests.yml)
 
 ### Deploy dynamodb locally
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
