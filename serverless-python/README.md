@@ -95,3 +95,9 @@ https://www.tecmint.com/find-out-which-process-listening-on-a-particular-port/
 lsof -i :3000
 
 
+### Writing unit tests for Python AWS Lambda with Serverless framework
+https://emshea.com/post/writing-python-unit-tests-lambda-functions
+
+### Approach for writing static methods
+https://softwareengineering.stackexchange.com/questions/112137/is-staticmethod-proliferation-a-code-smell
+
