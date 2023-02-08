@@ -8,6 +8,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.fasterxml.jackson.core.JsonProcessingException;
 import helloworld.DynamoTestContainerTest;
 import helloworld.model.UserStat;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,7 @@ class UserStatsPostHandlerTest extends DynamoTestContainerTest {
     }
 
     @Test
-    public void createUserStats() throws JsonProcessingException {
+    public void createUserStats() throws JsonProcessingException, JSONException {
         // GIVEN
         String name = "XCompany";
         Date date = Calendar.getInstance().getTime();

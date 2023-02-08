@@ -5,16 +5,13 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import dagger.Module;
-import dagger.Provides;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import javax.inject.Singleton;
-
-@Module
+@Configuration
 public class AppDynamoDBModule {
 
-    @Singleton
-    @Provides
+    @Bean
     AmazonDynamoDB dynamoDb() {
         String dynamoDBHOst = System.getProperty("DYNAMODB_HOST");
         dynamoDBHOst = dynamoDBHOst != null && !dynamoDBHOst.trim().isEmpty() ? dynamoDBHOst : System.getenv("DYNAMODB_HOST");

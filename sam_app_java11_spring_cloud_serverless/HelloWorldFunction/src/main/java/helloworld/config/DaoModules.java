@@ -1,25 +1,22 @@
 package helloworld.config;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import dagger.Module;
-import dagger.Provides;
 import helloworld.dao.LeadsDao;
 import helloworld.dao.UserStatsDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import javax.inject.Singleton;
-
-@Module
+@Configuration
 public class DaoModules {
 
-    @Singleton
-    @Provides
-    public LeadsDao leadsDao(AmazonDynamoDB dynamoDb) {
+    @Bean
+    public LeadsDao leadsDao(@Autowired AmazonDynamoDB dynamoDb) {
         return new LeadsDao(dynamoDb);
     }
 
-    @Singleton
-    @Provides
-    public UserStatsDao userStatsDao(AmazonDynamoDB dynamoDb) {
+    @Bean
+    public UserStatsDao userStatsDao(@Autowired AmazonDynamoDB dynamoDb) {
         return new UserStatsDao(dynamoDb);
     }
 }

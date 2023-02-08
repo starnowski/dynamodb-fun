@@ -8,6 +8,7 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import helloworld.DynamoTestContainerTest;
 import helloworld.model.UserStat;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class UserStatQueryRequestHandlerTest extends DynamoTestContainerTest {
     }
 
     @Test
-    public void queryUserStats() throws JsonProcessingException {
+    public void queryUserStats() throws JsonProcessingException, JSONException {
         // GIVEN
         LocalDateTime localDateTime = LocalDateTime.now();
         UserStat userStat = new UserStat();

@@ -1,97 +1,105 @@
 package helloworld;
 
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import helloworld.config.AppModule;
-import helloworld.config.DaggerAppModule;
 import helloworld.dao.LeadsDao;
 import helloworld.dao.UserStatsDao;
 import helloworld.handlers.UserStatQueryRequestHandler;
 import helloworld.handlers.UserStatsPostHandler;
 import helloworld.model.Leads;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.util.ObjectUtils;
 
-import javax.inject.Inject;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
  * Handler for requests to Lambda function.
  */
-public class App extends SpringBootRequestHandler<String, String> {
+@SpringBootApplication
+public class App {
 
-    @Inject
+    private static final Log logger = LogFactory.getLog(App.class);
+
+    @Autowired
     ObjectMapper objectMapper;
-    @Inject
+    @Autowired
     LeadsDao leadsDao;
-    @Inject
+    @Autowired
     UserStatsDao userStatsDao;
-    @Inject
+    @Autowired
     UserStatsPostHandler userStatsPostHandler;
-    @Inject
+    @Autowired
     UserStatQueryRequestHandler userStatQueryRequestHandler;
 
     String initializationError;
 
-    public App() {
-        try {
-            AppModule module = DaggerAppModule.create();
-            module.inject(this);
-        } catch (Exception ex) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            ex.printStackTrace(pw);
-            initializationError = sw.toString();
+    public static void main(String[] args) {
+        logger.info("==> Starting: LambdaApplication");
+        if (!ObjectUtils.isEmpty(args)) {
+            logger.info("==>  args: " + Arrays.asList(args));
         }
+        SpringApplication.run(App.class, args);
     }
 
-    public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json");
-        headers.put("X-Custom-Header", "application/json");
+    @Bean
+    public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> extractPayloadFromGatewayEvent() {
+        return input -> {
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Content-Type", "application/json");
+            headers.put("X-Custom-Header", "application/json");
 
-        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
-                .withHeaders(headers);
+            APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
+                    .withHeaders(headers);
 
-        try {
-            if (initializationError != null) {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("message", initializationError);
-                String payload = jsonObject.toString();
+            try {
+                if (initializationError != null) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("message", initializationError);
+                    String payload = jsonObject.toString();
+                    return response
+                            .withStatusCode(200)
+                            .withBody(payload);
+                }
+                if (input != null) {
+                    if ("/leads".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
+                        return handlePostLeadsRequest(input, response);
+                    }
+                    if ("/user_stats".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
+                        return userStatsPostHandler.handlePostUserStatRequest(input, response);
+                    }
+                    if ("/user_stats/search".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
+                        return userStatQueryRequestHandler.handlePostUserStatQueryRequestRequest(input, response);
+                    }
+                }
+                final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
+                String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
+
                 return response
                         .withStatusCode(200)
-                        .withBody(payload);
+                        .withBody(output);
+            } catch (Exception e) {
+                String output = String.format("{ \"exceptionMessage\": \"%s\" }", e.getMessage());
+                return response
+                        .withBody(output)
+                        .withStatusCode(500);
             }
-            if (input != null) {
-                if ("/leads".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                    return handlePostLeadsRequest(input, response);
-                }
-                if ("/user_stats".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                    return userStatsPostHandler.handlePostUserStatRequest(input, response);
-                }
-                if ("/user_stats/search".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                    return userStatQueryRequestHandler.handlePostUserStatQueryRequestRequest(input, response);
-                }
-            }
-            final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
-            String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
-
-            return response
-                    .withStatusCode(200)
-                    .withBody(output);
-        } catch (Exception e) {
-            String output = String.format("{ \"exceptionMessage\": \"%s\" }", e.getMessage());
-            return response
-                    .withBody(output)
-                    .withStatusCode(500);
-        }
+        };
     }
 
     private String getPageContents(String address) throws IOException {

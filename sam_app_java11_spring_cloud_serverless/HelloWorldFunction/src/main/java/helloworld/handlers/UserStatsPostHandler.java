@@ -10,20 +10,20 @@ import helloworld.model.UserStatDto;
 import ma.glasnost.orika.BoundMapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
 import java.util.Date;
 
+@Component
 public class UserStatsPostHandler {
 
-    @Inject
+    final BoundMapperFacade<UserStatDto, UserStat> userStatDtoMapper;
+    @Autowired
     ObjectMapper objectMapper;
-    @Inject
+    @Autowired
     UserStatsDao userStatsDao;
 
-    final BoundMapperFacade<UserStatDto, UserStat> userStatDtoMapper;
-
-    @Inject
     public UserStatsPostHandler() {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder()
                 .build();
