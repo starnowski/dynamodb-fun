@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -24,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class UserStatsDaoTest extends DynamoTestContainerTest {
 
+    @Autowired
     UserStatsDao tested;
 
     private static Stream<Arguments> provideShouldReturnCorrectNumberOfResultsBasedOnLimitParameter() {
@@ -33,12 +35,6 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
                 Arguments.of(prepareUserStatsArray("x33", 3), UserStatQueryRequest.builder().userId("x33").limit(2L).build(), 2),
                 Arguments.of(prepareUserStatsArray("x111", 5), UserStatQueryRequest.builder().userId("x111").limit(4L).build(), 4)
         );
-    }
-
-    @BeforeEach
-    public void setUp() {
-        super.setUp();
-        this.tested = this.appTestModule.provideUserStatsDao();
     }
 
     @Test

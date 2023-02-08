@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -20,13 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserStatQueryRequestHandlerTest extends DynamoTestContainerTest {
 
+    @Autowired
     UserStatQueryRequestHandler tested;
-
-    @BeforeEach
-    public void setUp() {
-        super.setUp();
-        this.tested = this.appTestModule.providUserStatQueryRequestHandler();
-    }
 
     @Test
     public void queryUserStats() throws JsonProcessingException, JSONException {

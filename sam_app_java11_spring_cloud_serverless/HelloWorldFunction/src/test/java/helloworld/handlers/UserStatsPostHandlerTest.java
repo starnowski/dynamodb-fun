@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,13 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class UserStatsPostHandlerTest extends DynamoTestContainerTest {
 
+    @Autowired
     UserStatsPostHandler tested;
-
-    @BeforeEach
-    public void setUp() {
-        super.setUp();
-        this.tested = this.appTestModule.provideUserStatsPostHandler();
-    }
 
     @Test
     public void createUserStats() throws JsonProcessingException, JSONException {

@@ -18,13 +18,13 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <aws.lambda.java.core.version>1.2.1</aws.lambda.java.core.version>
         <aws.sdk.version>2.13.39</aws.sdk.version>
-        <spring-cloud-function.version>4.0.1</spring-cloud-function.version>
+        <spring-cloud-function.version>3.2.8</spring-cloud-function.version>
         <dynamodblocal.version>1.11.119</dynamodblocal.version>
         <lombok.version>1.18.2</lombok.version>
         <com.amazonaws.aws-java-sdk-dynamodb.version>1.12.106</com.amazonaws.aws-java-sdk-dynamodb.version>
         <org.junit.jupiter.version>5.8.1</org.junit.jupiter.version>
         <wrapper.version>1.0.27.RELEASE</wrapper.version>
-    </properties>
+    </properties>CustomRuntimeInitializer
 
     <dependencyManagement>
         <dependencies>

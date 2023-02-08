@@ -8,6 +8,7 @@ import helloworld.model.Leads;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,14 +16,8 @@ import java.util.Map;
 
 class LeadsDaoTest extends DynamoTestContainerTest {
 
+    @Autowired
     LeadsDao tested;
-
-    @BeforeEach
-    public void setUp()
-    {
-        super.setUp();
-        this.tested = this.appTestModule.provideLeadsDao();
-    }
 
     @Test
     public void createLeads() {

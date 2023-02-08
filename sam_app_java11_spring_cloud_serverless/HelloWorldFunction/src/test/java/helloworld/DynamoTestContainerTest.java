@@ -9,6 +9,7 @@ import com.amazonaws.services.dynamodbv2.model.*;
 import helloworld.config.AppTestModule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -17,12 +18,12 @@ import org.testcontainers.utility.DockerImageName;
 import java.util.concurrent.ExecutionException;
 
 @Testcontainers
+@SpringBootTest
 public abstract class DynamoTestContainerTest {
 
     public static final String LEADS_TABLE_NAME = "leads";
     public static final String USER_STATS_TABLE_NAME = "user_stats";
     protected static AmazonDynamoDB dynamoDbAsyncClient;
-    protected AppTestModule appTestModule;
 
     @Container
     public static GenericContainer genericContainer = new GenericContainer(
@@ -34,12 +35,6 @@ public abstract class DynamoTestContainerTest {
         dynamoDbAsyncClient = getDynamoClient();
         createUserStatsTable();
         createLeadsTable();
-    }
-
-    @BeforeEach
-    public void setUp()
-    {
-        this.appTestModule = null;
     }
 
     private static AmazonDynamoDB getDynamoClient() {
