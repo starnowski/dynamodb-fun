@@ -5,6 +5,13 @@
     <artifactId>HelloWorld</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.2</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
     <name>A sample Hello World created for SAM CLI.</name>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -12,11 +19,24 @@
         <aws.lambda.java.core.version>1.2.1</aws.lambda.java.core.version>
         <dagger.version>2.16</dagger.version>
         <aws.sdk.version>2.13.39</aws.sdk.version>
+        <spring-cloud-function.version>4.0.1</spring-cloud-function.version>
         <dynamodblocal.version>1.11.119</dynamodblocal.version>
         <lombok.version>1.18.2</lombok.version>
         <com.amazonaws.aws-java-sdk-dynamodb.version>1.12.106</com.amazonaws.aws-java-sdk-dynamodb.version>
         <org.junit.jupiter.version>5.8.1</org.junit.jupiter.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-function-dependencies</artifactId>
+                <version>${spring-cloud-function.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -128,13 +148,14 @@
                     <dependency>
                         <groupId>org.springframework.boot.experimental</groupId>
                         <artifactId>spring-boot-thin-layout</artifactId>
-                        <version>1.0.10.RELEASE</version>
+                        <version>${wrapper.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <shadedArtifactAttached>true</shadedArtifactAttached>

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * Handler for requests to Lambda function.
  */
-public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class App extends SpringBootRequestHandler<String, String> {
 
     @Inject
     ObjectMapper objectMapper;

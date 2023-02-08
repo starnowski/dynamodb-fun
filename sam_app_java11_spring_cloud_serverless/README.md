@@ -132,3 +132,10 @@ https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBMapper.
 
 
 https://dagger.dev/dev-guide/testing
+
+
+### Spring Cloud Serverless
+
+#### Example app
+https://github.com/spring-cloud/spring-cloud-function/tree/main/spring-cloud-function-samples/function-sample-aws-custom-bean
+

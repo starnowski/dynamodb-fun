@@ -7,7 +7,6 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.model.*;
 import helloworld.config.AppTestModule;
-import helloworld.config.DaggerAppTestModule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.GenericContainer;
@@ -40,7 +39,7 @@ public abstract class DynamoTestContainerTest {
     @BeforeEach
     public void setUp()
     {
-        this.appTestModule = DaggerAppTestModule.builder().amazonDynamoDB(dynamoDbAsyncClient).build();
+        this.appTestModule = null;
     }
 
     private static AmazonDynamoDB getDynamoClient() {
