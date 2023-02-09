@@ -15,7 +15,11 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.function.context.FunctionRegistration;
+import org.springframework.cloud.function.context.FunctionType;
+import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.util.ObjectUtils;
 
 import java.io.BufferedReader;
@@ -32,7 +36,7 @@ import java.util.stream.Collectors;
  * Handler for requests to Lambda function.
  */
 @SpringBootApplication
-public class App {
+public class App implements ApplicationContextInitializer<GenericApplicationContext> {
 
     private static final Log logger = LogFactory.getLog(App.class);
 
@@ -119,5 +123,13 @@ public class App {
 //        return response
 //                .withStatusCode(200)
 //                .withBody(output);
+    }
+
+    //https://github.com/maciejwalkowiak/aws-sam-spring-cloud-function-template
+    @Override
+    public void initialize(GenericApplicationContext context) {
+        context.registerBean("extractPayloadFromGatewayEvent", FunctionRegistration.class,
+                () -> new FunctionRegistration<>(extractPayloadFromGatewayEvent())
+                        .type(FunctionType.from(APIGatewayProxyRequestEvent.class).to(String.class)));
     }
 }

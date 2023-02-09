@@ -139,3 +139,7 @@ https://dagger.dev/dev-guide/testing
 #### Example app
 https://github.com/spring-cloud/spring-cloud-function/tree/main/spring-cloud-function-samples/function-sample-aws-custom-bean
 
+
+
+https://mydeveloperplanet.com/2020/11/04/how-to-deploy-a-spring-cloud-function-on-aws-lambda/
+
