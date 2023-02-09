@@ -17,6 +17,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.function.context.FunctionRegistration;
 import org.springframework.cloud.function.context.FunctionType;
+import org.springframework.cloud.function.context.FunctionalSpringApplication;
+import org.springframework.cloud.function.context.test.FunctionalSpringBootTest;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.GenericApplicationContext;
@@ -36,7 +38,9 @@ import java.util.stream.Collectors;
  * Handler for requests to Lambda function.
  */
 @SpringBootApplication
-public class App implements ApplicationContextInitializer<GenericApplicationContext> {
+public class App
+//        implements ApplicationContextInitializer<GenericApplicationContext>
+{
 
     private static final Log logger = LogFactory.getLog(App.class);
 
@@ -59,6 +63,7 @@ public class App implements ApplicationContextInitializer<GenericApplicationCont
             logger.info("==>  args: " + Arrays.asList(args));
         }
         SpringApplication.run(App.class, args);
+//        FunctionalSpringApplication.run(App.class, args);
     }
 
     @Bean
@@ -126,10 +131,10 @@ public class App implements ApplicationContextInitializer<GenericApplicationCont
     }
 
     //https://github.com/maciejwalkowiak/aws-sam-spring-cloud-function-template
-    @Override
-    public void initialize(GenericApplicationContext context) {
-        context.registerBean("extractPayloadFromGatewayEvent", FunctionRegistration.class,
-                () -> new FunctionRegistration<>(extractPayloadFromGatewayEvent())
-                        .type(FunctionType.from(APIGatewayProxyRequestEvent.class).to(String.class)));
-    }
+//    @Override
+//    public void initialize(GenericApplicationContext context) {
+//        context.registerBean("extractPayloadFromGatewayEvent", FunctionRegistration.class,
+//                () -> new FunctionRegistration<>(extractPayloadFromGatewayEvent())
+//                        .type(FunctionType.from(APIGatewayProxyRequestEvent.class).to(String.class)));
+//    }
 }
