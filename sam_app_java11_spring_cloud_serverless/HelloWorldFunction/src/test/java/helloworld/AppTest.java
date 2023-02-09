@@ -9,10 +9,10 @@ public class AppTest {
     @Test
     public void successfulResponse() {
         App app = new App();
-        APIGatewayProxyResponseEvent result = app.extractPayloadFromGatewayEvent().apply(null);
-        assertEquals(result.getStatusCode().intValue(), 200);
-        assertEquals(result.getHeaders().get("Content-Type"), "application/json");
-        String content = result.getBody();
+        String result = app.extractPayloadFromGatewayEvent().apply(null);
+//        assertEquals(result.getStatusCode().intValue(), 200);
+//        assertEquals(result.getHeaders().get("Content-Type"), "application/json");
+        String content = result;
         assertNotNull(content);
         assertTrue(content.contains("\"message\""));
         assertTrue(content.contains("\"hello world\""));

@@ -30,13 +30,14 @@ public class UserStatsPostHandler {
         this.userStatDtoMapper = mapperFactory.getMapperFacade(UserStatDto.class, UserStat.class);
     }
 
-    public APIGatewayProxyResponseEvent handlePostUserStatRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
+    public String handlePostUserStatRequest(final APIGatewayProxyRequestEvent input) throws JsonProcessingException {
         UserStatDto dto = objectMapper.readValue(input.getBody(), UserStatDto.class);
         UserStat userStat = userStatsDao.persist(mapToValue(dto));
         String output = objectMapper.writeValueAsString(mapToDto(userStat));
-        return response
-                .withStatusCode(200)
-                .withBody(output);
+        return output;
+//        return response
+//                .withStatusCode(200)
+//                .withBody(output);
     }
 
     private UserStat mapToValue(UserStatDto dto) {

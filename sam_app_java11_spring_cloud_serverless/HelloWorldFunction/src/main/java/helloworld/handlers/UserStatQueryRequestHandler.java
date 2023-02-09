@@ -37,15 +37,16 @@ public class UserStatQueryRequestHandler {
         this.userStatDtoMapper = mapperFactory.getMapperFacade(UserStatDto.class, UserStat.class);
     }
 
-    public APIGatewayProxyResponseEvent handlePostUserStatQueryRequestRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
+    public String handlePostUserStatQueryRequestRequest(final APIGatewayProxyRequestEvent input) throws JsonProcessingException {
         UserStatQueryDto dto = objectMapper.readValue(input.getBody(), UserStatQueryDto.class);
         QueryResultPage<UserStat> results = userStatsDao.query(mapToValue(dto));
         UserStatSearchResponse userStatSearchResponse = new UserStatSearchResponse();
         userStatSearchResponse.setResults(Optional.ofNullable(results.getResults()).orElse(new ArrayList<>()).stream().map(this::mapToDto).collect(toList()));
         String output = objectMapper.writeValueAsString(userStatSearchResponse);
-        return response
-                .withStatusCode(200)
-                .withBody(output);
+        return output;
+//        return response
+//                .withStatusCode(200)
+//                .withBody(output);
     }
 
     private UserStatQueryRequest mapToValue(UserStatQueryDto dto) {

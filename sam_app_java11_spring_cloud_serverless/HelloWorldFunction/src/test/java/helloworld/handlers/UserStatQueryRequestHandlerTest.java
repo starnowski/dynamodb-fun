@@ -42,10 +42,10 @@ class UserStatQueryRequestHandlerTest extends DynamoTestContainerTest {
         requestEvent.setBody(jsonObject.toString());
 
         // WHEN
-        APIGatewayProxyResponseEvent lambdaResponse = tested.handlePostUserStatQueryRequestRequest(requestEvent, response);
+        String lambdaResponse = tested.handlePostUserStatQueryRequestRequest(requestEvent);
 
         // THEN
-        DocumentContext jsonContext = JsonPath.parse(lambdaResponse.getBody());
+        DocumentContext jsonContext = JsonPath.parse(lambdaResponse);
         assertEquals(userStatId, jsonContext.read("['results'][0]['user_id']"));
     }
 }

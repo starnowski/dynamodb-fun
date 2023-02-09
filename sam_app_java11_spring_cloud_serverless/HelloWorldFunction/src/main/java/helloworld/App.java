@@ -58,46 +58,48 @@ public class App {
     }
 
     @Bean
-    public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> extractPayloadFromGatewayEvent() {
+    public Function<APIGatewayProxyRequestEvent, String> extractPayloadFromGatewayEvent() {
         return input -> {
             Map<String, String> headers = new HashMap<>();
             headers.put("Content-Type", "application/json");
             headers.put("X-Custom-Header", "application/json");
 
-            APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
-                    .withHeaders(headers);
+//            APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
+//                    .withHeaders(headers);
 
             try {
                 if (initializationError != null) {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("message", initializationError);
-                    String payload = jsonObject.toString();
-                    return response
-                            .withStatusCode(200)
-                            .withBody(payload);
+                    return jsonObject.toString();
+//                    return response
+//                            .withStatusCode(200)
+//                            .withBody(payload);
                 }
                 if (input != null) {
                     if ("/leads".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                        return handlePostLeadsRequest(input, response);
+                        return handlePostLeadsRequest(input);
                     }
                     if ("/user_stats".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                        return userStatsPostHandler.handlePostUserStatRequest(input, response);
+                        return userStatsPostHandler.handlePostUserStatRequest(input);
                     }
                     if ("/user_stats/search".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                        return userStatQueryRequestHandler.handlePostUserStatQueryRequestRequest(input, response);
+                        return userStatQueryRequestHandler.handlePostUserStatQueryRequestRequest(input);
                     }
                 }
                 final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
                 String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
 
-                return response
-                        .withStatusCode(200)
-                        .withBody(output);
+                return output;
+//                return response
+//                        .withStatusCode(200)
+//                        .withBody(output);
             } catch (Exception e) {
                 String output = String.format("{ \"exceptionMessage\": \"%s\" }", e.getMessage());
-                return response
-                        .withBody(output)
-                        .withStatusCode(500);
+                return output;
+//                return response
+//                        .withBody(output)
+//                        .withStatusCode(500);
             }
         };
     }
@@ -109,12 +111,13 @@ public class App {
         }
     }
 
-    private APIGatewayProxyResponseEvent handlePostLeadsRequest(final APIGatewayProxyRequestEvent input, final APIGatewayProxyResponseEvent response) throws JsonProcessingException {
+    private String handlePostLeadsRequest(final APIGatewayProxyRequestEvent input) throws JsonProcessingException {
         Leads leads = objectMapper.readValue(input.getBody(), Leads.class);
         leads = leadsDao.persist(leads);
         String output = objectMapper.writeValueAsString(leads);
-        return response
-                .withStatusCode(200)
-                .withBody(output);
+        return output;
+//        return response
+//                .withStatusCode(200)
+//                .withBody(output);
     }
 }
