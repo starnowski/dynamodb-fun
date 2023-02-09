@@ -136,6 +136,8 @@ https://dagger.dev/dev-guide/testing
 
 ### Spring Cloud Serverless
 
+https://docs.spring.io/spring-cloud-function/docs/current/reference/html/aws.html
+
 #### Example app
 https://github.com/spring-cloud/spring-cloud-function/tree/main/spring-cloud-function-samples/function-sample-aws-custom-bean
 
@@ -143,3 +145,10 @@ https://github.com/spring-cloud/spring-cloud-function/tree/main/spring-cloud-fun
 
 https://mydeveloperplanet.com/2020/11/04/how-to-deploy-a-spring-cloud-function-on-aws-lambda/
 
+#### Running Spring Boot locally
+
+mvn spring-boot:run
+
+curl -H "Content-Type: text/plain" localhost:8080/extractPayloadFromGatewayEvent -d '{"name": "warehouse", "type": "CLOTHES RENTAL", "url": "http://warehouse.com/nosuch_address"}'
+
+curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromGatewayEvent --data-binary "events/event.json"
