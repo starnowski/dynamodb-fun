@@ -24,7 +24,7 @@
         <com.amazonaws.aws-java-sdk-dynamodb.version>1.12.106</com.amazonaws.aws-java-sdk-dynamodb.version>
         <org.junit.jupiter.version>5.8.1</org.junit.jupiter.version>
         <wrapper.version>1.0.27.RELEASE</wrapper.version>
-    </properties>CustomRuntimeInitializer
+    </properties>
 
     <dependencyManagement>
         <dependencies>
