@@ -10,7 +10,6 @@ import helloworld.DynamoTestContainerTest;
 import helloworld.model.UserStat;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,7 +32,7 @@ class UserStatQueryRequestHandlerTest extends DynamoTestContainerTest {
         userStat.setUserId(userStatId);
         Long userStatTimestamp = localDateTime.plusMinutes(15).toEpochSecond(ZoneOffset.MIN);
         userStat.setTimestamp(userStatTimestamp);
-        DynamoDBMapper mapper = new DynamoDBMapper(this.dynamoDbAsyncClient);
+        DynamoDBMapper mapper = new DynamoDBMapper(dynamoDbAsyncClient);
         mapper.save(userStat);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("user_id", userStatId);
@@ -42,10 +41,10 @@ class UserStatQueryRequestHandlerTest extends DynamoTestContainerTest {
         requestEvent.setBody(jsonObject.toString());
 
         // WHEN
-        String lambdaResponse = tested.handlePostUserStatQueryRequestRequest(requestEvent);
+        APIGatewayProxyResponseEvent lambdaResponse = tested.handlePostUserStatQueryRequestRequest(requestEvent, response);
 
         // THEN
-        DocumentContext jsonContext = JsonPath.parse(lambdaResponse);
+        DocumentContext jsonContext = JsonPath.parse(lambdaResponse.getBody());
         assertEquals(userStatId, jsonContext.read("['results'][0]['user_id']"));
     }
 }

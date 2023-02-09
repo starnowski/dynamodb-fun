@@ -58,7 +58,7 @@ class UserStatsPostHandlerTest extends DynamoTestContainerTest {
         requestEvent.setBody(jsonObject.toString());
 
         // WHEN
-        tested.handlePostUserStatRequest(requestEvent);
+        tested.handlePostUserStatRequest(requestEvent, response);
 
         // THEN
         latestUserStat = mapper.query(UserStat.class, queryExpression);
@@ -82,16 +82,17 @@ class UserStatsPostHandlerTest extends DynamoTestContainerTest {
         List<UserStat> latestUserStat = mapper.query(UserStat.class, queryExpression);
         Assertions.assertTrue(latestUserStat.isEmpty());
         APIGatewayProxyRequestEvent requestEvent = new APIGatewayProxyRequestEvent();
+        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         requestEvent.setBody("{\"user_id\": \"ProdXXX\", \"timestamp\": \"2021-11-16T01:03:12.055701\", \"weight\": 83, \"blood_pressure\": 123}");
 
         // WHEN
-        String response = response = tested.handlePostUserStatRequest(requestEvent);
+        response = tested.handlePostUserStatRequest(requestEvent, response);
 
         // THEN
         latestUserStat = mapper.query(UserStat.class, queryExpression);
         assertFalse(latestUserStat.isEmpty());
         assertEquals(1, latestUserStat.size());
         assertEquals(name, latestUserStat.get(0).getUserId());
-//        assertEquals(200, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
     }
 }
