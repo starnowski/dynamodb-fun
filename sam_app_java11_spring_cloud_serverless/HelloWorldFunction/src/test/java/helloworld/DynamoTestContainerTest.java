@@ -6,33 +6,26 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.model.*;
-import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.util.concurrent.ExecutionException;
-
-@Testcontainers
 @SpringBootTest
 @ActiveProfiles("test")
 public abstract class DynamoTestContainerTest {
 
     public static final String LEADS_TABLE_NAME = "leads";
     public static final String USER_STATS_TABLE_NAME = "user_stats";
-    @Container
     public static GenericContainer genericContainer = new GenericContainer(
             DockerImageName.parse("amazon/dynamodb-local")
-    ).withExposedPorts(8000);
+    ).withExposedPorts(8000).withReuse(true);
     protected static AmazonDynamoDB dynamoDbAsyncClient;
 
-    @BeforeAll
-    public static void setupDynamoDB() throws ExecutionException, InterruptedException {
+    static {
+        genericContainer.start();
         dynamoDbAsyncClient = getDynamoClient();
         createUserStatsTable();
         createLeadsTable();
