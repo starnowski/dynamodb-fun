@@ -40,6 +40,7 @@ public class UserStatsPostHandler {
         UserStatDto dto = objectMapper.readValue(input.getBody(), UserStatDto.class);
         logger.info("request dto is : " + dto);
         UserStat userStat = userStatsDao.persist(mapToValue(dto));
+        logger.info("Saved userStat is : " + userStat);
         String output = objectMapper.writeValueAsString(mapToDto(userStat));
 //        return output;
         return response
