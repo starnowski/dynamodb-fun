@@ -63,8 +63,9 @@ public class App
     }
 
     @Bean
-    public Function<APIGatewayProxyRequestEvent, Message<APIGatewayProxyResponseEvent>> extractPayloadFromGatewayEvent() {
-        return input -> {
+    public Function<Message<APIGatewayProxyRequestEvent>, Message<APIGatewayProxyResponseEvent>> extractPayloadFromGatewayEvent() {
+        return message -> {
+            APIGatewayProxyRequestEvent input = message.getPayload();
             Map<String, String> headers = new HashMap<>();
             headers.put("Content-Type", "application/json");
             headers.put("X-Custom-Header", "application/json");
