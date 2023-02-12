@@ -6,12 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 public class UserStatDto {
-
     @JsonProperty("user_id")
     private String userId;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
     private Date timestamp;
-
     private Integer weight;
 
     @JsonProperty("blood_pressure")
@@ -47,5 +46,15 @@ public class UserStatDto {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "UserStatDto{" +
+                "userId='" + userId + '\'' +
+                ", timestamp=" + timestamp +
+                ", weight=" + weight +
+                ", bloodPressure=" + bloodPressure +
+                '}';
     }
 }

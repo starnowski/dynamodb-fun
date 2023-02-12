@@ -158,4 +158,6 @@ mvn spring-boot:run
 
 curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromGatewayEvent -d '{"name": "warehouse", "type": "CLOTHES RENTAL", "url": "http://warehouse.com/nosuch_address"}'
 
-curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromGatewayEvent --data-binary "events/event.json"
+curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromGatewayEvent --data-binary "@events/event.json"
+
+curl -H "Content-Type: application/json" http://localhost:3000/user_stats --data-binary "@events/user_stat.json"
