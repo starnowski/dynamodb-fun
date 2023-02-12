@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.util.ObjectUtils;
 
 import java.io.BufferedReader;
@@ -61,7 +63,7 @@ public class App
     }
 
     @Bean
-    public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> extractPayloadFromGatewayEvent() {
+    public Function<APIGatewayProxyRequestEvent, Message<APIGatewayProxyResponseEvent>> extractPayloadFromGatewayEvent() {
         return input -> {
             Map<String, String> headers = new HashMap<>();
             headers.put("Content-Type", "application/json");
@@ -75,34 +77,34 @@ public class App
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("message", initializationError);
 //                    return jsonObject.toString();
-                    return response
+                    return new GenericMessage<APIGatewayProxyResponseEvent>(response
                             .withStatusCode(200)
-                            .withBody(jsonObject.toString());
+                            .withBody(jsonObject.toString()));
                 }
                 if (input != null) {
                     if ("/leads".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                        return handlePostLeadsRequest(input, response);
+                        return new GenericMessage<APIGatewayProxyResponseEvent>(handlePostLeadsRequest(input, response));
                     }
                     if ("/user_stats".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                        return userStatsPostHandler.handlePostUserStatRequest(input, response);
+                        return new GenericMessage<APIGatewayProxyResponseEvent>(userStatsPostHandler.handlePostUserStatRequest(input, response));
                     }
                     if ("/user_stats/search".equals(input.getResource()) && "POST".equals(input.getHttpMethod())) {
-                        return userStatQueryRequestHandler.handlePostUserStatQueryRequestRequest(input, response);
+                        return new GenericMessage<APIGatewayProxyResponseEvent>(userStatQueryRequestHandler.handlePostUserStatQueryRequestRequest(input, response));
                     }
                 }
                 final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
                 String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
 
 //                return output;
-                return response
+                return new GenericMessage<APIGatewayProxyResponseEvent>(response
                         .withStatusCode(200)
-                        .withBody(output);
+                        .withBody(output));
             } catch (Exception e) {
                 String output = String.format("{ \"exceptionMessage\": \"%s\" }", e.getMessage());
 //                return output;
-                return response
+                return new GenericMessage<APIGatewayProxyResponseEvent>(response
                         .withBody(output)
-                        .withStatusCode(500);
+                        .withStatusCode(500));
             }
         };
     }
