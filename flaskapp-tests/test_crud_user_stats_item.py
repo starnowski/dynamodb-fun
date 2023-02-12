@@ -69,9 +69,11 @@ class TestCreateTable(unittest.TestCase):
         response = requests.post(self.host + '/user_stats', json=payload1)
         self.print_json_payload(payload2, 'steps_3_search_get_multiple_user_stat payload2')
         self.assertEqual(response.status_code, 200, "Second request should be successful")
+        self.print_json(response.json(), "steps_3_search_get_multiple_user_stat response for second request")
         response = requests.post(self.host + '/user_stats', json=payload2)
         self.assertEqual(response.status_code, 200, "Third request should be successful")
         search_payload = {'user_id': '1'}
+        self.print_json(response.json(), "steps_3_search_get_multiple_user_stat response for third request")
 
         # when
         response = requests.post(self.host + '/user_stats/search', json=search_payload)
