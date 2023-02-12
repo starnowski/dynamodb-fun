@@ -15,12 +15,14 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: HelloWorldFunction
-      Handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+#      Handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+      Handler: org.springframework.cloud.function.adapter.aws.SpringBootStreamHandler
       Runtime: java8
       MemorySize: 512
       Environment:
         Variables:
           DYNAMODB_HOST: ""
+          FUNCTION_NAME: extractPayloadFromGatewayEvent
       Events:
         LeadsPost:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

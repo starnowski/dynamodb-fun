@@ -147,8 +147,15 @@ https://mydeveloperplanet.com/2020/11/04/how-to-deploy-a-spring-cloud-function-o
 
 #### Running Spring Boot locally
 
+**_Setting local environment variables_**
+
+export AWS_DEFAULT_REGION=us-east-1 
+export AWS_ACCESS_KEY_ID='DUMMYIDEXAMPLE' 
+export AWS_SECRET_ACCESS_KEY='DUMMYEXAMPLEKEY' 
+export DYNAMODB_PORT=9000 export DYNAMODB_HOST=localhost
+
 mvn spring-boot:run
 
-curl -H "Content-Type: text/plain" localhost:8080/extractPayloadFromGatewayEvent -d '{"name": "warehouse", "type": "CLOTHES RENTAL", "url": "http://warehouse.com/nosuch_address"}'
+curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromGatewayEvent -d '{"name": "warehouse", "type": "CLOTHES RENTAL", "url": "http://warehouse.com/nosuch_address"}'
 
 curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromGatewayEvent --data-binary "events/event.json"

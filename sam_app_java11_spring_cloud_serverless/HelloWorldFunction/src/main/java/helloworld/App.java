@@ -15,13 +15,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.function.context.FunctionRegistration;
-import org.springframework.cloud.function.context.FunctionType;
-import org.springframework.cloud.function.context.FunctionalSpringApplication;
-import org.springframework.cloud.function.context.test.FunctionalSpringBootTest;
-import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.util.ObjectUtils;
 
 import java.io.BufferedReader;
