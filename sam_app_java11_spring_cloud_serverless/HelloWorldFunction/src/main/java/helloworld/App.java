@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.util.ObjectUtils;
@@ -62,17 +63,18 @@ public class App
 //        FunctionalSpringApplication.run(App.class, args);
     }
 
-//    @Bean
-//    public Function<String, APIGatewayProxyResponseEvent>extractPayloadFromString() {
-//        return input -> {
-//                JSONObject jsonObject = new JSONObject(input);
-//                APIGatewayProxyRequestEvent event = new APIGatewayProxyRequestEvent();
-//                event.setBody(jsonObject.getString("body"));
-//                event.setResource(jsonObject.getString("resource"));
-//                event.setHttpMethod(jsonObject.getString("httpMethod"));
-//                return extractPayloadFromGatewayEvent().apply(event);
-//        };
-//    }
+    @Bean
+    @Profile("local-test")
+    public Function<String, APIGatewayProxyResponseEvent>extractPayloadFromString() {
+        return input -> {
+                JSONObject jsonObject = new JSONObject(input);
+                APIGatewayProxyRequestEvent event = new APIGatewayProxyRequestEvent();
+                event.setBody(jsonObject.getString("body"));
+                event.setResource(jsonObject.getString("resource"));
+                event.setHttpMethod(jsonObject.getString("httpMethod"));
+                return extractPayloadFromGatewayEvent().apply(event);
+        };
+    }
 
     @Bean
     public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> extractPayloadFromGatewayEvent() {

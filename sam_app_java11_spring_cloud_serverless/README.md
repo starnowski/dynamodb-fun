@@ -155,6 +155,7 @@ export AWS_SECRET_ACCESS_KEY='DUMMYEXAMPLEKEY'
 export DYNAMODB_PORT=9000 export DYNAMODB_HOST=localhost
 
 mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=local-test
 
 curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromGatewayEvent -d '{"name": "warehouse", "type": "CLOTHES RENTAL", "url": "http://warehouse.com/nosuch_address"}'
 
