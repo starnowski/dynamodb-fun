@@ -62,17 +62,17 @@ public class App
 //        FunctionalSpringApplication.run(App.class, args);
     }
 
-    @Bean
-    public Function<String, APIGatewayProxyResponseEvent>extractPayloadFromString() {
-        return input -> {
-                JSONObject jsonObject = new JSONObject(input);
-                APIGatewayProxyRequestEvent event = new APIGatewayProxyRequestEvent();
-                event.setBody(jsonObject.getString("body"));
-                event.setResource(jsonObject.getString("resource"));
-                event.setHttpMethod(jsonObject.getString("httpMethod"));
-                return extractPayloadFromGatewayEvent().apply(event);
-        };
-    }
+//    @Bean
+//    public Function<String, APIGatewayProxyResponseEvent>extractPayloadFromString() {
+//        return input -> {
+//                JSONObject jsonObject = new JSONObject(input);
+//                APIGatewayProxyRequestEvent event = new APIGatewayProxyRequestEvent();
+//                event.setBody(jsonObject.getString("body"));
+//                event.setResource(jsonObject.getString("resource"));
+//                event.setHttpMethod(jsonObject.getString("httpMethod"));
+//                return extractPayloadFromGatewayEvent().apply(event);
+//        };
+//    }
 
     @Bean
     public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> extractPayloadFromGatewayEvent() {
