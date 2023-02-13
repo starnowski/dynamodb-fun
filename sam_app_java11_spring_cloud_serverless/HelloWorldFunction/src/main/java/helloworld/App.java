@@ -65,13 +65,12 @@ public class App
     @Bean
     public Function<String, APIGatewayProxyResponseEvent>extractPayloadFromString() {
         return input -> {
-            try {
-                APIGatewayProxyRequestEvent event = objectMapper.readValue(input, APIGatewayProxyRequestEvent.class);
+                JSONObject jsonObject = new JSONObject(input);
+                APIGatewayProxyRequestEvent event = new APIGatewayProxyRequestEvent();
+                event.setBody(jsonObject.getString("body"));
+                event.setResource(jsonObject.getString("resource"));
+                event.setHttpMethod(jsonObject.getString("httpMethod"));
                 return extractPayloadFromGatewayEvent().apply(event);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return null;
-            }
         };
     }
 

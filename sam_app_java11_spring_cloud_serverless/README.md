@@ -160,7 +160,9 @@ curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromGatewa
 
 curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromGatewayEvent --data-binary "@events/event.json"
 
+**Local testing with Spring Boot**
 curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromString --data-binary "@events/event.json"
+curl -H "Content-Type: application/json" localhost:8080/extractPayloadFromString --data-binary "@events/user_stat.json"
 
 curl -H "Content-Type: application/json" http://localhost:3000/user_stats --data-binary "@events/user_stat.json"
 curl -H "Content-Type: application/json" http://localhost:3000/user_stats --data-binary "@events/user_stat_request.json"
