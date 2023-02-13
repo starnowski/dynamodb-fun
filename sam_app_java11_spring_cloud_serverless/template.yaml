@@ -17,7 +17,7 @@ Resources:
       CodeUri: HelloWorldFunction
       Handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
 #      Handler: org.springframework.cloud.function.adapter.aws.SpringBootStreamHandler
-      Runtime: java8
+      Runtime: java11
       MemorySize: 512
       Environment:
         Variables:
