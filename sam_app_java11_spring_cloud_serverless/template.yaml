@@ -23,6 +23,7 @@ Resources:
         Variables:
           DYNAMODB_HOST: ""
 #          FUNCTION_NAME: extractPayloadFromGatewayEvent
+          FUNCTION_DEFINITION: extractPayloadFromGatewayEvent
       Events:
         LeadsPost:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

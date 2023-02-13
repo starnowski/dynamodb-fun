@@ -62,7 +62,7 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
         userStat.setBloodPressure(bloodPressure);
 
         // WHEN
-        tested.persist(userStat);
+        userStat = tested.persist(userStat);
 
         // THEN
         latestUserStat = mapper.query(UserStat.class, queryExpression);
@@ -72,6 +72,7 @@ class UserStatsDaoTest extends DynamoTestContainerTest {
         assertEquals(timestamp, latestUserStat.get(0).getTimestamp());
         assertEquals(weight, latestUserStat.get(0).getWeight());
         assertEquals(bloodPressure, latestUserStat.get(0).getBloodPressure());
+
     }
 
     @ParameterizedTest

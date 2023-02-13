@@ -63,6 +63,19 @@ public class App
     }
 
     @Bean
+    public Function<String, APIGatewayProxyResponseEvent>extractPayloadFromString() {
+        return input -> {
+            try {
+                APIGatewayProxyRequestEvent event = objectMapper.readValue(input, APIGatewayProxyRequestEvent.class);
+                return extractPayloadFromGatewayEvent().apply(event);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        };
+    }
+
+    @Bean
     public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> extractPayloadFromGatewayEvent() {
         return input -> {
             Map<String, String> headers = new HashMap<>();
